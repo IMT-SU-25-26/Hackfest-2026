@@ -7,3 +7,22 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Team {
+  team_id       Int       @id @default(autoincrement())
+  team_name     String
+  country       String
+  university    String
+  phone_number  String
+  line_id       String
+  password      String
+  proposal_url  String?
+  members       Member[]  // one-to-many relation
+}
+
+model Member {
+  member_id Int    @id @default(autoincrement())
+  name      String
+  team_id   Int
+  team      Team   @relation(fields: [team_id], references: [team_id])
+}
