@@ -11,7 +11,7 @@ export async function getAllTeams(): Promise<Team[]> {
   });
 }
 
-export async function getTeamById(id: number): Promise<Team | null> {
+export async function getTeamById(id: string): Promise<Team | null> {
   return await prisma.team.findUnique({
     where: { team_id: id },
     include: { members: true },
@@ -53,7 +53,7 @@ export async function registerTeam(
 }
 
 export async function updateTeam(
-  id: number,
+  id: string,
   data: UpdateTeamInput
 ): Promise<ActionResult<Team>> {
   const validation = updateTeamSchema.safeParse(data);
@@ -89,7 +89,7 @@ export async function updateTeam(
 }
 
 export async function deleteTeam(
-  id: number
+  id: string
 ): Promise<ActionResult<null>> {
   try {
     await prisma.team.delete({

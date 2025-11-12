@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Team {
-  team_id       Int       @id @default(autoincrement())
+  team_id       String       @id @default(cuid())
   team_name     String
   country       String
   university    String
@@ -17,12 +17,14 @@ model Team {
   line_id       String
   password      String
   proposal_url  String?
-  members       Member[]  // one-to-many relation
+
+  members       Member[]  
 }
 
 model Member {
-  member_id Int    @id @default(autoincrement())
+  member_id String    @id @default(cuid())
   name      String
-  team_id   Int
+
+  team_id   String
   team      Team   @relation(fields: [team_id], references: [team_id])
 }
