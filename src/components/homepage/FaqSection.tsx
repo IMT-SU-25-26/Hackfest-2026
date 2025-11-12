@@ -46,7 +46,7 @@ function FaqSection() {
     <section className="bg-[#0a0a1f] h-80vh py-16 px-4 font-mono">
       <div className="max-w-7xl mx-auto ">
         {/* Header */}
-        <div className="flex items-center justify-between mb-0 p-6 border-2 border-[#00ff88]">
+        <div className="flex items-center justify-between mb-0 p-6 border-t-2 border-l-2 border-r-2 border-[#00ff88]">
           <div className="flex items-center gap-4">
             <Image
               src="/FAQ/brain.svg"

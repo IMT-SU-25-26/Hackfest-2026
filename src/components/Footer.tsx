@@ -11,165 +11,137 @@ interface Sponsor {
   height?: number;
 }
 
-// Array sponsor - tambahkan sponsor di sini ketika sudah ada
+// Interface untuk social media/info links
+interface InfoLink {
+  name: string;
+  logo: string; // path ke logo (Instagram, LinkedIn, etc)
+  url: string;
+  width?: number;
+  height?: number;
+}
+
+// ========================================
+// CARA MENAMBAHKAN SPONSOR:
+// ========================================
+// 1. Simpan logo sponsor di folder: /public/sponsors/
+//    Contoh: /public/sponsors/google.png
+// 2. Tambahkan data sponsor di array ini:
 const sponsors: Sponsor[] = [
-  // ========================================
-  // CARA MENAMBAHKAN SPONSOR:
-  // ========================================
-  // 
-  // 1. Simpan logo sponsor di folder: /public/sponsors/
-  //    Contoh: /public/sponsors/sponsor1.png
-  //
-  // 2. Tambahkan data sponsor di array ini
-  //
-  // SPONSOR BESAR (Kotak Baris Atas - maksimal 4):
-  // Index 0-3 akan tampil di kotak BESAR (100x100px)
-  // Contoh:
-  // { name: "Sponsor 1", logo: "/sponsors/sponsor1.png", width: 80, height: 80 },
-  // { name: "Sponsor 2", logo: "/sponsors/sponsor2.png", width: 80, height: 80 },
-  // { name: "Sponsor 3", logo: "/sponsors/sponsor3.png", width: 80, height: 80 },
-  // { name: "Sponsor 4", logo: "/sponsors/sponsor4.png", width: 80, height: 80 },
-  //
-  // SPONSOR KECIL (Kotak Baris Bawah - index 5 sampai 12):
-  // Index 4-11 akan tampil di kotak KECIL (50x50px)
-  // Contoh untuk sponsor kecil:
-  // { name: "Sponsor 5", logo: "/sponsors/sponsor5.png", width: 40, height: 40 },
-  // { name: "Sponsor 6", logo: "/sponsors/sponsor6.png", width: 40, height: 40 },
-  // { name: "Sponsor 7", logo: "/sponsors/sponsor7.png", width: 40, height: 40 },
-  // { name: "Sponsor 8", logo: "/sponsors/sponsor8.png", width: 40, height: 40 },
-  // ... dst sampai index 11 (total 8 sponsor kecil)
-  //
-  // CONTOH LENGKAP (Hapus comment '//' untuk mengaktifkan):
-  // { name: "Sponsor Besar 1", logo: "/sponsors/big1.png", width: 80, height: 80 },
-  // { name: "Sponsor Besar 2", logo: "/sponsors/big2.png", width: 80, height: 80 },
-  // { name: "Sponsor Besar 3", logo: "/sponsors/big3.png", width: 80, height: 80 },
-  // { name: "Sponsor Besar 4", logo: "/sponsors/big4.png", width: 80, height: 80 },
-  // { name: "Sponsor Kecil 1", logo: "/sponsors/small1.png", width: 40, height: 40 },
-  // { name: "Sponsor Kecil 2", logo: "/sponsors/small2.png", width: 40, height: 40 },
-  // { name: "Sponsor Kecil 3", logo: "/sponsors/small3.png", width: 40, height: 40 },
-  // { name: "Sponsor Kecil 4", logo: "/sponsors/small4.png", width: 40, height: 40 },
-  // { name: "Sponsor Kecil 5", logo: "/sponsors/small5.png", width: 40, height: 40 },
-  // { name: "Sponsor Kecil 6", logo: "/sponsors/small6.png", width: 40, height: 40 },
-  // { name: "Sponsor Kecil 7", logo: "/sponsors/small7.png", width: 40, height: 40 },
-  // { name: "Sponsor Kecil 8", logo: "/sponsors/small8.png", width: 40, height: 40 },
+  // Contoh (hapus comment '//' untuk mengaktifkan):
+  // { name: "Google", logo: "/sponsors/google.png", width: 150, height: 100 },
+  // { name: "Microsoft", logo: "/sponsors/microsoft.png", width: 150, height: 100 },
 ];
 
-// Social media links
-const socialLinks: any[] = [
-  // { name: "Instagram", icon: "📷", url: "#" },
-  // { name: "Twitter", icon: "🐦", url: "#" },
-  // { name: "LinkedIn", icon: "💼", url: "#" },
-  // { name: "YouTube", icon: "📺", url: "#" },
-  // { name: "Facebook", icon: "📘", url: "#" },
-  // { name: "TikTok", icon: "🎵", url: "#" },
-  // { name: "Discord", icon: "💬", url: "#" },
-  // { name: "GitHub", icon: "🐙", url: "#" },
+// ========================================
+// CARA MENAMBAHKAN INFO LINKS (Social Media, etc):
+// ========================================
+// 1. Simpan logo/icon di folder: /public/social/
+//    Contoh: /public/social/instagram.png
+// 2. Tambahkan data di array ini:
+const infoLinks: InfoLink[] = [
+  // Contoh (hapus comment '//' untuk mengaktifkan):
+  // { name: "Instagram", logo: "/social/instagram.png", url: "https://instagram.com/...", width: 40, height: 40 },
+  // { name: "LinkedIn", logo: "/social/linkedin.png", url: "https://linkedin.com/...", width: 40, height: 40 },
+  // { name: "Twitter", logo: "/social/twitter.png", url: "https://twitter.com/...", width: 40, height: 40 },
+  // { name: "YouTube", logo: "/social/youtube.png", url: "https://youtube.com/...", width: 40, height: 40 },
 ];
 
 function Footer() {
   return (
-    <footer className="bg-[#4ade80] py-12 px-4 font-mono text-black">
+    <footer className="bg-[#0a0a1f] border-t-2 border-[#00ff88] py-12 px-4 font-mono">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          {/* Left Section - Sponsored By */}
-          <div>
-            <h3 className="text-xl md:text-2xl font-bold mb-6 uppercase">
-              Sponsored By
-            </h3>
-            <div className="grid grid-cols-4 gap-4">
-              {/* Large sponsor slots (top row) */}
-              {sponsors.length > 0 ? (
-                <>
-                  {sponsors.slice(0, 4).map((sponsor, index) => (
-                    <div
-                      key={`large-${index}`}
-                      className="bg-[#60d394] aspect-square flex items-center justify-center p-4 rounded"
-                    >
-                      <Image
-                        src={sponsor.logo}
-                        alt={sponsor.name}
-                        width={sponsor.width || 100}
-                        height={sponsor.height || 100}
-                        className="object-contain"
-                      />
-                    </div>
-                  ))}
-                </>
-              ) : (
-                // Placeholder boxes ketika belum ada sponsor
-                <>
-                  {[...Array(4)].map((_, index) => (
-                    <div
-                      key={`large-placeholder-${index}`}
-                      className="bg-[#60d394] aspect-square rounded"
-                    />
-                  ))}
-                </>
-              )}
-
-              {/* Small sponsor slots (bottom row) */}
-              {sponsors.length > 4 ? (
-                <>
-                  {sponsors.slice(4, 12).map((sponsor, index) => (
-                    <div
-                      key={`small-${index}`}
-                      className="bg-[#60d394] aspect-square flex items-center justify-center p-2 rounded col-span-1"
-                      style={{ maxWidth: "80px" }}
-                    >
-                      <Image
-                        src={sponsor.logo}
-                        alt={sponsor.name}
-                        width={sponsor.width || 60}
-                        height={sponsor.height || 60}
-                        className="object-contain"
-                      />
-                    </div>
-                  ))}
-                </>
-              ) : (
-                // Placeholder boxes untuk sponsor kecil
-                <div className="col-span-4 grid grid-cols-8 gap-2">
-                  {[...Array(8)].map((_, index) => (
-                    <div
-                      key={`small-placeholder-${index}`}
-                      className="bg-[#60d394] aspect-square rounded"
-                    />
-                  ))}
+        {/* Top Section - Sponsored By (Center) */}
+        <div className="mb-12">
+          <h3 className="text-white text-xl md:text-2xl font-bold mb-6 uppercase text-center">
+            SPONSORED BY
+          </h3>
+          
+          {/* Sponsor Logos Container */}
+          <div className="flex flex-wrap gap-6 justify-center items-center min-h-[120px]">
+            {sponsors.length > 0 ? (
+              sponsors.map((sponsor, index) => (
+                <div
+                  key={index}
+                  className="bg-white/10 p-4 rounded flex items-center justify-center hover:bg-white/20 transition-colors"
+                >
+                  <Image
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    width={sponsor.width || 150}
+                    height={sponsor.height || 100}
+                    className="object-contain"
+                  />
                 </div>
-              )}
-            </div>
-          </div>
-
-          {/* Right Section - For More Information */}
-          <div className="flex flex-col justify-between">
-            <div>
-              <h3 className="text-xl md:text-2xl font-bold mb-6 uppercase">
-                For More Information :
-              </h3>
-              {/* Social Media Icons Grid */}
-              <div className="grid grid-cols-4 md:grid-cols-4 gap-4 mb-6">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#60d394] aspect-square flex items-center justify-center text-4xl rounded hover:bg-[#50c384] transition-colors"
-                    title={social.name}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
-            </div>
+              ))
+            ) : (
+              // Placeholder text ketika belum ada sponsor
+              <p className="text-[#00ff88]/50 text-sm italic">
+                Sponsor logos will appear here
+              </p>
+            )}
           </div>
         </div>
 
-        {/* Bottom Copyright Text */}
-        <div className="text-sm md:text-base leading-relaxed space-y-1">
-          <p>© 2025 Informatics (IMT) Student Union</p>
-          <p>Universitas Ciputra Surabaya.</p>
-          <p>All rights reserved.</p>
+        {/* Bottom Section - Logo & Copyright (Left) + For More Information (Right) */}
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+          {/* Left Side: IMT Logo + Copyright Text */}
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+            {/* IMT Logo */}
+            <div className="shrink-0">
+              <div className="w-32 h-32 flex items-center justify-center bg-[#0a0a1f] p-0">
+                <Image 
+                  src="/FAQ/logoimt.svg" 
+                  alt="IMT Logo" 
+                  width={120} 
+                  height={120}
+                  className="object-contain"
+                />
+              </div>
+            </div>
+
+            {/* Copyright Text */}
+            <div className="text-[#00ff88] text-sm md:text-base leading-relaxed space-y-1 text-center md:text-left">
+              <p>© 2025 Informatics (IMT) Student Union</p>
+              <p>Universitas Ciputra Surabaya.</p>
+              <p>All rights reserved.</p>
+            </div>
+          </div>
+
+          {/* Right Side: For More Information */}
+          <div className="text-center md:text-right">
+            <h3 className="text-white text-xl md:text-2xl font-bold mb-6 uppercase">
+              FOR MORE INFORMATION :
+            </h3>
+            
+            {/* Info Links Container */}
+            <div className="flex flex-wrap gap-4 justify-center md:justify-end items-center">
+              {infoLinks.length > 0 ? (
+                infoLinks.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-white/10 p-3 rounded hover:bg-[#00ff88]/20 transition-colors hover:scale-110 transform duration-200"
+                    title={link.name}
+                  >
+                    <Image
+                      src={link.logo}
+                      alt={link.name}
+                      width={link.width || 40}
+                      height={link.height || 40}
+                      className="object-contain"
+                    />
+                  </a>
+                ))
+              ) : (
+                // Placeholder text ketika belum ada links
+                <p className="text-[#00ff88]/50 text-sm italic">
+                  Social media links will appear here
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </footer>
