@@ -23,7 +23,7 @@ function TimelineSection() {
         </div>
 
         {/* Mobile Timeline */}
-        <div className="block md:hidden w-full flex justify-center">
+        <div className="md:hidden w-full flex justify-center">
           <div className="w-full max-w-[280px]">
             <Image
               src="/timeline/timeline-mobile.svg"
@@ -41,7 +41,7 @@ function TimelineSection() {
       <div className="w-screen relative">
         {/* Desktop Background */}
         <div
-          className="hidden md:block w-full min-h-[700px] relative"
+          className="hidden md:block w-full min-h-[600px] relative"
           style={{
             backgroundImage: "url('/timeline/background-fee.svg')",
             backgroundSize: "cover",
@@ -52,17 +52,17 @@ function TimelineSection() {
           {/* Overlay untuk memastikan readability */}
           <div className="absolute inset-0 bg-[#0a0a1f]/40"></div>
 
-          <div className="relative py-12 px-8 flex flex-col items-center">
-            <h1 className="text-5xl font-bold text-center text-[#00ffcc] mb-12 tracking-wider">
+          <div className="relative py-10 px-8 flex flex-col items-center">
+            <h1 className="text-4xl font-bold text-center text-[#00ffcc] mb-10 tracking-wider">
               REGISTRATION FEE
             </h1>
 
-            <div className="w-full max-w-6xl">
+            <div className="w-full max-w-4xl">
               <Image
                 src="/timeline/fee-desktop.svg"
                 alt="Fee Desktop"
-                width={1100}
-                height={400}
+                width={900}
+                height={350}
                 className="w-full h-auto object-contain"
                 priority
               />
