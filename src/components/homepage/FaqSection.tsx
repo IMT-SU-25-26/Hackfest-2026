@@ -26,7 +26,6 @@ const faqData: FaqItem[] = [
     question: "Apakah Bryan Gay ?",
     answer: [
       "Jujur orang ini agak Unik karena memiliki 2 selera yang berbeda.",
-      "Pertama dia suka Obie, tapi di sisi lain dia juga suka CZ",
     ],
   },
 ];
@@ -100,10 +99,6 @@ function FaqSection() {
                 </div>
                 <div
                   className="text-[#00ff88] text-3xl transition-transform duration-300"
-                  style={{
-                    transform:
-                      openIndexes.includes(index) ? "rotate(180deg)" : "rotate(0deg)",
-                  }}
                 >
                   {openIndexes.includes(index) ? "∧" : "∨"}
                 </div>

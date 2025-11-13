@@ -28,7 +28,10 @@ interface InfoLink {
 // 2. Tambahkan data sponsor di array ini:
 const sponsors: Sponsor[] = [
   // Contoh (hapus comment '//' untuk mengaktifkan):
-  // { name: "Google", logo: "/sponsors/google.png", width: 150, height: 100 },
+  { name: "Google", logo: "/FAQ/danger.svg", width: 100, height: 100 },
+  { name: "Google", logo: "/FAQ/danger.svg", width: 100, height: 100 },
+  { name: "Google", logo: "/FAQ/danger.svg", width: 100, height: 100 },
+  { name: "Google", logo: "/FAQ/danger.svg", width: 100, height: 100 },
   // { name: "Microsoft", logo: "/sponsors/microsoft.png", width: 150, height: 100 },
 ];
 
@@ -40,15 +43,15 @@ const sponsors: Sponsor[] = [
 // 2. Tambahkan data di array ini:
 const infoLinks: InfoLink[] = [
   // Contoh (hapus comment '//' untuk mengaktifkan):
-  // { name: "Instagram", logo: "/social/instagram.png", url: "https://instagram.com/...", width: 40, height: 40 },
-  // { name: "LinkedIn", logo: "/social/linkedin.png", url: "https://linkedin.com/...", width: 40, height: 40 },
-  // { name: "Twitter", logo: "/social/twitter.png", url: "https://twitter.com/...", width: 40, height: 40 },
-  // { name: "YouTube", logo: "/social/youtube.png", url: "https://youtube.com/...", width: 40, height: 40 },
+  { name: "Instagram", logo: "/FAQ/danger.svg", url: "https://instagram.com/...", width: 40, height: 40 },
+  { name: "LinkedIn", logo: "/FAQ/danger.svg", url: "https://linkedin.com/...", width: 40, height: 40 },
+  { name: "Twitter", logo: "/FAQ/danger.svg", url: "https://twitter.com/...", width: 40, height: 40 },
+  { name: "YouTube", logo: "/FAQ/danger.svg", url: "https://youtube.com/...", width: 40, height: 40 },
 ];
 
 function Footer() {
   return (
-    <footer className="bg-[#0a0a1f] border-t-2 border-[#00ff88] py-12 px-4 font-mono">
+    <footer className="bg-[#001138] border-t-2 border-[#00ff88] py-12 px-4 font-mono">
       <div className="max-w-7xl mx-auto">
         {/* Top Section - Sponsored By (Center) */}
         <div className="mb-12">
@@ -62,7 +65,7 @@ function Footer() {
               sponsors.map((sponsor, index) => (
                 <div
                   key={index}
-                  className="bg-white/10 p-4 rounded flex items-center justify-center hover:bg-white/20 transition-colors"
+                  className="p-4 rounded flex items-center justify-center hover:bg-white/20 transition-colors"
                 >
                   <Image
                     src={sponsor.logo}
@@ -88,7 +91,7 @@ function Footer() {
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
             {/* IMT Logo */}
             <div className="shrink-0">
-              <div className="w-32 h-32 flex items-center justify-center bg-[#0a0a1f] p-0">
+              <div className="w-30 h-30 mt-[-10] flex items-center justify-center bg-[#0a0a1f] p-0">
                 <Image 
                   src="/FAQ/logoimt.svg" 
                   alt="IMT Logo" 
@@ -122,7 +125,7 @@ function Footer() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-white/10 p-3 rounded hover:bg-[#00ff88]/20 transition-colors hover:scale-110 transform duration-200"
+                    className="p-3 rounded hover:bg-[#00ff88]/20 transition-colors hover:scale-110 transform duration-200"
                     title={link.name}
                   >
                     <Image
