@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import FaultyTerminal from "../FaultyTerminal";
+import Image from "next/image";
 
 function HeroSection() {
   return (
@@ -26,10 +27,7 @@ function HeroSection() {
           brightness={1}
         />
       </div>
-      <div className="relative z-10 text-white font-bold flex flex-col gap-4 items-center justify-center">
-        <h1 className="text-9xl">HACKFEST</h1>
-        <h1 className="text-7xl"><span className="text-green-500">2026</span>CODE FOR GREENER FUTURE</h1>
-      </div>
+      <Image src={"/home/title-text.svg"} className="relative z-10 w-[80vw] h-auto" width={1920} height={1080} alt="hackfest title"></Image>
     </div>
   );
 }
