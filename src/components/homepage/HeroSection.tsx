@@ -5,7 +5,7 @@ import Image from "next/image";
 
 function HeroSection() {
   return (
-    <div className="relative min-h-screen w-screen flex flex-col justify-center items-center overflow-hidden">
+    <div className="relative min-h-screen w-[100w-dvw] flex flex-col justify-center items-center overflow-hidden">
       <div className="absolute w-full h-full">
         <FaultyTerminal
           scale={1.5}

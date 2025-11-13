@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 function NavBar() {
   return (
-    <nav className='w-screen px-[5%] bg-[#1C0951] border-b-2 border-[#00C074] overflow-hidden h-[7vh] flex justify-between gap-4 items-center'>
+    <nav className='w-[100w-dvw] px-[5%] bg-[#1C0951] border-b-2 border-[#00C074] overflow-hidden h-[7vh] flex justify-between gap-4 items-center'>
       <Link href={"/"}><Image src={"/navbar/logo-hackfest.webp"} alt='hackfest logo' width={200} height={200} className='w-32 h-auto'></Image></Link>
       <div className='hidden md:flex text-white font-semibold gap-4 justify-center items-center'>
         <Link href={"/"}>HOME</Link>
