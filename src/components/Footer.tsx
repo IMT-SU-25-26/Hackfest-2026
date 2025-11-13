@@ -51,7 +51,7 @@ const infoLinks: InfoLink[] = [
 
 function Footer() {
   return (
-    <footer className="bg-[#001138] border-t-2 border-[#00ff88] py-12 px-4 font-mono">
+    <footer className="bg-[#001138] border-t-2 border-[#00ff88] py-12 px-4 font-mono w-[100w-dvw]">
       <div className="max-w-7xl mx-auto">
         {/* Top Section - Sponsored By (Center) */}
         <div className="mb-12">

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function TimelineSection() {
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[#0a0a1f] py-16">
+    <div className="w-[100w-dvw] min-h-screen flex flex-col items-center justify-center bg-[#0a0a1f] py-16">
       {/* Timeline Section */}
       <div className="w-full max-w-7xl mb-20 px-4">
         <h3 className="text-3xl md:text-5xl font-bold text-center text-[#00ffcc] mb-8 md:mb-12 tracking-wider">
@@ -38,7 +38,7 @@ function TimelineSection() {
       </div>
 
       {/* Registration Fee Section - Full Width Background */}
-      <div className="w-screen relative">
+      <div className="w-[100w-dvw] relative">
         {/* Desktop Background */}
         <div
           className="hidden md:block w-full min-h-[600px] relative"
