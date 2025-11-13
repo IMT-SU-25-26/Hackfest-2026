@@ -38,7 +38,7 @@ function TimelineSection() {
       </div>
 
       {/* Registration Fee Section - Full Width Background */}
-      <div className="w-[100w-dvw] relative">
+      <div className="w-full relative">
         {/* Desktop Background */}
         <div
           className="hidden md:block w-full min-h-[600px] relative"
