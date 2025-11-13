@@ -27,7 +27,13 @@ function HeroSection() {
           brightness={1}
         />
       </div>
-      <Image src={"/home/title-text.svg"} className="relative z-10 w-[80vw] h-auto" width={1920} height={1080} alt="hackfest title"></Image>
+      <Image
+        src={"/home/title-text.svg"}
+        className="relative z-10 w-[80vw] h-auto pointer-events-none"
+        width={1920}
+        height={1080}
+        alt="hackfest title"
+      />
     </div>
   );
 }
