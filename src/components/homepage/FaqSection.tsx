@@ -60,7 +60,7 @@ function FaqSection() {
             />
           </div>
 
-          <h2 className="text-5xl md:text-6xl font-bold text-[#00ff88] tracking-wider">
+          <h2 className="text-5xl md:text-6xl font-family-audiowide font-bold text-[#00ff88] tracking-wider">
             FAQ
           </h2>
 
@@ -93,7 +93,7 @@ function FaqSection() {
               >
                 <div className="flex items-center gap-4">
                   <span className="text-[#00ff88] text-xl">&gt;</span>
-                  <span className="text-[#00ff88] text-xl md:text-2xl font-medium">
+                  <span className="text-[#00ff88] text-xl md:text-2xl font-family-spacemono font-medium">
                     {faq.question}
                   </span>
                 </div>
@@ -118,7 +118,7 @@ function FaqSection() {
                       key={pIndex}
                       className="text-[#00ff88] text-base md:text-lg leading-relaxed"
                     >
-                      <span className="text-[#00ff88] mr-2">&gt;</span>
+                      <span className="text-[#00ff88]  mr-2">&gt;</span>
                       {paragraph}
                     </p>
                   ))}

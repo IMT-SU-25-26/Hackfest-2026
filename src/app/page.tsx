@@ -8,7 +8,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <>
-      <HeroSection />
+      {/* <HeroSection /> */}
       <AboutSection />
       <RecapSection />
       <TimelineSection />
