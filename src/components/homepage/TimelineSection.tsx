@@ -84,7 +84,7 @@ function TimelineSection() {
           <div className="absolute inset-0 bg-[#0a0a1f]/40"></div>
 
           <div className="relative py-8 px-4 flex flex-col items-center">
-            <h1 className="text-3xl font-bold text-center text-[#00ffcc] mb-8 tracking-wider">
+            <h1 className="text-3xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-8 tracking-wider">
               REGISTRATION FEE
             </h1>
 
