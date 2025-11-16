@@ -1,7 +1,31 @@
-import { Video } from 'lucide-react'
+'use client'
 import Image from 'next/image'
+import { useEffect, useRef } from 'react'
 
 function RecapSection() {
+
+  // Auto Pause Video
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {}) 
+        } else {
+          video.pause() 
+        }
+      },
+      {
+        threshold: 0.5,
+      }
+    )
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className="bg-[#0a0a1f] overflow-hidden">
       <div className="relative w-full">
@@ -71,10 +95,15 @@ function RecapSection() {
 
                 {/* Left: Video */}
                 <video
+                  ref={videoRef}
                   className="text-white w-full md:w-[50%] transition-transform duration-300 cursor-pointer"
                   src="/recap/video/recap.webm"
+                  onClick={() => {
+                    if (videoRef.current) videoRef.current.muted = false
+                  }}
                   autoPlay
                   loop
+                  muted
                   playsInline
                 />
 
@@ -90,7 +119,7 @@ function RecapSection() {
                   />
 
                   {/* Text on top of the Image */}
-                  <div className="absolute inset-0 flex flex-col items-start gap-3 text-white font-family-spacemono text-[90%] sm:text-2xl md:text-[60%] px-[5%] pt-[23%] md:pt-[12%]">
+                  <div className="absolute inset-0 flex flex-col items-start gap-3 text-white font-family-spacemono text-[90%] sm:text-2xl md:text-[60%] xl:text-[95%] px-[5%] xl:px-[6%] pt-[23%] md:pt-[12%]">
                     <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}</p>
                     <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`} </p>
                     <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}</p>
