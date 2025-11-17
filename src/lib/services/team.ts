@@ -3,6 +3,7 @@ import prisma from "../prisma";
 import { ActionResult } from "@/types/action";
 import { Team } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcrypt";
 
 export async function getAllTeams(): Promise<Team[]> {
   return await prisma.team.findMany({
@@ -33,8 +34,14 @@ export async function registerTeam(
   }
 
   try {
+    const { password, ...rest } = validation.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const team = await prisma.team.create({
-      data: validation.data,
+      data: {
+        ...rest,
+        password: hashedPassword,
+      },
     });
 
     revalidatePath("/");

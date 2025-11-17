@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -10,7 +10,7 @@ datasource db {
 
 model Team {
   team_id       String       @id @default(cuid())
-  team_name     String
+  team_name     String       @unique
   country       String
   university    String
   phone_number  String
