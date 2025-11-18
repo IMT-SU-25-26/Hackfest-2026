@@ -49,9 +49,9 @@ export default function LoginPage() {
           
           {/* Header Section */}
           <div className="text-center mb-8 relative">
-             <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-950/50 border border-cyan-500/30 mb-4 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+             {/* <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-950/50 border border-cyan-500/30 mb-4 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
                 <Zap className="w-6 h-6 text-cyan-400" />
-             </div>
+             </div> */}
             <h1 className="text-3xl font-bold text-white tracking-tight mb-2">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Team Login</span>
             </h1>

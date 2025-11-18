@@ -30,38 +30,6 @@ export default function LoginPage() {
   }
 
   return (
-    // <div className="p-8 max-w-md mx-auto">
-    //   <h1 className="text-2xl font-bold mb-4">Team Login</h1>
-
-    //   <form onSubmit={handleLogin} className="space-y-4">
-    //     <input
-    //       type="text"
-    //       placeholder="Team Name"
-    //       value={teamName}
-    //       onChange={(e) => setTeamName(e.target.value)}
-    //       className="border p-2 w-full"
-    //     />
-
-    //     <input
-    //       type="password"
-    //       placeholder="Password"
-    //       value={password}
-    //       onChange={(e) => setPassword(e.target.value)}
-    //       className="border p-2 w-full"
-    //     />
-
-    //     {error && (
-    //       <p className="text-red-500 text-sm">{error}</p>
-    //     )}
-
-    //     <button
-    //       type="submit"
-    //       className="bg-blue-600 text-white py-2 px-4 rounded"
-    //     >
-    //       Login
-    //     </button>
-    //   </form>
-    // </div>
 
     <div className="relative min-h-screen w-full h-full overflow-hidden font-[Orbitron] text-cyan-300 bg-[#090223]">
             {/* Background Grid Placeholder */}
@@ -127,6 +95,13 @@ export default function LoginPage() {
                             </div>
                         </div>
                     </div>
+
+                    {/* Error Message */}
+                    {error && (
+                    <p className="text-red-400 text-center mt-4 font-bold drop-shadow-[0_0_10px_#ff0000]">
+                        {error}
+                    </p>
+                    )}
 
 
                     {/* Login Button */}
