@@ -10,22 +10,22 @@ interface FaqItem {
 
 const faqData: FaqItem[] = [
   {
-    question: "Apakah Felix Gay ?",
+    question: "Apa itu hackfest ?",
     answer: [
-      "Itu adalah privasi tiap orang jadi saya tidak tahu,",
-      "Tapi dari gerak geriknya sih kayaknya iya.",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     ],
   },
   {
-    question: "Apakah Obie Gay ?",
+    question: "Kenapa harus hackfest ?",
     answer: [
-      "Sebagai Roomatenya saya merasa khawatir karena sepertinya dia gay sama Bryan",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     ],
   },
   {
-    question: "Apakah Bryan Gay ?",
+    question: "Hackfest berapa kali?",
     answer: [
-      "Jujur orang ini agak Unik karena memiliki 2 selera yang berbeda.",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     ],
   },
 ];
