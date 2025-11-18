@@ -1,43 +1,51 @@
+import React from "react";
 import Image from "next/image";
 
 function TimelineSection() {
   return (
-    <div className="w-[100w-dvw] min-h-screen flex flex-col items-center justify-center bg-[#0a0a1f] py-16">
+    <div
+      className="w-[100w-dvw] min-h-screen flex flex-col items-center justify-center bg-[#0a0a1f] bg-no-repeat bg-[url('/timeline/decorative-lines-mobile.svg')] md:bg-[url('/timeline/decorative-lines-desktop.svg')] bg-top"
+      style={{
+        backgroundSize: "100% auto",
+      }}
+    >
       {/* Timeline Section */}
-      <div className="w-full max-w-7xl mb-20 px-4">
-        <h3 className="text-3xl md:text-5xl font-family-audiowide font-bold text-center text-[#00ffcc] mb-8 md:mb-12 tracking-wider">
-          Timeline
-        </h3>
+      <div className="w-full relative pt-16 mb-20">
+        <div className="w-full max-w-7xl mx-auto px-4">
+          <h3 className="text-3xl md:text-5xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-8 md:mb-12 tracking-wider">
+            Timeline
+          </h3>
 
-        {/* Desktop Timeline */}
-        <div className="hidden md:block w-full">
-          <Image
-            src="/timeline/timeline-desktop.svg"
-            alt="Timeline Desktop"
-            width={1200}
-            height={400}
-            className="w-full h-auto object-contain"
-            priority
-          />
-        </div>
-
-        {/* Mobile Timeline */}
-        <div className="md:hidden w-full flex justify-center">
-          <div className="w-full max-w-[280px]">
+          {/* Desktop Timeline */}
+          <div className="hidden md:block w-full">
             <Image
-              src="/timeline/timeline-mobile.svg"
-              alt="Timeline Mobile"
-              width={280}
-              height={600}
+              src="/timeline/timeline-desktop.svg"
+              alt="Timeline Desktop"
+              width={1200}
+              height={400}
               className="w-full h-auto object-contain"
               priority
             />
+          </div>
+
+          {/* Mobile Timeline */}
+          <div className="md:hidden w-full flex justify-center">
+            <div className="w-full max-w-[280px]">
+              <Image
+                src="/timeline/timeline-mobile.svg"
+                alt="Timeline Mobile"
+                width={280}
+                height={600}
+                className="w-full h-auto object-contain"
+                priority
+              />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Registration Fee Section - Full Width Background */}
-      <div className="w-full relative">
+      <div className="w-full relative pb-16">
         {/* Desktop Background */}
         <div
           className="hidden md:block w-full min-h-[600px] relative"
@@ -52,7 +60,7 @@ function TimelineSection() {
           <div className="absolute inset-0 bg-[#0a0a1f]/40"></div>
 
           <div className="relative py-10 px-8 flex flex-col items-center">
-            <h1 className="text-4xl font-family-audiowide font-bold text-center text-[#00ffcc] mb-10 tracking-wider">
+            <h1 className="text-5xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-10 tracking-wider">
               REGISTRATION FEE
             </h1>
 
@@ -83,7 +91,7 @@ function TimelineSection() {
           <div className="absolute inset-0 bg-[#0a0a1f]/40"></div>
 
           <div className="relative py-8 px-4 flex flex-col items-center">
-            <h1 className="text-3xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-8 tracking-wider">
+            <h1 className="text-3xl font-bold text-center text-[#00ffcc] mb-8 tracking-wider">
               REGISTRATION FEE
             </h1>
 
