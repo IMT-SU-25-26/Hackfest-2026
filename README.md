@@ -10,7 +10,7 @@
 ## Homepage Structure 
 1. File utama adalah src/app/page.tsx
 2. File utama menggunakan 5 component yaitu HeroSection, AboutSection, RecapSection, TimelineSection, FaqSection
-3. Kelima file components itu ada di src/app/components/homepage/[namaSection]
+3. Kelima file components itu ada di src/app/components/homepage/[namaSection].tsx
 4. Editlah file component nya
 
 ## LoginPage Structure
