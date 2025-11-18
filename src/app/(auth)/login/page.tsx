@@ -26,7 +26,7 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/dashboard");
+    router.push("/");
   }
 
   return (
@@ -79,7 +79,7 @@ export default function LoginPage() {
 
 
             {/* Main Container */}
-            <main className="relative z-10 flex justify-center mt-16">
+            <form onSubmit={handleLogin} className="relative z-10 flex justify-center mt-16">
                 <div className="bg-[url(/login/outerframe.svg)] bg-contain bg-no-repeat w-[900px]  p-10 rounded-xl bg-[black/40 ]backdrop-blur-sm">
                     
 
@@ -99,6 +99,8 @@ export default function LoginPage() {
                                 <input
                                     type="text"
                                     placeholder="Enter your team name"
+                                    value={teamName}
+                                    onChange={(e) => setTeamName(e.target.value)}
                                     className=" flex-1 outline-none placeholder-[#05B0C1]/45 text-[#05B0C1]  mx-1/3"
                                 />
                             </div>
@@ -118,6 +120,8 @@ export default function LoginPage() {
                                 <input
                                     type="password"
                                     placeholder="Enter your password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     className="bg-transparent flex-1 outline-none placeholder-[#05B0C1]/45 text-[#05B0C1]"
                                 />
                             </div>
@@ -127,7 +131,7 @@ export default function LoginPage() {
 
                     {/* Login Button */}
                     <div className=" h-15 w-50 text-center mt-12 mx-auto justify-center">
-                        <button className="px-16 py-4 h-15 w-55 bg-[url(/login/loginbutton.svg)] bg-cover justify-center text-black text-xl font-bold rounded-md hover:bg-cyan-400 transition tracking-wide shadow-[0_0_20px_#00ffff]">
+                        <button type="submit" className="px-16 py-4 h-15 w-55 bg-[url(/login/loginbutton.svg)] bg-cover justify-center text-black text-xl font-bold rounded-md hover:bg-cyan-400 transition tracking-wide shadow-[0_0_20px_#00ffff]">
 
                         </button>
                     </div>
@@ -139,7 +143,7 @@ export default function LoginPage() {
                         <span className="text-cyan-400 underline cursor-pointer">Registration</span>
                     </p>
                 </div>
-            </main>
+            </form>
     </div>
   );
 }
