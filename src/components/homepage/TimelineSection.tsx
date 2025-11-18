@@ -12,7 +12,7 @@ function TimelineSection() {
       {/* Timeline Section */}
       <div className="w-full relative pt-16 mb-20">
         <div className="w-full max-w-7xl mx-auto px-4">
-          <h3 className="text-3xl md:text-5xl font-bold text-center text-[#00ffcc] mb-8 md:mb-12 tracking-wider">
+          <h3 className="text-3xl md:text-5xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-8 md:mb-12 tracking-wider">
             Timeline
           </h3>
 
@@ -60,7 +60,7 @@ function TimelineSection() {
           <div className="absolute inset-0 bg-[#0a0a1f]/40"></div>
 
           <div className="relative py-10 px-8 flex flex-col items-center">
-            <h1 className="text-5xl font-bold text-center text-[#00ffcc] mb-10 tracking-wider">
+            <h1 className="text-5xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-10 tracking-wider">
               REGISTRATION FEE
             </h1>
 
