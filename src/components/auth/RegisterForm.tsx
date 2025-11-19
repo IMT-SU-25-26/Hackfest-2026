@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import {
   UserRound,
   Earth,
@@ -11,30 +12,66 @@ import {
   Lock,
 } from "lucide-react";
 
+type FormData = {
+  name: string;
+  country: string;
+  university: string;
+  teamName: string;
+  whatsapp: string;
+  lineId: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export function RegisterForm() {
   const [step, setStep] = useState(1);
   const [memberInputs, setMemberInputs] = useState<string[]>([""]);
-  const [formData, setFormData] = useState({
-    name: "",
-    country: "",
-    university: "",
-    teamName: "",
-    whatsapp: "",
-    lineId: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [memberError, setMemberError] = useState<string | null>(null);
 
-  const nextStep = () => {
-    if (step < 5) setStep(step + 1);
+  const {
+    register,
+    handleSubmit,
+    control,
+    trigger,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const password = useWatch({ control, name: "password" });
+
+  const nextStep = async () => {
+    let fieldsToValidate: (keyof FormData)[] = [];
+    switch (step) {
+      case 1:
+        fieldsToValidate = ["name", "country"];
+        break;
+      case 2:
+        fieldsToValidate = ["university", "teamName"];
+        break;
+      case 3:
+        const isValid = memberInputs.every((m) => m.trim().length > 0);
+        if (!isValid) {
+          setMemberError("All team member names are required");
+          return;
+        } else {
+          setMemberError(null);
+        }
+        setStep(step + 1);
+        return;
+      case 4:
+        fieldsToValidate = ["whatsapp", "lineId"];
+        break;
+      case 5:
+        fieldsToValidate = ["password", "confirmPassword"];
+        break;
+    }
+    const isValid = await trigger(fieldsToValidate);
+    if (isValid) {
+      setStep(step + 1);
+    }
   };
 
   const prevStep = () => {
     if (step > 1) setStep(step - 1);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const addMember = () => {
@@ -53,13 +90,13 @@ export function RegisterForm() {
     setMemberInputs(newInputs);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
+  const onSubmit = (data: FormData) => {
+    console.log("Form Data:", data);
     console.log(
       "Members:",
       memberInputs.filter((m) => m.trim()),
     );
+    // Handle Submission Logic Here
   };
 
   return (
@@ -71,15 +108,16 @@ export function RegisterForm() {
         REGISTRATION
       </div>
       {/* Main Box */}
-      <div className="flex min-h-96 w-10/12 items-center justify-center border-2 border-solid border-[#05C174] py-6 sm:w-8/12">
+      <div className="hide-scrollbar flex max-h-[70vh] w-10/12 items-start justify-center overflow-y-auto border-2 border-solid border-[#05C174] bg-[#090223]/60 py-6 sm:w-8/12">
         {/* Form */}
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex w-10/12 flex-col sm:w-8/12"
         >
           {/* Step 1: Name and Country */}
           {step === 1 && (
             <>
+              {/* Name Input */}
               <div className="mb-12">
                 <label
                   htmlFor="name-input"
@@ -93,15 +131,19 @@ export function RegisterForm() {
                   </div>
                   <input
                     id="name-input"
-                    name="name"
                     type="text"
                     placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    {...register("name", { required: "Name is required" })}
                     className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
                   />
                 </div>
+                {errors.name && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
+              {/* Country Input */}
               <div className="mb-4">
                 <label
                   htmlFor="country-input"
@@ -115,20 +157,26 @@ export function RegisterForm() {
                   </div>
                   <input
                     id="country-input"
-                    name="country"
                     type="text"
                     placeholder="Your Country of Origin"
-                    value={formData.country}
-                    onChange={handleChange}
+                    {...register("country", {
+                      required: "Country is required",
+                    })}
                     className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
                   />
                 </div>
+                {errors.country && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.country.message}
+                  </p>
+                )}
               </div>
             </>
           )}
           {/* Step 2: University and Team Name */}
           {step === 2 && (
             <>
+              {/* University Input */}
               <div className="mb-12">
                 <label
                   htmlFor="university-input"
@@ -142,15 +190,21 @@ export function RegisterForm() {
                   </div>
                   <input
                     id="university-input"
-                    name="university"
                     type="text"
                     placeholder="Your University"
-                    value={formData.university}
-                    onChange={handleChange}
+                    {...register("university", {
+                      required: "University is required",
+                    })}
                     className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
                   />
                 </div>
+                {errors.university && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.university.message}
+                  </p>
+                )}
               </div>
+              {/* Team Name Input */}
               <div className="mb-4">
                 <label
                   htmlFor="teamName-input"
@@ -164,14 +218,19 @@ export function RegisterForm() {
                   </div>
                   <input
                     id="teamName-input"
-                    name="teamName"
                     type="text"
                     placeholder="Your Team Name"
-                    value={formData.teamName}
-                    onChange={handleChange}
+                    {...register("teamName", {
+                      required: "Team name is required",
+                    })}
                     className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
                   />
                 </div>
+                {errors.teamName && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.teamName.message}
+                  </p>
+                )}
               </div>
             </>
           )}
@@ -213,11 +272,15 @@ export function RegisterForm() {
               >
                 Add Member
               </button>
+              {memberError && (
+                <p className="text-destructive mt-1 text-sm">{memberError}</p>
+              )}
             </div>
           )}
           {/* Step 4: WhatsApp and Line ID */}
           {step === 4 && (
             <>
+              {/* WhatsApp Number Inputs */}
               <div className="mb-12">
                 <label
                   htmlFor="whatsapp-input"
@@ -231,15 +294,24 @@ export function RegisterForm() {
                   </div>
                   <input
                     id="whatsapp-input"
-                    name="whatsapp"
                     type="text"
                     placeholder="Your WhatsApp Number"
-                    value={formData.whatsapp}
-                    onChange={handleChange}
+                    {...register("whatsapp", {
+                      required: "WhatsApp number is required",
+                      validate: (value) =>
+                        /^\+?[1-9]\d{1,14}$/.test(value) ||
+                        "Invalid phone number format (e.g., +1234567890)",
+                    })}
                     className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
                   />
                 </div>
+                {errors.whatsapp && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.whatsapp.message}
+                  </p>
+                )}
               </div>
+              {/* Line ID Input */}
               <div className="mb-4">
                 <label
                   htmlFor="lineId-input"
@@ -253,20 +325,24 @@ export function RegisterForm() {
                   </div>
                   <input
                     id="lineId-input"
-                    name="lineId"
                     type="text"
                     placeholder="Your Line ID"
-                    value={formData.lineId}
-                    onChange={handleChange}
+                    {...register("lineId", { required: "Line ID is required" })}
                     className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
                   />
                 </div>
+                {errors.lineId && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.lineId.message}
+                  </p>
+                )}
               </div>
             </>
           )}
           {/* Step 5: Password and Confirm Password */}
           {step === 5 && (
             <>
+              {/* Password Input */}
               <div className="mb-12">
                 <label
                   htmlFor="password-input"
@@ -280,15 +356,21 @@ export function RegisterForm() {
                   </div>
                   <input
                     id="password-input"
-                    name="password"
                     type="password"
                     placeholder="Enter Password"
-                    value={formData.password}
-                    onChange={handleChange}
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
                     className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
                   />
                 </div>
+                {errors.password && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
+              {/* Confirm Password Input */}
               <div className="mb-4">
                 <label
                   htmlFor="confirmPassword-input"
@@ -302,14 +384,21 @@ export function RegisterForm() {
                   </div>
                   <input
                     id="confirmPassword-input"
-                    name="confirmPassword"
                     type="password"
                     placeholder="Confirm Password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
+                    {...register("confirmPassword", {
+                      required: "Confirm password is required",
+                      validate: (value) =>
+                        value === password || "Passwords do not match",
+                    })}
                     className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
                   />
                 </div>
+                {errors.confirmPassword && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
             </>
           )}
