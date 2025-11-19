@@ -8,7 +8,7 @@ function NavBar() {
       <Link href={"/"}><Image src={"/navbar/logo-hackfest.webp"} alt='hackfest logo' width={200} height={200} className='w-32 h-auto'></Image></Link>
       <div className='hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center'>
         <Link href={"/"}>HOME</Link>
-        <Link href={"/registration"}>REGISTRATION</Link>
+        <Link href={"/register"}>REGISTRATION</Link>
         <Link href={"/login"}>LOGIN</Link>
       </div>
       <div className='flex flex-col md:hidden gap-1 justify-center items-center'>
