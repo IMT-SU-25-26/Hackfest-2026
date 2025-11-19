@@ -4,7 +4,7 @@ import ButtonImg from "../ButtonImg";
 
 export default function AboutSection() {
   return (
-    <div className="bg-black">
+    <div className="bg-[#0a0a1f]">
       <div className="w-[90%] md:w-[80%] flex flex-col md:flex-row justify-center m-auto gap-[3%] p-10">
         <div className="w-full">
           <Image
