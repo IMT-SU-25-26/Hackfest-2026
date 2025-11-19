@@ -258,7 +258,7 @@ export function RegisterForm() {
                     <button
                       type="button"
                       onClick={() => removeMember(index)}
-                      className="text-destructive hover:text-destructive/90 mt-2 block"
+                      className="text-destructive hover:text-destructive/90 mt-2 block transition-all duration-300 hover:scale-105 hover:shadow-[0_0_10px_red]"
                     >
                       Remove
                     </button>
@@ -268,7 +268,7 @@ export function RegisterForm() {
               <button
                 type="button"
                 onClick={addMember}
-                className="font-family-spacemono h-12 w-full border border-[#05C174] px-4 text-[#05C174] hover:bg-[#05C174] hover:text-black"
+                className="font-family-spacemono h-12 w-full border border-[#05C174] px-4 text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
               >
                 Add Member
               </button>
@@ -408,7 +408,7 @@ export function RegisterForm() {
               <button
                 type="button"
                 onClick={prevStep}
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] hover:bg-[#05C174] hover:text-black"
+                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
               >
                 Previous
               </button>
@@ -417,7 +417,7 @@ export function RegisterForm() {
               <button
                 type="button"
                 onClick={nextStep}
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] hover:bg-[#05C174] hover:text-black"
+                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
               >
                 Next
               </button>
@@ -425,7 +425,7 @@ export function RegisterForm() {
             {step === 5 && (
               <button
                 type="submit"
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] hover:bg-[#05C174] hover:text-black"
+                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
               >
                 Submit
               </button>
