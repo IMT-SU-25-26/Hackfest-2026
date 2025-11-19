@@ -97,7 +97,8 @@ function RecapSection() {
                 <video
                   ref={videoRef}
                   className="text-white w-full md:w-[50%] transition-transform duration-300 cursor-pointer"
-                  src="/recap/video/recap.webm"
+                  // src="felitech.site/hackfest/recap.webm"
+                  src="https://s3.felitech.site/hackfest/recap.webm"
                   onClick={() => {
                     if (videoRef.current) videoRef.current.muted = false
                   }}

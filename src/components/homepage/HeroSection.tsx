@@ -5,7 +5,6 @@ import Image from "next/image";
 
 function HeroSection() {
   const terminalRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number>(0); // store the rAF id
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ function HeroSection() {
   useEffect(() => setMounted(true), []);
 
   return (
-    <div className="relative min-h-screen w-[100w-dvw] flex flex-col justify-center items-center overflow-hidden">
+    <div className="relative min-h-[calc(100vh_-_7vh)] w-[100w-dvw] flex flex-col justify-center items-center overflow-hidden">
       <div ref={terminalRef} className="absolute w-full h-full">
         {mounted && isVisible && (
           <FaultyTerminal
