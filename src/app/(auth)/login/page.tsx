@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { Link } from "lucide-react";
 
 export default function LoginPage() {
   const [teamName, setTeamName] = useState("");
@@ -115,7 +116,7 @@ export default function LoginPage() {
                     {/* Registration */}
                     <p className="text-center mt-8 text-sm text-white">
                         Don’t have an account?{' '}
-                        <span className="text-cyan-400 underline cursor-pointer">Registration</span>
+                        <Link href="/register" className="text-cyan-400 underline cursor-pointer">Registration</Link>
                     </p>
                 </div>
             </form>
