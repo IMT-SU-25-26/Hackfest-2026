@@ -27,7 +27,6 @@ function NavBar() {
         
         {/* Desktop Menu */}
         <div className="hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center">
-          <Link href={"/register"} className="hover:text-[#00C074] transition-colors">REGISTRATION</Link>
 
           {session ? (
             <button 
@@ -60,14 +59,6 @@ function NavBar() {
         }`}
       >
         <div className="flex flex-col text-white font-family-audiowide p-4 gap-4">
-          <Link 
-            href={"/register"} 
-            className="hover:text-[#00C074] transition-colors py-2 border-b border-[#00C074]/30"
-            onClick={closeMenu}
-          >
-            REGISTRATION
-          </Link>
-
           {session ? (
             <button 
               onClick={() => {

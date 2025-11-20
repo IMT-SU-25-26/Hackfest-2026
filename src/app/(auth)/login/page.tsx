@@ -8,7 +8,7 @@ function LoginPage2() {
     return (
         <>
             {/* Page Background */}
-            <div className="w-full min-h-screen bg-cover bg-center bg-[url('/login/background.svg')] bg-[#090223">
+            <div className="w-full min-h-screen bg-cover bg-no-repeat bg-center bg-[url('/login/background.svg')] bg-[#090223">
                 <div className='absolute left-0 top-0 w-full min-h-screen bg-[#090223]/50 flex justify-center items-center pt-[7vh]'>
 
                     {/* Login Container BG */}
