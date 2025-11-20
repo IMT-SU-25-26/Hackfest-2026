@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import { FormProvider, useForm, UseFormStateProps, useWatch } from "react-hook-form";
 import {
   Earth,
   GraduationCap,
@@ -26,11 +26,22 @@ type FormData = {
   confirmPassword: string;
 };
 
-export function RegisterForm() {
+export interface LoginFormHandle {
+  nextStep: () => void;
+  prevStep: () => void;
+  submit: () => void;
+}
+
+type RegisterFormProps = {
+  ref: React.Ref<LoginFormHandle>
+}
+
+export function RegisterFormComponent({ref}:RegisterFormProps) {
   const methods = useForm<FormData>();
   const { handleSubmit, control, trigger, formState: { errors } } = methods;
 
   const [step, setStep] = useState(1);
+  // const [step, setStep] = stepParam;
   const [memberInputs, setMemberInputs] = useState<string[]>([""]);
   const [memberError, setMemberError] = useState<string | null>(null);
 
@@ -129,8 +140,14 @@ export function RegisterForm() {
 
   };
 
+  useImperativeHandle(ref, () => ({
+          submit() {
+              handleSubmit(onSubmit)();
+          }
+      }));
+
   return (
-    <div className="font-family-audiowide relative z-1 flex min-h-screen flex-col items-center justify-center">
+    <div className="font-family-audiowide relative z-1 flex flex-col items-center justify-center">
       <div
         className="block md:hidden mb-0 text-3xl sm:text-4xl text-[#05B0C1]"
         style={{ textShadow: "0 0 10px #05B0C1, 0 0 20px #05B0C1" }}
@@ -460,7 +477,7 @@ export function RegisterForm() {
             </>
           )}
           {/* Buttons */}
-          <div className="absolute -bottom-[17%] w-full mt-0 flex justify-between">
+          <div className="hidden absolute -bottom-[17%] w-full mt-0 flex justify-between">
             {step > 1 && (
               <div
                   onClick={prevStep}
@@ -510,3 +527,6 @@ export function RegisterForm() {
     </div>
   );
 }
+
+export const RegisterForm = forwardRef(RegisterFormComponent);
+export default RegisterForm;
