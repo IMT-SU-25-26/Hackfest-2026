@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import {
   Earth,
   GraduationCap,
@@ -13,6 +13,7 @@ import {
 import { registerTeam } from "@/lib/services/team";
 import { registerAllMember } from "@/lib/services/member";
 import { toast } from "react-toastify";
+import FormInput from "./FormInput";
 
 type FormData = {
   name: string;
@@ -26,17 +27,20 @@ type FormData = {
 };
 
 export function RegisterForm() {
+  const methods = useForm<FormData>();
+  const { handleSubmit, control, trigger, formState: { errors } } = methods;
+
   const [step, setStep] = useState(1);
   const [memberInputs, setMemberInputs] = useState<string[]>([""]);
   const [memberError, setMemberError] = useState<string | null>(null);
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    trigger,
-    formState: { errors },
-  } = useForm<FormData>();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   control,
+  //   trigger,
+  //   formState: { errors },
+  // } = useForm<FormData>();
 
   const password = useWatch({ control, name: "password" });
 
@@ -128,18 +132,19 @@ export function RegisterForm() {
 
   return (
     <div className="font-family-audiowide relative z-1 flex min-h-screen flex-col items-center justify-center">
-      <div
+      {/* <div
         className="mb-6 text-4xl text-[#05B0C1] sm:text-6xl"
         style={{ textShadow: "0 0 10px #05B0C1, 0 0 20px #05B0C1" }}
       >
         REGISTRATION
-      </div>
+      </div> */}
       {/* Main Box */}
-      <div className="hide-scrollbar flex max-h-[70vh] w-10/12 items-start justify-center overflow-y-auto border-2 border-solid border-[#05C174] bg-[#090223]/60 py-6 sm:w-8/12">
+      <div className="hide-scrollbar flex max-h-[70vh] w-10/12 mt-[5%] items-start justify-center overflow-y-auto border-0 border-solid border-[#05C174] py-6 sm:w-8/12">
         {/* Form */}
+        <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex w-10/12 flex-col sm:w-8/12"
+          className="flex w-10/12 flex-col sm:w-[80%]"
         >
           {/* Step 1: Name and Country */}
           {step === 1 && (
@@ -172,68 +177,27 @@ export function RegisterForm() {
               </div> */}
 
               {/* Team Name Input */}
-              <div className="mb-4">
-                <label
-                  htmlFor="teamName-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  Team Name
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <Users size={32} />
-                  </div>
-                  <input
-                    id="teamName-input"
-                    type="text"
-                    placeholder="Your Team Name"
-                    {...register("teamName", {
-                      required: "Team name is required",
-                    })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.teamName && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.teamName.message}
-                  </p>
-                )}
-              </div>
+              <FormInput
+                id="teamName"
+                label="Team Name"
+                placeholder="Your Team Name"
+                icon={Users}
+                rules={{ required: "Team name is required" }}
+              />
 
-              {/* Country Input */}
-              <div className="mb-4">
-                <label
-                  htmlFor="country-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  Country of Origin
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <Earth size={32} />
-                  </div>
-                  <input
-                    id="country-input"
-                    type="text"
-                    placeholder="Your Country of Origin"
-                    {...register("country", {
-                      required: "Country is required",
-                    })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.country && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.country.message}
-                  </p>
-                )}
-              </div>
+              <FormInput
+                id="country"
+                label="Country of Origin"
+                placeholder="Your Country"
+                icon={Earth}
+                rules={{ required: "Country is required" }}
+              />
             </>
           )}
           {/* Step 2: University and Team Name */}
           {step === 2 && (
             <>
-              {/* University Input */}
+              {/* University Input
               <div className="mb-12">
                 <label
                   htmlFor="university-input"
@@ -260,7 +224,14 @@ export function RegisterForm() {
                     {errors.university.message}
                   </p>
                 )}
-              </div>
+              </div> */}
+              <FormInput
+                id="university"
+                label="University"
+                placeholder="Your University"
+                icon={GraduationCap}
+                rules={{ required: "University is required" }}
+              />
 
             {/*Team Members */}
             <div className="mb-4">
@@ -311,7 +282,7 @@ export function RegisterForm() {
           {step === 3 && (
             <>
               {/* WhatsApp Number Inputs */}
-              <div className="mb-12">
+              {/* <div className="mb-12">
                 <label
                   htmlFor="whatsapp-input"
                   className="mb-2 block text-lg text-[#05C174]"
@@ -340,9 +311,22 @@ export function RegisterForm() {
                     {errors.whatsapp.message}
                   </p>
                 )}
-              </div>
+              </div> */}
+              <FormInput
+                id="whatsapp"
+                label="WhatsApp Number"
+                placeholder="Your WhatsApp Number"
+                icon={Phone}
+                rules={{
+                  required: "WhatsApp number is required",
+                  validate: (value) =>
+                    /^\+?[1-9]\d{1,14}$/.test(value) ||
+                    "Invalid phone number format",
+                }}
+              />
+
               {/* Line ID Input */}
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label
                   htmlFor="lineId-input"
                   className="mb-2 block text-lg text-[#05C174]"
@@ -366,14 +350,21 @@ export function RegisterForm() {
                     {errors.lineId.message}
                   </p>
                 )}
-              </div>
+              </div> */}
+              <FormInput
+                id="lineId"
+                label="Line ID"
+                placeholder="Your Line ID"
+                icon={MessageCircle}
+                rules={{ required: "Line ID is required" }}
+              />
             </>
           )}
           {/* Step 4: Password and Confirm Password */}
           {step === 4 && (
             <>
               {/* Password Input */}
-              <div className="mb-12">
+              {/* <div className="mb-12">
                 <label
                   htmlFor="password-input"
                   className="mb-2 block text-lg text-[#05C174]"
@@ -399,9 +390,19 @@ export function RegisterForm() {
                     {errors.password.message}
                   </p>
                 )}
-              </div>
+              </div> */}
+              <FormInput
+                id="password"
+                label="Password"
+                type="password"
+                placeholder="Enter Password"
+                icon={Lock}
+                rules={{ required: "Password is required" }}
+              />
+
+
               {/* Confirm Password Input */}
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label
                   htmlFor="confirmPassword-input"
                   className="mb-2 block text-lg text-[#05C174]"
@@ -429,7 +430,19 @@ export function RegisterForm() {
                     {errors.confirmPassword.message}
                   </p>
                 )}
-              </div>
+              </div> */}
+              <FormInput
+                id="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                placeholder="Confirm Password"
+                icon={Lock}
+                rules={{
+                  required: "Confirm password is required",
+                  validate: (value) =>
+                    value === password || "Passwords do not match",
+                }}
+              />
             </>
           )}
           {/* Buttons */}
@@ -462,6 +475,7 @@ export function RegisterForm() {
             )}
           </div>
         </form>
+        </FormProvider>
       </div>
     </div>
   );
