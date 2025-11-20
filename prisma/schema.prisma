@@ -13,6 +13,16 @@ enum Role {
   USER
 }
 
+
+model TeamSession {
+  id           String   @id @default(cuid())
+  team_id      String
+  sessionToken String   @unique
+  expires      DateTime
+
+  team        Team @relation(fields: [team_id], references: [team_id], onDelete: Cascade)
+}
+
 model Team {
   team_id       String    @id @default(cuid())
   team_name     String    @unique
@@ -26,6 +36,7 @@ model Team {
   role          Role      @default(USER)
 
   members       Member[]  
+  teamSession   TeamSession[]
 }
 
 model Member {
