@@ -20,8 +20,7 @@ function NavBar() {
       </Link>
       
       <div className="hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center">
-        <Link href={"/"} className="hover:text-[#00C074] transition-colors">HOME</Link>
-        <Link href={"/registration"} className="hover:text-[#00C074] transition-colors">REGISTRATION</Link>
+        <Link href={"/register"} className="hover:text-[#00C074] transition-colors">REGISTRATION</Link>
 
         {/* 4. Dynamic Button Logic */}
         {session ? (
