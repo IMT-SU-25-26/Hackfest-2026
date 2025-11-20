@@ -1,0 +1,25 @@
+services:
+  nextjs:
+    container_name: nextjs-app
+    build: .
+    expose:
+      - "3000"
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres:5432/mydb
+      NODE_ENV: production
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    container_name: postgres-db
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: Hackfest26
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    expose:
+      - "5432"
+    volumes:
+      - /home/hackfest/database:/var/lib/postgresql/data
