@@ -116,7 +116,7 @@ export default function LoginPage() {
                     {/* Registration */}
                     <p className="text-center mt-8 text-sm text-white">
                         Don’t have an account?{' '}
-                        <Link href="/register" className="text-cyan-400 underline cursor-pointer">Registration</Link>
+                        <a href="/register" className="text-cyan-400 underline cursor-pointer">Registration</a>
                     </p>
                 </div>
             </form>
