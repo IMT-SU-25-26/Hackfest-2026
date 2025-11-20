@@ -26,28 +26,40 @@ const FormInput: React.FC<FormInputProps> = ({
   const errorMessage = errors[id]?.message as string | undefined;
 
   return (
-    <div className="mb-3 sm:mb-2 ">
+    <div className="mb-3 sm:mb-2">
       <label
         htmlFor={id}
-        className="mb-2 block text-md text-[#05C174]"
+        className="mb-2 block text-md text-[#05C174] font-family-audiowide"
       >
         {label}
       </label>
 
-      <div className="relative w-full aspect-7/1 sm:aspect-11/1">
+      {/* BG Input  */}
+      <div className="relative w-full focus-within:drop-shadow-[0_0_1px_#05C174] transition-300 aspect-7/1 sm:aspect-6/1 bg-contain bg-no-repeat bg-[url('/auth/formInput.svg')]">
         {Icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#05C174]">
-            <Icon size={32} />
-            </div>
+            <>
+              <div className="hidden lg:block absolute left-[5%] top-1/2 -translate-y-1/2 text-[#05C174]">
+                <Icon size={32} />
+              </div>
+              
+              <div className="block lg:hidden absolute left-[5%] top-1/2 -translate-y-1/2 text-[#05C174]">
+                <Icon size={23} />
+              </div>
+            </>
         )}
 
         <input
-            id={id}
-            type={type}
-            placeholder={placeholder}
-            {...register(id, rules)}
-            className="absolute inset-0 h-full w-full font-family-spacemono border border-[#05C174] pl-14 pr-4 
-                    text-[#05B0C1] placeholder-[#05B0C1] xl:text-xl"
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          {...register(id, rules)}
+          className="
+              absolute inset-0 h-full w-full font-family-spacemono
+              pl-[15%] pr-4 text-[#05B0C1] placeholder-[#05B0C1] xl:text-xl
+              border-0 border-[#05C174] 
+              active:outline-none focus:outline-none
+              transition-all duration-300
+          "
         />
     </div>
 

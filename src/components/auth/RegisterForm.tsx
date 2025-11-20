@@ -36,7 +36,7 @@ export function RegisterForm() {
 
   // const {
   //   register,
-  //   handleSubmit,
+  //   handleSubmit, 
   //   control,
   //   trigger,
   //   formState: { errors },
@@ -127,7 +127,6 @@ export function RegisterForm() {
       toast.warn("Member registration failed: " + members.error);
     }
 
-    // Mapping member names, trimming whitespace and filtering out empty names
   };
 
   return (
@@ -321,7 +320,7 @@ export function RegisterForm() {
                   required: "WhatsApp number is required",
                   validate: (value) =>
                     /^\+?[1-9]\d{1,14}$/.test(value) ||
-                    "Invalid phone number format",
+                    "Invalid phone number format (e.g., +1234567890)",
                 }}
               />
 
