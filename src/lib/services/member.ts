@@ -11,6 +11,7 @@ import {
     updateMemberSchema,
 } from "@/types/services/member";
 import prisma from "../prisma";
+import { handlePrismaError } from "../handlePrismaError";
 
 export async function getMemberById(id: string): Promise<Member | null> {
     return prisma.member.findUnique({
@@ -43,7 +44,7 @@ export async function registerMember(
     } catch (error) {
         return {
             success: false,
-            error: `Database error: ${error}`,
+            error: handlePrismaError(error),
         };
     }
 }
@@ -81,7 +82,7 @@ export async function registerAllMember(
       data: [],
     };
   } catch (err) {
-    return { success: false, error: err as string };
+    return { success: false, error: handlePrismaError(err)};
   }
 }
 
@@ -111,7 +112,7 @@ export async function updateMember(
             message: "Member updated successfully",
         };
     } catch (err) {
-        return { success: false, error: err as string };
+        return { success: false, error: handlePrismaError(err) };
     }
 }
 
@@ -122,6 +123,6 @@ export async function deleteMember(
         await prisma.member.delete({ where: { member_id } });
         return { success: true, message: "Member deleted successfully" };
     } catch (err) {
-        return { success: false, error: err as string };
+        return { success: false, error: handlePrismaError(err) };
     }
 }

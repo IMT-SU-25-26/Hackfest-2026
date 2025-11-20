@@ -3,9 +3,10 @@
 import { CreateTeamInput, createTeamSchema, TeamResult, UpdateTeamInput, updateTeamSchema } from "@/types/services/team";
 import prisma from "../prisma";
 import { ActionResult } from "@/types/action";
-import { Team } from "@/generated/prisma/client";
+import { Prisma, Team } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
+import { handlePrismaError } from "../handlePrismaError";
 
 export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({
@@ -56,7 +57,7 @@ export async function registerTeam(
   } catch (error) {
     return {
       success: false,
-      error: `Database error: ${error}`,
+      error: handlePrismaError(error),
     };
   }
 }
@@ -92,7 +93,7 @@ export async function updateTeam(
   } catch (error) {
     return {
       success: false,
-      error: `Database error: ${error}`,
+      error: handlePrismaError(error),
     };
   }
 }
@@ -114,7 +115,7 @@ export async function deleteTeam(
   } catch (error) {
     return {
       success: false,
-      error: `Database error: ${error}`,
+      error: handlePrismaError(error),
     };
   }
 }
