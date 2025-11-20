@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { teamLogin } from "@/lib/auth/login";
 
 export default function LoginPage() {
   const [teamName, setTeamName] = useState("");
@@ -11,22 +12,21 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  async function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: FormEvent) {
     e.preventDefault();
     setError("");
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      team_name: teamName,
-      password,
-    });
+    try {
+      const data = await teamLogin(teamName, password);
 
-    if (result?.error) {
-      setError("Invalid credentials");
-      return;
+      // Store token in cookie or localStorage
+      document.cookie = `team_session=${data.sessionToken}; path=/; max-age=${24 * 60 * 60}`;
+
+      router.push("/dashboard");
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : "An unexpected error occurred" );
     }
-
-    router.push("/");
   }
 
   return (
