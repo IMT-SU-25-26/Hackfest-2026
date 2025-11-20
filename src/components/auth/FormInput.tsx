@@ -34,21 +34,23 @@ const FormInput: React.FC<FormInputProps> = ({
         {label}
       </label>
 
-      <div className="relative">
+      <div className="relative w-full aspect-[9/1]">
         {Icon && (
-          <div className="absolute top-1/2 left-3 -translate-y-1/2 text-[#05C174]">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#05C174]">
             <Icon size={32} />
-          </div>
+            </div>
         )}
 
         <input
-          id={id}
-          type={type}
-          placeholder={placeholder}
-          {...register(id, rules)}
-          className="font-family-spacemono aspect-9/1 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
+            id={id}
+            type={type}
+            placeholder={placeholder}
+            {...register(id, rules)}
+            className="absolute inset-0 h-full w-full font-family-spacemono border border-[#05C174] pl-14 pr-4 
+                    text-[#05B0C1] placeholder-[#05B0C1]"
         />
-      </div>
+    </div>
+
 
       {errorMessage && (
         <p className="text-destructive mt-1 text-sm">{errorMessage}</p>

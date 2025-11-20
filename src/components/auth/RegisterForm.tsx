@@ -446,7 +446,7 @@ export function RegisterForm() {
             </>
           )}
           {/* Buttons */}
-          <div className="mt-4 flex justify-between">
+          <div className="mt-0 flex justify-between">
             {step > 1 && (
               <button
                 type="button"
