@@ -35,6 +35,7 @@ export const createTeamSchema =  z.object({
     proposal_url: z
         .string()
         .url("Invalid URL")
+        .optional(),
     
 })
 export const updateTeamSchema = createTeamSchema.partial();

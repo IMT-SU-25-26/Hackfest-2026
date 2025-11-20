@@ -1,3 +1,5 @@
+'use server';
+
 import { CreateTeamInput, createTeamSchema, UpdateTeamInput, updateTeamSchema } from "@/types/services/team";
 import prisma from "../prisma";
 import { ActionResult } from "@/types/action";

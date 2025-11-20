@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import {
-  UserRound,
   Earth,
   GraduationCap,
   Users,
@@ -11,6 +10,9 @@ import {
   MessageCircle,
   Lock,
 } from "lucide-react";
+import { registerTeam } from "@/lib/services/team";
+import { registerAllMember } from "@/lib/services/member";
+import { toast } from "react-toastify";
 
 type FormData = {
   name: string;
@@ -42,12 +44,10 @@ export function RegisterForm() {
     let fieldsToValidate: (keyof FormData)[] = [];
     switch (step) {
       case 1:
-        fieldsToValidate = ["name", "country"];
+        fieldsToValidate = ["teamName", "country"];
         break;
       case 2:
-        fieldsToValidate = ["university", "teamName"];
-        break;
-      case 3:
+        fieldsToValidate = ["university"];
         const isValid = memberInputs.every((m) => m.trim().length > 0);
         if (!isValid) {
           setMemberError("All team member names are required");
@@ -57,10 +57,10 @@ export function RegisterForm() {
         }
         setStep(step + 1);
         return;
-      case 4:
+      case 3:
         fieldsToValidate = ["whatsapp", "lineId"];
         break;
-      case 5:
+      case 4:
         fieldsToValidate = ["password", "confirmPassword"];
         break;
     }
@@ -90,13 +90,40 @@ export function RegisterForm() {
     setMemberInputs(newInputs);
   };
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log("Form Data:", data);
     console.log(
       "Members:",
       memberInputs.filter((m) => m.trim()),
     );
     // Handle Submission Logic Here
+    // Register Team
+    const team = await registerTeam({
+      team_name: data.teamName,
+      country: data.country,
+      university: data.university,
+      phone_number: data.whatsapp,
+      line_id: data.lineId,
+      password: data.password
+    })
+    if(!team.success){
+      toast.warn("Team registration failed: " + team.error);
+      return;
+    }
+
+    const membersInput = memberInputs
+      .map((name) => name.trim())
+      .filter((name) => name);
+
+    // Register Members to the Team
+    const members = await registerAllMember({names:membersInput, team_id:team.data!.team_id});
+    if (members.success) {
+      toast("Registration successful!");
+    }else{
+      toast.warn("Member registration failed: " + members.error);
+    }
+
+    // Mapping member names, trimming whitespace and filtering out empty names
   };
 
   return (
@@ -118,7 +145,7 @@ export function RegisterForm() {
           {step === 1 && (
             <>
               {/* Name Input */}
-              <div className="mb-12">
+              {/* <div className="mb-12">
                 <label
                   htmlFor="name-input"
                   className="mb-2 block text-lg text-[#05C174]"
@@ -142,7 +169,37 @@ export function RegisterForm() {
                     {errors.name.message}
                   </p>
                 )}
+              </div> */}
+
+              {/* Team Name Input */}
+              <div className="mb-4">
+                <label
+                  htmlFor="teamName-input"
+                  className="mb-2 block text-lg text-[#05C174]"
+                >
+                  Team Name
+                </label>
+                <div className="relative">
+                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
+                    <Users size={32} />
+                  </div>
+                  <input
+                    id="teamName-input"
+                    type="text"
+                    placeholder="Your Team Name"
+                    {...register("teamName", {
+                      required: "Team name is required",
+                    })}
+                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
+                  />
+                </div>
+                {errors.teamName && (
+                  <p className="text-destructive mt-1 text-sm">
+                    {errors.teamName.message}
+                  </p>
+                )}
               </div>
+
               {/* Country Input */}
               <div className="mb-4">
                 <label
@@ -204,38 +261,8 @@ export function RegisterForm() {
                   </p>
                 )}
               </div>
-              {/* Team Name Input */}
-              <div className="mb-4">
-                <label
-                  htmlFor="teamName-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  Team Name
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <Users size={32} />
-                  </div>
-                  <input
-                    id="teamName-input"
-                    type="text"
-                    placeholder="Your Team Name"
-                    {...register("teamName", {
-                      required: "Team name is required",
-                    })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.teamName && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.teamName.message}
-                  </p>
-                )}
-              </div>
-            </>
-          )}
-          {/* Step 3: Team Members */}
-          {step === 3 && (
+
+            {/*Team Members */}
             <div className="mb-4">
               <label className="mb-2 block text-lg text-[#05C174]">
                 Team Member Names
@@ -276,9 +303,12 @@ export function RegisterForm() {
                 <p className="text-destructive mt-1 text-sm">{memberError}</p>
               )}
             </div>
+              
+            </>
           )}
-          {/* Step 4: WhatsApp and Line ID */}
-          {step === 4 && (
+          
+          {/* Step 3: WhatsApp and Line ID */}
+          {step === 3 && (
             <>
               {/* WhatsApp Number Inputs */}
               <div className="mb-12">
@@ -339,8 +369,8 @@ export function RegisterForm() {
               </div>
             </>
           )}
-          {/* Step 5: Password and Confirm Password */}
-          {step === 5 && (
+          {/* Step 4: Password and Confirm Password */}
+          {step === 4 && (
             <>
               {/* Password Input */}
               <div className="mb-12">
@@ -413,7 +443,7 @@ export function RegisterForm() {
                 Previous
               </button>
             )}
-            {step < 5 && (
+            {step < 4 && (
               <button
                 type="button"
                 onClick={nextStep}
@@ -422,7 +452,7 @@ export function RegisterForm() {
                 Next
               </button>
             )}
-            {step === 5 && (
+            {step === 4 && (
               <button
                 type="submit"
                 className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"

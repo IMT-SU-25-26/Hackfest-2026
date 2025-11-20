@@ -1,8 +1,12 @@
+'use server';
+
 import { Member } from "@/generated/prisma/client";
 import { ActionResult } from "@/types/action";
 import {
     CreateMemberInput,
     createMemberSchema,
+    RegisterAllMemberInput,
+    registerAllMemberSchema,
     UpdateMemberInput,
     updateMemberSchema,
 } from "@/types/services/member";
@@ -45,34 +49,42 @@ export async function registerMember(
 }
 
 export async function registerAllMember(
-    data: CreateMemberInput[]
+  data: RegisterAllMemberInput
 ): Promise<ActionResult<Member[]>> {
-    for (const item of data) {
-        const validation = createMemberSchema.safeParse(item);
-        if (!validation.success) {
-            const errors = validation.error.issues
-                .map((e) => `${e.path.join(".")}: ${e.message}`)
-                .join(", ");
-            return {
-                success: false,
-                error: `Validation failed: ${errors}`,
-            };
-        }
-    }
 
-    try {
-        // Prisma createMany does NOT return created rows, only a count
-        const result = await prisma.member.createMany({ data });
+  // 1. Validate request body
+  const validation = registerAllMemberSchema.safeParse(data);
+  if (!validation.success) {
+    const errors = validation.error.issues
+      .map((e) => `${e.path.join(".")}: ${e.message}`)
+      .join(", ");
+    return { success: false, error: `Validation failed: ${errors}` };
+  }
 
-        return {
-            success: true,
-            data: [], // we can’t get the created rows directly here
-            message: `Successfully created ${result.count} members`,
-        };
-    } catch (err) {
-        return { success: false, error: err as string };
-    }
+  const { names, team_id } = validation.data;
+
+  // 2. Transform into array for createMany
+  const membersToCreate = names.map((name) => ({
+    name,
+    team_id,
+  }));
+
+  try {
+    // 3. Insert into database
+    const result = await prisma.member.createMany({
+      data: membersToCreate,
+    });
+
+    return {
+      success: true,
+      message: `Successfully created ${result.count} members`,
+      data: [],
+    };
+  } catch (err) {
+    return { success: false, error: err as string };
+  }
 }
+
 
 export async function updateMember(
     id: string,
