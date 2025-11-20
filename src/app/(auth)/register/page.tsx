@@ -5,7 +5,7 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 
 export default function RegisterPage() {
   return (
-  <div className="relative h-[93vh]">
+  <div className="relative h-full">
     {/* Background Image */}
     <div className="absolute inset-0 z-0">
       <Image
