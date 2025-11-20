@@ -1,3 +1,4 @@
+import { Member, Team } from "@/generated/prisma";
 import z from "zod";
 
 // Team Schema for Validation
@@ -43,3 +44,9 @@ export const updateTeamSchema = createTeamSchema.partial();
 // Types based on Validation Schemas
 export type CreateTeamInput = z.infer<typeof createTeamSchema>;
 export type UpdateTeamInput = z.infer<typeof updateTeamSchema>;
+
+
+// type for returned team
+export interface TeamResult extends Team {
+    members: Member[]
+}

@@ -31,6 +31,7 @@ export const authOptions: NextAuthOptions = {
         return {
           id: team.team_id,
           team_name: team.team_name,
+          role: team.role,
         }
       },
     }),
@@ -43,6 +44,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.team_id = user.id
         token.team_name = user.team_name
+        token.role = user.role
       }
       return token
     },

@@ -8,15 +8,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 model Team {
-  team_id       String       @id @default(cuid())
-  team_name     String       @unique
+  team_id       String    @id @default(cuid())
+  team_name     String    @unique
   country       String
   university    String
   phone_number  String
   line_id       String
   password      String
   proposal_url  String?
+
+  role          Role      @default(USER)
 
   members       Member[]  
 }

@@ -1,19 +1,19 @@
 import prisma from "@/lib/prisma";
-import bcrypt from "bcrypt"; // 1. Import bcrypt
+import bcrypt from "bcrypt";
 
 async function main() {
-  // Clear existing data (optional)
+  // Clear existing data
   await prisma.member.deleteMany();
   await prisma.team.deleteMany();
 
   console.log("Existing data cleared.");
 
-  // 2. Hash the passwords before creating the records
-  // The second argument '10' is the salt rounds/cost factor
+  // Hash passwords
   const passwordAlpha = await bcrypt.hash("password123", 10);
   const passwordBeta = await bcrypt.hash("password456", 10);
+  const passwordAdmin = await bcrypt.hash("admin123", 10);
 
-  // Create Team 1 with 5 members
+  // Team 1
   const team1 = await prisma.team.create({
     data: {
       team_name: "Alpha Innovators",
@@ -21,8 +21,9 @@ async function main() {
       university: "Universitas Indonesia",
       phone_number: "081234567890",
       line_id: "alpha_line",
-      password: passwordAlpha, // 3. Use the hashed password
+      password: passwordAlpha,
       proposal_url: "https://example.com/proposal-alpha",
+      role: "USER",
       members: {
         create: [
           { name: "Member 1A" },
@@ -35,7 +36,7 @@ async function main() {
     },
   });
 
-  // Create Team 2 with 5 members
+  // Team 2
   const team2 = await prisma.team.create({
     data: {
       team_name: "Beta Pioneers",
@@ -43,8 +44,9 @@ async function main() {
       university: "Nanyang Technological University",
       phone_number: "081298765432",
       line_id: "beta_line",
-      password: passwordBeta, // 3. Use the hashed password
+      password: passwordBeta,
       proposal_url: "https://example.com/proposal-beta",
+      role: "USER",
       members: {
         create: [
           { name: "Member 1B" },
@@ -57,9 +59,29 @@ async function main() {
     },
   });
 
+  // ✅ Admin Team (Only 1 member)
+  const teamAdmin = await prisma.team.create({
+    data: {
+      team_name: "Hackfest Admin",
+      country: "Indonesia",
+      university: "Admin HQ",
+      phone_number: "0000000000",
+      line_id: "admin_line",
+      password: passwordAdmin,
+      proposal_url: null,
+      role: "ADMIN",
+      members: {
+        create: [
+          { name: "Hackfest Administrator" },
+        ],
+      },
+    },
+  });
+
   console.log("Seed completed:", { 
-    team1: team1.team_name, 
-    team2: team2.team_name 
+    team1: team1.team_name,
+    team2: team2.team_name,
+    admin: teamAdmin.team_name
   });
 }
 
