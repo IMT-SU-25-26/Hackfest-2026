@@ -26,7 +26,7 @@ const FormInput: React.FC<FormInputProps> = ({
   const errorMessage = errors[id]?.message as string | undefined;
 
   return (
-    <div className="mb-6">
+    <div className="mb-3 sm:mb-6">
       <label
         htmlFor={id}
         className="mb-2 block text-lg text-[#05C174]"
@@ -34,7 +34,7 @@ const FormInput: React.FC<FormInputProps> = ({
         {label}
       </label>
 
-      <div className="relative w-full aspect-[9/1]">
+      <div className="relative w-full aspect-7/1 sm:aspect-9/1">
         {Icon && (
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#05C174]">
             <Icon size={32} />

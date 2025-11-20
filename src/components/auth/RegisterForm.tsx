@@ -132,19 +132,19 @@ export function RegisterForm() {
 
   return (
     <div className="font-family-audiowide relative z-1 flex min-h-screen flex-col items-center justify-center">
-      {/* <div
-        className="mb-6 text-4xl text-[#05B0C1] sm:text-6xl"
+      <div
+        className="block md:hidden mb-0 text-3xl sm:text-4xl text-[#05B0C1]"
         style={{ textShadow: "0 0 10px #05B0C1, 0 0 20px #05B0C1" }}
       >
         REGISTRATION
-      </div> */}
+      </div>
       {/* Main Box */}
-      <div className="hide-scrollbar flex max-h-[70vh] w-10/12 mt-[5%] items-start justify-center overflow-y-auto border-0 border-solid border-[#05C174] py-6 sm:w-8/12">
+      <div className="hide-scrollbar flex max-h-[70vh] w-10/12 mt-0 md:mt-[5%] items-start justify-center overflow-y-auto border-0 border-solid border-[#05C174] py-3 sm:py-6 ">
         {/* Form */}
         <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex w-10/12 flex-col sm:w-[80%]"
+          className="flex flex-col w-full md:w-[80%]"
         >
           {/* Step 1: Name and Country */}
           {step === 1 && (

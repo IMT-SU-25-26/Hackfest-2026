@@ -18,7 +18,7 @@ export default function RegisterPage() {
     </div>
 
     {/* Container BG (on top of background image) */}
-    <div className="relative z-10 min-w-[650px] w-[70%] bg-[url('/register/bg.svg')] bg-contain m-auto bg-no-repeat bg-center h-screen">
+    <div className="relative z-10 min-w-[350px] md:min-w-[700px] w-[70%] bg-[url('/auth/bgContainer-mobile.svg')] md:bg-[url('/auth/bgContainer.svg')] bg-contain m-auto bg-no-repeat bg-center h-screen">
       {/* content */}
       <RegisterForm />
     </div>
