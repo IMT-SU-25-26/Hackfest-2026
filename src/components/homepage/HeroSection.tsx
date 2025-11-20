@@ -16,7 +16,7 @@ function HeroSection() {
           setIsVisible(entry.isIntersecting);
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.01 }
     );
 
     observer.observe(terminalRef.current);
@@ -28,7 +28,7 @@ function HeroSection() {
   useEffect(() => setMounted(true), []);
 
   return (
-    <div className="relative min-h-[calc(100vh_-_7vh)] w-[100w-dvw] flex flex-col justify-center items-center overflow-hidden">
+    <div className="relative min-h-screen pt-[7vh] w-[100w-dvw] flex flex-col justify-center items-center overflow-hidden">
       <div ref={terminalRef} className="absolute w-full h-full">
         {mounted && isVisible && (
           <FaultyTerminal
