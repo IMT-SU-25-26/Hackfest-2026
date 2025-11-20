@@ -47,7 +47,7 @@ const FormInput: React.FC<FormInputProps> = ({
             placeholder={placeholder}
             {...register(id, rules)}
             className="absolute inset-0 h-full w-full font-family-spacemono border border-[#05C174] pl-14 pr-4 
-                    text-[#05B0C1] placeholder-[#05B0C1] xl:text-2xl"
+                    text-[#05B0C1] placeholder-[#05B0C1] xl:text-xl"
         />
     </div>
 
