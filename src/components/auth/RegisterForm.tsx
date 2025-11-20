@@ -138,12 +138,12 @@ export function RegisterForm() {
         REGISTRATION
       </div>
       {/* Main Box */}
-      <div className="hide-scrollbar flex max-h-[70vh] w-10/12 mt-0 md:mt-[5%] items-start justify-center overflow-y-auto border-0 border-solid border-[#05C174] py-3 sm:py-6 ">
+      <div className="hide-scrollbar flex w-10/12 aspect-600/267 mt-0 md:mt-[5%] items-start justify-center overflow-y-auto border-0 border-solid border-[#05C174] py-3 sm:py-0 ">
         {/* Form */}
         <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full md:w-[80%]"
+          className="relative flex flex-col w-full md:w-[80%]"
         >
           {/* Step 1: Name and Country */}
           {step === 1 && (
@@ -240,7 +240,7 @@ export function RegisterForm() {
               {memberInputs.map((member, index) => (
                 <div key={index} className="mb-4">
                   <div className="relative">
-                    <div className="absolute top-1/2 left-3 z-10 -translate-y-1/2 text-[#05C174]">
+                    <div className="absolute top-1/2 left-[5%] z-10 -translate-y-1/2 text-[#05C174]">
                       <Users size={32} />
                     </div>
                     <input
@@ -248,14 +248,14 @@ export function RegisterForm() {
                       placeholder={`Team Member ${index + 1} Name`}
                       value={member}
                       onChange={(e) => updateMember(index, e.target.value)}
-                      className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
+                      className="font-family-spacemono w-full border-0 block bg-[url('/auth/formInput.svg')] bg-contain bg-no-repeat aspect-6/1 active:outline-none outline-none border-[#05C174] p-4 pl-[15%] text-[#05B0C1] placeholder-[#05B0C1]"
                     />
                   </div>
                   {memberInputs.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeMember(index)}
-                      className="text-destructive hover:text-destructive/90 mt-2 block transition-all duration-300 hover:scale-105 hover:shadow-[0_0_10px_red]"
+                      className="text-destructive hover:text-destructive/90 mt-2 block transition-all duration-300 hover:drop-shadow-[0_0_10px_red]"
                     >
                       Remove
                     </button>
@@ -263,11 +263,26 @@ export function RegisterForm() {
                 </div>
               ))}
               <button
-                type="button"
-                onClick={addMember}
-                className="font-family-spacemono h-12 w-full border border-[#05C174] px-4 text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
+              type="button"
+              onClick={addMember}
+              className="
+                font-family-spacemono 
+                w-full aspect-6/1
+                bg-transparent
+                bg-[url('/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center
+                px-4 text-black 
+                transition-all duration-300
+                hover:text-black 
+                hover:drop-shadow-[0_0_8px_#05C174]
+                text-lg font-bold
+              "
               >
-                Add Member
+                <div className="relative">
+                  <Users size={32} className="absolute left-[2.5%]" />
+                  <p>
+                    Add Team Member
+                  </p>
+                </div>
               </button>
               {memberError && (
                 <p className="text-destructive mt-1 text-sm">{memberError}</p>
@@ -445,31 +460,47 @@ export function RegisterForm() {
             </>
           )}
           {/* Buttons */}
-          <div className="mt-0 flex justify-between">
+          <div className="absolute -bottom-[17%] w-full mt-0 flex justify-between">
             {step > 1 && (
-              <button
-                type="button"
-                onClick={prevStep}
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
-              >
-                Previous
-              </button>
+              <div
+                  onClick={prevStep}
+                  className="
+                      bg-[url('/utils/buttonBG.svg')] w-[45%] md:w-[30%] bg-no-repeat bg-contain aspect-361/100
+                      flex justify-center items-center
+                      transition-all duration-300
+                      hover:drop-shadow-[0_0_15px_#05B0C1]
+                      cursor-pointer
+                  "
+                  >
+                  <p className='font-family-audiowide text-lg text-[$090223]'>previous</p>
+              </div>
             )}
             {step < 4 && (
-              <button
-                type="button"
-                onClick={nextStep}
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
-              >
-                Next
-              </button>
+              <div
+                  onClick={nextStep}
+                  className="
+                      bg-[url('/utils/buttonBG.svg')] w-[45%] md:w-[30%] bg-no-repeat bg-contain aspect-361/100
+                      flex justify-center items-center
+                      transition-all duration-300
+                      hover:drop-shadow-[0_0_15px_#05B0C1]
+                      cursor-pointer
+                  "
+                  >
+                  <p className='font-family-audiowide text-lg text-[$090223]'>next</p>
+              </div>
             )}
             {step === 4 && (
               <button
                 type="submit"
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
+                className="
+                  bg-[url('/utils/buttonBG.svg')] w-[45%] md:w-[30%] bg-no-repeat bg-contain aspect-361/100
+                  flex justify-center items-center
+                  transition-all duration-300
+                  hover:drop-shadow-[0_0_15px_#05B0C1]
+                  cursor-pointer
+                "
               >
-                Submit
+                <p className='font-family-audiowide text-lg text-[$090223]'>submit</p>
               </button>
             )}
           </div>
