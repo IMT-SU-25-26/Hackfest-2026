@@ -8,41 +8,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
-
 model TeamSession {
   id           String   @id @default(cuid())
   team_id      String
   sessionToken String   @unique
   expires      DateTime
-
-  team        Team @relation(fields: [team_id], references: [team_id], onDelete: Cascade)
+  team         Team     @relation(fields: [team_id], references: [team_id], onDelete: Cascade)
 }
 
 model Team {
-  team_id       String    @id @default(cuid())
-  team_name     String    @unique
-  country       String
-  university    String
-  phone_number  String
-  line_id       String
-  password      String
-  proposal_url  String?
-
-  role          Role      @default(USER)
-
-  members       Member[]  
-  teamSession   TeamSession[]
+  team_id      String        @id @default(cuid())
+  team_name    String        @unique
+  country      String
+  university   String
+  phone_number String
+  line_id      String
+  password     String
+  proposal_url String?
+  role         Role          @default(USER)
+  members      Member[]
+  teamSession  TeamSession[]
 }
 
 model Member {
-  member_id String    @id @default(cuid())
+  member_id String @id @default(cuid())
   name      String
-
   team_id   String
   team      Team   @relation(fields: [team_id], references: [team_id])
+}
+
+enum Role {
+  ADMIN
+  USER
 }
