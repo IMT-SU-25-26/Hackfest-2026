@@ -55,7 +55,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto">
         {/* Top Section - Sponsored By (Center) */}
         <div className="mb-12">
-          <h3 className="text-white text-xl md:text-2xl font-bold mb-6 uppercase text-center">
+          <h3 className="text-white text-xl font-family-audiowide md:text-2xl font-bold mb-6 uppercase text-center">
             SPONSORED BY
           </h3>
           
@@ -103,7 +103,7 @@ function Footer() {
             </div>
 
             {/* Copyright Text */}
-            <div className="text-[#00ff88] text-sm md:text-base leading-relaxed space-y-1 text-center md:text-left">
+            <div className="text-[#00ff88] font-family-spacemono text-sm md:text-base leading-relaxed space-y-1 text-center md:text-left">
               <p>© 2025 Informatics (IMT) Student Union</p>
               <p>Universitas Ciputra Surabaya.</p>
               <p>All rights reserved.</p>
@@ -112,7 +112,7 @@ function Footer() {
 
           {/* Right Side: For More Information */}
           <div className="text-center md:text-right">
-            <h3 className="text-white text-xl md:text-2xl font-bold mb-6 uppercase">
+            <h3 className="text-white text-xl md:text-2xl font-family-audiowide font-bold mb-6 uppercase">
               FOR MORE INFORMATION :
             </h3>
             

@@ -120,3 +120,53 @@
     @apply bg-background text-foreground;
   }
 }
+
+@theme{
+  --font-family-audiowide: "Audiowide", sans-serif;
+  --font-family-librecode: "LibreBarcode", sans-serif;
+  --font-family-spacemono: "SpaceMono", sans-serif;
+  --font-family-tokeely: "Tokeely Brookings", sans-serif;
+}
+
+@font-face {
+  font-family: "Audiowide";
+  src: url("/typography/Audiowide-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreBarcode";
+  src: url("/typography/LibreBarcode128-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpaceMono";
+  src: url("/typography/SpaceMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tokeely_Brookings";
+  src: url("/typography/Tokeely_Brookings.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+  width: 0;
+  height: 0;
+}

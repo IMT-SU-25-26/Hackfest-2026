@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 interface FaqItem {
@@ -10,22 +10,22 @@ interface FaqItem {
 
 const faqData: FaqItem[] = [
   {
-    question: "Apakah Felix Gay ?",
+    question: "Apa itu hackfest ?",
     answer: [
-      "Itu adalah privasi tiap orang jadi saya tidak tahu,",
-      "Tapi dari gerak geriknya sih kayaknya iya.",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     ],
   },
   {
-    question: "Apakah Obie Gay ?",
+    question: "Kenapa harus hackfest ?",
     answer: [
-      "Sebagai Roomatenya saya merasa khawatir karena sepertinya dia gay sama Bryan",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     ],
   },
   {
-    question: "Apakah Bryan Gay ?",
+    question: "Hackfest berapa kali?",
     answer: [
-      "Jujur orang ini agak Unik karena memiliki 2 selera yang berbeda.",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     ],
   },
 ];
@@ -60,7 +60,7 @@ function FaqSection() {
             />
           </div>
 
-          <h2 className="text-5xl md:text-6xl font-bold text-[#00ff88] tracking-wider">
+          <h2 className="text-5xl md:text-6xl font-family-audiowide font-bold text-[#00ff88] tracking-wider">
             FAQ
           </h2>
 
@@ -93,7 +93,7 @@ function FaqSection() {
               >
                 <div className="flex items-center gap-4">
                   <span className="text-[#00ff88] text-xl">&gt;</span>
-                  <span className="text-[#00ff88] text-xl md:text-2xl font-medium">
+                  <span className="text-[#00ff88] text-xl md:text-2xl font-family-spacemono font-medium">
                     {faq.question}
                   </span>
                 </div>
@@ -118,7 +118,7 @@ function FaqSection() {
                       key={pIndex}
                       className="text-[#00ff88] text-base md:text-lg leading-relaxed"
                     >
-                      <span className="text-[#00ff88] mr-2">&gt;</span>
+                      <span className="text-[#00ff88]  mr-2">&gt;</span>
                       {paragraph}
                     </p>
                   ))}

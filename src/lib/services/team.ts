@@ -1,10 +1,13 @@
-import { CreateTeamInput, createTeamSchema, UpdateTeamInput, updateTeamSchema } from "@/types/services/team";
+'use server';
+
+import { CreateTeamInput, createTeamSchema, TeamResult, UpdateTeamInput, updateTeamSchema } from "@/types/services/team";
 import prisma from "../prisma";
 import { ActionResult } from "@/types/action";
 import { Team } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcrypt";
 
-export async function getAllTeams(): Promise<Team[]> {
+export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({
     include: { members: true },
     orderBy: { team_id: "asc" },
@@ -33,8 +36,14 @@ export async function registerTeam(
   }
 
   try {
+    const { password, ...rest } = validation.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const team = await prisma.team.create({
-      data: validation.data,
+      data: {
+        ...rest,
+        password: hashedPassword,
+      },
     });
 
     revalidatePath("/");
