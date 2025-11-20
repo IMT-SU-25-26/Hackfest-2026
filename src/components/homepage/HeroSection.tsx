@@ -16,7 +16,7 @@ function HeroSection() {
           setIsVisible(entry.isIntersecting);
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.01 }
     );
 
     observer.observe(terminalRef.current);
