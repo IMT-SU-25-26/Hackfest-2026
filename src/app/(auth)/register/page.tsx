@@ -21,7 +21,7 @@ export default function RegisterPage() {
     {/* Background Image */}
     <div className="absolute inset-0 z-0">
       <Image
-        src="/auth/background.webp"
+        src="/images/login/Background.svg"
         alt="Background"
         fill
         className="object-fill"
