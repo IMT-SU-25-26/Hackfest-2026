@@ -35,7 +35,7 @@ const FormInput: React.FC<FormInputProps> = ({
       </label>
 
       {/* BG Input  */}
-      <div className="relative w-full focus-within:drop-shadow-[0_0_1px_#05C174] transition-300 aspect-7/1 sm:aspect-6/1 bg-contain bg-no-repeat bg-[url('/auth/formInput.svg')]">
+      <div className="relative w-full focus-within:drop-shadow-[0_0_1px_#05C174] transition-300 aspect-7/1 sm:aspect-6/1 bg-contain bg-no-repeat bg-[url('/images/auth/formInput.svg')]">
         {Icon && (
             <>
               <div className="hidden lg:block absolute left-[5%] top-1/2 -translate-y-1/2 text-[#05C174]">

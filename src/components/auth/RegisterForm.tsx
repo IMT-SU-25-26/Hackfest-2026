@@ -224,7 +224,7 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                       placeholder={`Team Member ${index + 1} Name`}
                       value={member}
                       onChange={(e) => updateMember(index, e.target.value)}
-                      className="font-family-spacemono text-sm sm:text-md lg:text-xl w-full border-0 block bg-[url('/auth/formInput.svg')] bg-contain bg-no-repeat aspect-6/1 active:outline-none outline-none border-[#05C174] p-0 pl-[15%] text-[#05B0C1] placeholder-[#05B0C1]"
+                      className="font-family-spacemono text-sm sm:text-md lg:text-xl w-full border-0 block bg-[url('/images/auth/formInput.svg')] bg-contain bg-no-repeat aspect-6/1 active:outline-none outline-none border-[#05C174] p-0 pl-[15%] text-[#05B0C1] placeholder-[#05B0C1]"
                     />
                   </div>
                   {memberInputs.length > 1 && (
@@ -241,7 +241,7 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               <button
                 type="button"
                 onClick={addMember}
-                className={`${memberInputs.length > 4 ? 'hidden ' : ''} font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold`}
+                className={`${memberInputs.length > 4 ? 'hidden ' : ''} font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold`}
               >
                 <div className="relative">
                   <Users size={32} className="absolute left-[2.5%]" />

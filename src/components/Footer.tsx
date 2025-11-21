@@ -28,10 +28,10 @@ interface InfoLink {
 // 2. Tambahkan data sponsor di array ini:
 const sponsors: Sponsor[] = [
   // Contoh (hapus comment '//' untuk mengaktifkan):
-  { name: "Google", logo: "/FAQ/danger.svg", width: 100, height: 100 },
-  { name: "Google", logo: "/FAQ/danger.svg", width: 100, height: 100 },
-  { name: "Google", logo: "/FAQ/danger.svg", width: 100, height: 100 },
-  { name: "Google", logo: "/FAQ/danger.svg", width: 100, height: 100 },
+  { name: "Google", logo: "/images/FAQ/danger.svg", width: 100, height: 100 },
+  { name: "Google", logo: "/images/FAQ/danger.svg", width: 100, height: 100 },
+  { name: "Google", logo: "/images/FAQ/danger.svg", width: 100, height: 100 },
+  { name: "Google", logo: "/images/FAQ/danger.svg", width: 100, height: 100 },
   // { name: "Microsoft", logo: "/sponsors/microsoft.png", width: 150, height: 100 },
 ];
 
@@ -43,10 +43,10 @@ const sponsors: Sponsor[] = [
 // 2. Tambahkan data di array ini:
 const infoLinks: InfoLink[] = [
   // Contoh (hapus comment '//' untuk mengaktifkan):
-  { name: "Instagram", logo: "/FAQ/danger.svg", url: "https://instagram.com/...", width: 40, height: 40 },
-  { name: "LinkedIn", logo: "/FAQ/danger.svg", url: "https://linkedin.com/...", width: 40, height: 40 },
-  { name: "Twitter", logo: "/FAQ/danger.svg", url: "https://twitter.com/...", width: 40, height: 40 },
-  { name: "YouTube", logo: "/FAQ/danger.svg", url: "https://youtube.com/...", width: 40, height: 40 },
+  { name: "Instagram", logo: "/images/FAQ/danger.svg", url: "https://instagram.com/...", width: 40, height: 40 },
+  { name: "LinkedIn", logo: "/images/FAQ/danger.svg", url: "https://linkedin.com/...", width: 40, height: 40 },
+  { name: "Twitter", logo: "/images/FAQ/danger.svg", url: "https://twitter.com/...", width: 40, height: 40 },
+  { name: "YouTube", logo: "/images/FAQ/danger.svg", url: "https://youtube.com/...", width: 40, height: 40 },
 ];
 
 function Footer() {
@@ -93,7 +93,7 @@ function Footer() {
             <div className="shrink-0">
               <div className="w-30 h-30 mt-[-10] flex items-center justify-center bg-[#0a0a1f] p-0">
                 <Image 
-                  src="/FAQ/logoimt.svg" 
+                  src="/images/FAQ/logoimt.svg" 
                   alt="IMT Logo" 
                   width={120} 
                   height={120}

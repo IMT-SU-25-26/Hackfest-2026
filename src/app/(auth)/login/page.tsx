@@ -8,11 +8,11 @@ function LoginPage2() {
     return (
         <>
             {/* Page Background */}
-            <div className="w-full min-h-screen bg-cover bg-no-repeat bg-center bg-[url('/login/background.svg')] bg-[#090223">
+            <div className="w-full min-h-screen bg-cover bg-no-repeat bg-center bg-[url('/images/login/background.svg')] bg-[#090223">
                 <div className='absolute left-0 top-0 w-full min-h-screen bg-[#090223]/50 flex justify-center items-center pt-[7vh]'>
 
                     {/* Login Container BG */}
-                    <div className="relative pt-0 -top-[3vh] md:pt-[2%] bg-[url('/auth/bgContainer-mobile.svg')] md:bg-[url('/login/outerframe.svg')] aspect-355/472 md:aspect-1187/627 min-w-[400px] md:min-w-[600px] w-[65%] md:w-[70%] max-w-[990px] bg-contain flex flex-col justify-center items-center bg-no-repeat">
+                    <div className="relative pt-0 -top-[3vh] md:pt-[2%] bg-[url('/images/auth/bgContainer-mobile.svg')] md:bg-[url('/images/login/outerframe.svg')] aspect-355/472 md:aspect-1187/627 min-w-[400px] md:min-w-[600px] w-[65%] md:w-[70%] max-w-[990px] bg-contain flex flex-col justify-center items-center bg-no-repeat">
                         <p className='block md:hidden glow-pulse text-3xl font-family-audiowide text-[#05B0C1]'>LOGIN</p>
                         <LoginForm ref={formRef} />
                         
@@ -22,7 +22,7 @@ function LoginPage2() {
                             onClick={() => formRef.current?.submit()}
                             className="
                                 relative md:absolute -bottom-[3%] md:-bottom-[8%]
-                                bg-[url('/utils/buttonBG.svg')]
+                                bg-[url('/images/utils/buttonBG.svg')]
                                 w-[45%] md:w-[30%] bg-no-repeat bg-contain aspect-361/100
                                 flex justify-center items-center
                                 transition-all duration-300

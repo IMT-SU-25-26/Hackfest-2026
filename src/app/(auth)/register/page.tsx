@@ -30,12 +30,12 @@ export default function RegisterPage() {
     </div>
 
     {/* Container BG (on top of background image) */}
-    <div className="relative z-10 pt-[15%] sm:pt-[12%] md:pt-0 min-w-[340px] md:min-w-[700px] w-[70%] md:max-w-[1000px] aspect-355/472 md:aspect-1187/627 bg-[url('/auth/bgContainer-mobile.svg')] md:bg-[url('/auth/bgContainer.svg')] bg-contain m-auto bg-no-repeat bg-center">
+    <div className="relative z-10 pt-[15%] sm:pt-[12%] md:pt-0 min-w-[340px] md:min-w-[700px] w-[70%] md:max-w-[1000px] aspect-355/472 md:aspect-1187/627 bg-[url('/images/auth/bgContainer-mobile.svg')] md:bg-[url('/images/auth/bgContainer.svg')] bg-contain m-auto bg-no-repeat bg-center">
       {/* content */}
       <RegisterForm ref={formRegisRef} />
 
       {/* BUTTON */}
-      <div className="absolute bottom-[5%] md:-bottom-[8%] w-full flex justify-between gap-[5%] md:gap-0 px-[9%] md:px-[15%]">
+      <div className={`absolute bottom-[5%] md:-bottom-[8%] w-full flex ${visibleStep === 1 ? 'justify-center' : 'justify-between'} gap-[5%] md:gap-0 px-[9%] md:px-[15%]`}>
         {visibleStep > 1 && (
           <div
             onClick={() => {
@@ -43,7 +43,7 @@ export default function RegisterPage() {
               if (typeof s === "number") setVisibleStep(s);
             }}
             className="
-                bg-[url('/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
+                bg-[url('/images/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
                 flex justify-center items-center
                 transition-all duration-300
                 hover:drop-shadow-[0_0_15px_#05B0C1]
@@ -61,7 +61,7 @@ export default function RegisterPage() {
               if (s) setVisibleStep(s);
             }}
             className="
-                bg-[url('/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
+                bg-[url('/images/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
                 flex justify-center items-center
                 transition-all duration-300
                 hover:drop-shadow-[0_0_15px_#05B0C1]
@@ -76,7 +76,7 @@ export default function RegisterPage() {
           <div
 
             className="
-                bg-[url('/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
+                bg-[url('/images/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
                 flex justify-center items-center
                 transition-all duration-300
                 hover:drop-shadow-[0_0_15px_#05B0C1]

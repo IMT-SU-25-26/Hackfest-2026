@@ -32,7 +32,7 @@ function RecapSection() {
 
         {/* Image 1 (back layer) */}
         <Image
-          src="/recap/blockBG.svg"
+          src="/images/recap/blockBG.svg"
           alt="Back Layer"
           width={0}
           height={0}
@@ -45,7 +45,7 @@ function RecapSection() {
         <div className="mt-0 md:-mt-[18%] relative z-10">
           <div className="relative">
             <Image
-              src="/recap/backgroundContainerMobile.svg"
+              src="/images/recap/backgroundContainerMobile.svg"
               alt="Recap Background"
               width={0}
               height={0}
@@ -54,7 +54,7 @@ function RecapSection() {
               unoptimized
             />
             <Image
-              src="/recap/backgroundContainer.svg"
+              src="/images/recap/backgroundContainer.svg"
               alt="Recap Background"
               width={0}
               height={0}
@@ -70,7 +70,7 @@ function RecapSection() {
                 <div className='flex justify-center gap-3 items-center'>
                   <Image
                     className='hidden md:block w-[13%]'
-                    src="/recap/eye.svg"
+                    src="/images/recap/eye.svg"
                     alt="Eye Icon"
                     width={100}
                     height={100}
@@ -81,7 +81,7 @@ function RecapSection() {
                 </div>
                 <Image
                   className='hidden md:block w-[6%]'
-                  src="/recap/battery.svg"
+                  src="/images/recap/battery.svg"
                   alt="Battery Icon"
                   width={100}
                   height={100}
@@ -112,7 +112,7 @@ function RecapSection() {
                 <div className="relative w-full md:w-[40%]">
                   {/* Background Image (Design Frame) */}
                   <Image
-                    src="/recap/frameShortDesc.svg"
+                    src="/images/recap/frameShortDesc.svg"
                     alt="Device Frame"
                     width={500}
                     height={500}
