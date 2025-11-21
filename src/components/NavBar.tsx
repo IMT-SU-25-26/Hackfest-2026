@@ -17,7 +17,7 @@ function NavBar() {
       <nav className="w-full fixed top-0 left-0 z-50 px-[5%] bg-[#1C0951] border-b-2 border-[#00C074] h-[7vh] flex justify-between gap-4 items-center">
         <Link href={"/"}>
           <Image
-            src={"/navbar/logo-hackfest.webp"}
+            src={"/images/navbar/logo-hackfest.webp"}
             alt="hackfest logo"
             width={200}
             height={200}
