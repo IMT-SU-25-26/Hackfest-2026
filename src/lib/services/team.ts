@@ -27,12 +27,13 @@ export async function registerTeam(
 ): Promise<ActionResult<Team>> {
   const validation = createTeamSchema.safeParse(data);
   if (!validation.success) {
-    const errors = validation.error.issues
-      .map((err) => `${err.path.join(".")}: ${err.message}`)
-      .join(", ");
+    const errorsArray = validation.error.issues.map(
+      (err) => `${err.message}`
+    );
+
     return {
       success: false,
-      error: `Validation failed: ${errors}`,
+      error: errorsArray,
     };
   }
 
@@ -68,12 +69,13 @@ export async function updateTeam(
 ): Promise<ActionResult<Team>> {
   const validation = updateTeamSchema.safeParse(data);
   if (!validation.success) {
-    const errors = validation.error.issues
-      .map((err) => `${err.path.join(".")}: ${err.message}`)
-      .join(", ");
+    const errorsArray = validation.error.issues.map(
+      (err) => `${err.message}`
+    );
+
     return {
       success: false,
-      error: `Validation failed: ${errors}`,
+      error: errorsArray,
     };
   }
 

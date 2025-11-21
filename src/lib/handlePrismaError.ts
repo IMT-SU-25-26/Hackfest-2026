@@ -7,7 +7,7 @@ export function handlePrismaError(error: unknown): string {
     switch (error.code) {
       case "P2002": {
         const target = Array.isArray(error.meta?.target)
-          ? error.meta.target.join(", ")
+          ? error.meta.target.join("\n")
           : "field";
 
         return `The ${target} you entered already exists.`;

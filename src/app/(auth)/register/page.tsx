@@ -2,10 +2,18 @@
 
 import Image from "next/image";
 import { RegisterForm } from "@/components/auth/RegisterForm";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import type { RegisterFormHandle } from "@/components/auth/RegisterForm";
 
 export default function RegisterPage() {
-  const formRegisRef = useRef<>(null);
+  const formRegisRef = useRef<RegisterFormHandle | null>(null);
+  const [visibleStep, setVisibleStep] = useState<number>(1);
+
+  useEffect(() => {
+    // sync initial step if RegisterForm exposes it
+    const s = formRegisRef.current?.getStep?.();
+    if (s) setTimeout(() => setVisibleStep(s), 0);
+  }, []);
 
 
   return (
@@ -28,9 +36,12 @@ export default function RegisterPage() {
 
       {/* BUTTON */}
       <div className="absolute -bottom-[8%] w-full flex justify-between px-[15%]">
-        {step > 1 && (
+        {visibleStep > 1 && (
           <div
-            onClick={() => setStep(step - 1)}
+            onClick={() => {
+              const s = formRegisRef.current?.prevStep?.();
+              if (typeof s === "number") setVisibleStep(s);
+            }}
             className="
                 bg-[url('/utils/buttonBG.svg')] w-[45%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
                 flex justify-center items-center
@@ -43,9 +54,12 @@ export default function RegisterPage() {
           </div>
         )}
 
-        {step < 4 && (
+        {visibleStep < 4 && (
           <div
-            onClick={()=>{setStep(step+1)}}
+            onClick={async ()=>{
+              const s = await formRegisRef.current?.nextStep?.();
+              if (s) setVisibleStep(s);
+            }}
             className="
                 bg-[url('/utils/buttonBG.svg')] w-[45%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
                 flex justify-center items-center
@@ -58,7 +72,7 @@ export default function RegisterPage() {
           </div>
         )}
         
-        {step === 4 && (
+        {visibleStep === 4 && (
           <div
 
             className="
@@ -68,6 +82,7 @@ export default function RegisterPage() {
                 hover:drop-shadow-[0_0_15px_#05B0C1]
                 cursor-pointer
             "
+          onClick={() => formRegisRef.current?.submit()}
           >
             <p className='font-family-audiowide text-lg text-[$090223]'>submit</p>
           </div>

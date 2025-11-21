@@ -14,6 +14,7 @@ import { registerTeam } from "@/lib/services/team";
 import { registerAllMember } from "@/lib/services/member";
 import { toast } from "react-toastify";
 import FormInput from "./FormInput";
+import { toastError } from "@/lib/utils";
 
 type FormData = {
   name: string;
@@ -26,17 +27,14 @@ type FormData = {
   confirmPassword: string;
 };
 
-export interface LoginFormHandle {
-  nextStep: () => void;
-  prevStep: () => void;
+export interface RegisterFormHandle {
+  nextStep: () => Promise<number | null>;
+  prevStep: () => number;
   submit: () => void;
+  getStep: () => number;
 }
 
-type RegisterFormProps = {
-  ref: React.Ref<LoginFormHandle>
-}
-
-export function RegisterFormComponent({ref}:RegisterFormProps) {
+export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<RegisterFormHandle>) {
   const methods = useForm<FormData>();
   const { handleSubmit, control, trigger, formState: { errors } } = methods;
 
@@ -55,7 +53,7 @@ export function RegisterFormComponent({ref}:RegisterFormProps) {
 
   const password = useWatch({ control, name: "password" });
 
-  const nextStep = async () => {
+  const nextStep = async (): Promise<number | null> => {
     let fieldsToValidate: (keyof FormData)[] = [];
     switch (step) {
       case 1:
@@ -66,12 +64,13 @@ export function RegisterFormComponent({ref}:RegisterFormProps) {
         const isValid = memberInputs.every((m) => m.trim().length > 0);
         if (!isValid) {
           setMemberError("All team member names are required");
-          return;
+          return null;
         } else {
           setMemberError(null);
         }
-        setStep(step + 1);
-        return;
+        const newStep2 = Math.min(4, step + 1);
+        setStep(newStep2);
+        return newStep2;
       case 3:
         fieldsToValidate = ["whatsapp", "lineId"];
         break;
@@ -81,12 +80,17 @@ export function RegisterFormComponent({ref}:RegisterFormProps) {
     }
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
-      setStep(step + 1);
+      const newStep = Math.min(4, step + 1);
+      setStep(newStep);
+      return newStep;
     }
+    return null;
   };
 
-  const prevStep = () => {
-    if (step > 1) setStep(step - 1);
+  const prevStep = (): number => {
+    const newStep = Math.max(1, step - 1);
+    setStep(newStep);
+    return newStep;
   };
 
   const addMember = () => {
@@ -122,7 +126,7 @@ export function RegisterFormComponent({ref}:RegisterFormProps) {
       password: data.password
     })
     if(!team.success){
-      toast.warn("Team registration failed: " + team.error);
+      toastError(team.error!);
       return;
     }
 
@@ -135,16 +139,19 @@ export function RegisterFormComponent({ref}:RegisterFormProps) {
     if (members.success) {
       toast("Registration successful!");
     }else{
-      toast.warn("Member registration failed: " + members.error);
+      toast.error(members.error);
     }
 
   };
 
   useImperativeHandle(ref, () => ({
-          submit() {
-              handleSubmit(onSubmit)();
-          }
-      }));
+    nextStep,
+    prevStep,
+    submit() {
+      handleSubmit(onSubmit)();
+    },
+    getStep: () => step,
+  }));
 
   return (
     <div className="font-family-audiowide relative z-1 flex flex-col items-center justify-center">
@@ -351,7 +358,7 @@ export function RegisterFormComponent({ref}:RegisterFormProps) {
                 rules={{
                   required: "WhatsApp number is required",
                   validate: (value) =>
-                    /^\+?[1-9]\d{1,14}$/.test(value) ||
+                    /^\+[1-9]\d{1,14}$/.test(value) ||
                     "Invalid phone number format (e.g., +1234567890)",
                 }}
               />

@@ -25,10 +25,14 @@ export async function registerMember(
     const validation = createMemberSchema.safeParse(data);
 
     if (!validation.success) {
-        const errors = validation.error.issues
-            .map((e) => `${e.path.join(".")}: ${e.message}`)
-            .join(", ");
-        return { success: false, error: `Validation failed: ${errors}` };
+        const errorsArray = validation.error.issues.map(
+        (err) => `${err.message}`
+        );
+
+        return {
+        success: false,
+        error: errorsArray,
+        };
     }
 
     try {
@@ -56,11 +60,15 @@ export async function registerAllMember(
   // 1. Validate request body
   const validation = registerAllMemberSchema.safeParse(data);
   if (!validation.success) {
-    const errors = validation.error.issues
-      .map((e) => `${e.path.join(".")}: ${e.message}`)
-      .join(", ");
-    return { success: false, error: `Validation failed: ${errors}` };
-  }
+        const errorsArray = validation.error.issues.map(
+        (err) => `${err.message}`
+        );
+
+        return {
+        success: false,
+        error: errorsArray,
+        };
+    }
 
   const { names, team_id } = validation.data;
 
@@ -94,10 +102,14 @@ export async function updateMember(
     const validation = updateMemberSchema.safeParse(data);
 
     if (!validation.success) {
-        const errors = validation.error.issues
-            .map((e) => `${e.path.join(".")}: ${e.message}`)
-            .join(", ");
-        return { success: false, error: `Validation failed: ${errors}` };
+        const errorsArray = validation.error.issues.map(
+        (err) => `${err.message}`
+        );
+
+        return {
+        success: false,
+        error: errorsArray,
+        };
     }
 
     try {
