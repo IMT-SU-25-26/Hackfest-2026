@@ -17,9 +17,9 @@ interface FormData {
     password: string;
 }
 
-function LoginFormComponent(_props:{} ,ref: React.Ref<LoginFormHandle>) {
+function LoginFormComponent(_props: unknown ,ref: React.Ref<LoginFormHandle>) {
     const methods = useForm<FormData>();
-    const { handleSubmit, register } = methods;
+    const { handleSubmit } = methods;
     const Router = useRouter();
 
     const onSubmit = async (data: FormData) => {

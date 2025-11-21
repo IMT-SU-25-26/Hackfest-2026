@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { deleteTeam } from "@/lib/services/team";
 import { Member, Team } from "@/generated/prisma";
+import { toast } from "react-toastify";
 
 // Extend the Prisma Team type to include members for type safety
 type TeamWithMembers = Team & { members: Member[] };
@@ -32,13 +33,13 @@ const TeamRow: React.FC<TeamRowProps> = ({
     try {
       const result = await deleteTeam(team.team_id);
       if (result.success) {
-        alert(result.message);
+        toast.success("Team deleted successfully");
         onDeleteSuccess();
       } else {
         alert(`Error: ${result.error}`);
       }
     } catch (error) {
-      alert("An unexpected error occurred during deletion.");
+      toast.error(error instanceof Error ? error.message : "An unexpected error occurred.");
     } finally {
       setIsDeleting(false);
     }

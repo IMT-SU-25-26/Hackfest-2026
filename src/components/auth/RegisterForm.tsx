@@ -38,7 +38,7 @@ export interface RegisterFormHandle {
 export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<RegisterFormHandle>) {
   const Router = useRouter();
   const methods = useForm<FormData>();
-  const { handleSubmit, control, trigger, formState: { errors } } = methods;
+  const { handleSubmit, control, trigger } = methods;
 
   const [step, setStep] = useState(1);
   // const [step, setStep] = stepParam;

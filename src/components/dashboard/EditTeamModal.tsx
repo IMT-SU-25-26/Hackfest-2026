@@ -57,9 +57,10 @@ const EditTeamModal: React.FC<EditTeamModalProps> = ({
         alert(result.message);
         onUpdateSuccess(); // Refresh list and close modal
       } else {
-        setError(result.error || "Failed to update team.");
+        const errorMessage = Array.isArray(result.error) ? result.error.join(", ") : (result.error || "Failed to update team.");
+        setError(errorMessage);
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred during the update.");
     } finally {
       setIsSubmitting(false);

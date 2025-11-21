@@ -1,5 +1,4 @@
 import { Prisma } from "@/generated/prisma";
-import Error from "next/error";
 
 
 export function handlePrismaError(error: unknown): string {
