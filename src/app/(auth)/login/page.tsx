@@ -9,7 +9,7 @@ function LoginPage2() {
         <>
             {/* Page Background */}
             <div className="w-full min-h-screen bg-cover bg-no-repeat bg-center bg-[url('/images/login/Background.svg')] bg-[#090223">
-                <div className='absolute left-0 top-0 w-full min-h-screen bg-[#090223]/50 flex justify-center items-center pt-[7vh]'>
+                <div className='absolute left-0 top-0 w-full min-h-screen bg-[#090223]/0 flex justify-center items-center pt-[7vh]'>
 
                     {/* Login Container BG */}
                     <div className="relative pt-0 -top-[3vh] md:pt-[2%] bg-[url('/images/auth/bgContainer-mobile.svg')] md:bg-[url('/images/login/outerframe.svg')] aspect-355/472 md:aspect-1187/627 min-w-[400px] md:min-w-[600px] w-[65%] md:w-[70%] max-w-[990px] bg-contain flex flex-col justify-center items-center bg-no-repeat">
