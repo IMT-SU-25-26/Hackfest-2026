@@ -43,7 +43,7 @@ const FormInput: React.FC<FormInputProps> = ({
               </div>
               
               <div className="block lg:hidden absolute left-[5%] top-1/2 -translate-y-1/2 text-[#05C174]">
-                <Icon size={23} />
+                <Icon size={20} />
               </div>
             </>
         )}
@@ -55,7 +55,8 @@ const FormInput: React.FC<FormInputProps> = ({
           {...register(id, rules)}
           className="
               absolute inset-0 h-full w-full font-family-spacemono
-              pl-[15%] pr-4 text-[#05B0C1] placeholder-[#05B0C1] xl:text-xl
+              pl-[15%] pr-4 text-[#05B0C1] placeholder-[#05B0C1]
+              text-sm sm:text-md xl:text-xl
               border-0 border-[#05C174] 
               active:outline-none focus:outline-none
               transition-all duration-300

@@ -30,7 +30,7 @@ function LoginPage2() {
                                 cursor-pointer
                             "
                             >
-                            <p className='font-family-audiowide text-2xl text-[$090223]'>login</p>
+                            <p className='font-family-audiowide text-md lg:text-xl text-[$090223]'>login</p>
                         </div>
                     </div>
 
