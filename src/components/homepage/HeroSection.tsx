@@ -55,7 +55,7 @@ function HeroSection() {
         )}
       </div>
       <Image
-        src={"home/title-text.svg"}
+        src={"/images/home/title-text.svg"}
         className="relative z-10 w-[80vw] h-auto pointer-events-none"
         width={1920}
         height={1080}
