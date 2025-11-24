@@ -4,20 +4,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
+import { teamLogout } from '@/lib/auth/login';
+import { useRouter } from "next/navigation";
 
 function NavBar() {
   const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.push('/login');
+  };
 
   return (
     <>
       <nav className="w-full fixed top-0 left-0 z-50 px-[5%] bg-[#1C0951] border-b-2 border-[#00C074] h-[7vh] flex justify-between gap-4 items-center">
         <Link href={"/"}>
           <Image
-            src={"/navbar/logo-hackfest.webp"}
+            src={"/images/navbar/logo-hackfest.webp"}
             alt="hackfest logo"
             width={200}
             height={200}
@@ -27,15 +35,24 @@ function NavBar() {
         
         {/* Desktop Menu */}
         <div className="hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center">
-          <Link href={"/register"} className="hover:text-[#00C074] transition-colors">REGISTRATION</Link>
 
           {session ? (
-            <button 
-              onClick={() => signOut()} 
-              className="text-white hover:text-[#00C074] transition-colors"
-            >
-              LOGOUT
-            </button>
+            <>
+              {session.user?.role === 'ADMIN' && (
+                <Link 
+                  href={"/dashboard"} 
+                  className="hover:text-[#00C074] transition-colors"
+                >
+                  DASHBOARD
+                </Link>
+              )}
+              <button 
+                onClick={handleLogout}
+                className="hover:text-[#00C074] transition-colors"
+              >
+                LOGOUT
+              </button>
+            </>
           ) : (
             <Link href={"/login"} className="hover:text-[#00C074] transition-colors">LOGIN</Link>
           )}
@@ -60,24 +77,24 @@ function NavBar() {
         }`}
       >
         <div className="flex flex-col text-white font-family-audiowide p-4 gap-4">
-          <Link 
-            href={"/register"} 
-            className="hover:text-[#00C074] transition-colors py-2 border-b border-[#00C074]/30"
-            onClick={closeMenu}
-          >
-            REGISTRATION
-          </Link>
-
           {session ? (
-            <button 
-              onClick={() => {
-                signOut();
-                closeMenu();
-              }}
-              className="text-left hover:text-[#00C074] transition-colors py-2"
-            >
-              LOGOUT
-            </button>
+            <>
+              {session.user?.role === 'ADMIN' && (
+                <Link 
+                  href={"/dashboard"} 
+                  className="hover:text-[#00C074] transition-colors py-2"
+                  onClick={closeMenu}
+                >
+                  DASHBOARD
+                </Link>
+              )}
+              <button 
+                onClick={handleLogout}
+                className="text-left hover:text-[#00C074] transition-colors py-2"
+              >
+                LOGOUT
+              </button>
+            </>
           ) : (
             <Link 
               href={"/login"} 

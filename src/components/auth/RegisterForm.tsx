@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import {
   Earth,
@@ -14,6 +14,8 @@ import { registerTeam } from "@/lib/services/team";
 import { registerAllMember } from "@/lib/services/member";
 import { toast } from "react-toastify";
 import FormInput from "./FormInput";
+import { toastError } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   name: string;
@@ -26,17 +28,26 @@ type FormData = {
   confirmPassword: string;
 };
 
-export function RegisterForm() {
+export interface RegisterFormHandle {
+  nextStep: () => Promise<number | null>;
+  prevStep: () => number;
+  submit: () => void;
+  getStep: () => number;
+}
+
+export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<RegisterFormHandle>) {
+  const Router = useRouter();
   const methods = useForm<FormData>();
-  const { handleSubmit, control, trigger, formState: { errors } } = methods;
+  const { handleSubmit, control, trigger } = methods;
 
   const [step, setStep] = useState(1);
+  // const [step, setStep] = stepParam;
   const [memberInputs, setMemberInputs] = useState<string[]>([""]);
   const [memberError, setMemberError] = useState<string | null>(null);
 
   // const {
   //   register,
-  //   handleSubmit,
+  //   handleSubmit, 
   //   control,
   //   trigger,
   //   formState: { errors },
@@ -44,7 +55,7 @@ export function RegisterForm() {
 
   const password = useWatch({ control, name: "password" });
 
-  const nextStep = async () => {
+  const nextStep = async (): Promise<number | null> => {
     let fieldsToValidate: (keyof FormData)[] = [];
     switch (step) {
       case 1:
@@ -55,12 +66,13 @@ export function RegisterForm() {
         const isValid = memberInputs.every((m) => m.trim().length > 0);
         if (!isValid) {
           setMemberError("All team member names are required");
-          return;
+          return null;
         } else {
           setMemberError(null);
         }
-        setStep(step + 1);
-        return;
+        const newStep2 = Math.min(4, step + 1);
+        setStep(newStep2);
+        return newStep2;
       case 3:
         fieldsToValidate = ["whatsapp", "lineId"];
         break;
@@ -70,12 +82,17 @@ export function RegisterForm() {
     }
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
-      setStep(step + 1);
+      const newStep = Math.min(4, step + 1);
+      setStep(newStep);
+      return newStep;
     }
+    return null;
   };
 
-  const prevStep = () => {
-    if (step > 1) setStep(step - 1);
+  const prevStep = (): number => {
+    const newStep = Math.max(1, step - 1);
+    setStep(newStep);
+    return newStep;
   };
 
   const addMember = () => {
@@ -111,7 +128,7 @@ export function RegisterForm() {
       password: data.password
     })
     if(!team.success){
-      toast.warn("Team registration failed: " + team.error);
+      toastError(team.error!);
       return;
     }
 
@@ -122,60 +139,42 @@ export function RegisterForm() {
     // Register Members to the Team
     const members = await registerAllMember({names:membersInput, team_id:team.data!.team_id});
     if (members.success) {
-      toast("Registration successful!");
+      toast.success("Registration successful!");
+      Router.push('/login');
     }else{
-      toast.warn("Member registration failed: " + members.error);
+      toast.error(members.error);
     }
 
-    // Mapping member names, trimming whitespace and filtering out empty names
   };
 
+  useImperativeHandle(ref, () => ({
+    nextStep,
+    prevStep,
+    submit() {
+      handleSubmit(onSubmit)();
+    },
+    getStep: () => step,
+  }));
+
   return (
-    <div className="font-family-audiowide relative z-1 flex min-h-screen flex-col items-center justify-center">
+    <div className="font-family-audiowide relative z-1 flex flex-col items-center justify-center">
       <div
-        className="block md:hidden mb-0 text-3xl sm:text-4xl text-[#05B0C1]"
+        className="block md:hidden mb-[2%] text-3xl sm:text-4xl text-[#05B0C1]"
         style={{ textShadow: "0 0 10px #05B0C1, 0 0 20px #05B0C1" }}
       >
         REGISTRATION
       </div>
       {/* Main Box */}
-      <div className="hide-scrollbar flex max-h-[70vh] w-10/12 mt-0 md:mt-[5%] items-start justify-center overflow-y-auto border-0 border-solid border-[#05C174] py-3 sm:py-6 ">
+      <div className="hide-scrollbar flex w-10/12 aspect-600/600 md:aspect-600/267 mt-0 md:mt-[10%] items-start justify-center overflow-y-auto border-0 border-solid border-[#05C174] py-0 sm:py-0 ">
         {/* Form */}
         <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full md:w-[80%]"
+          className="relative flex flex-col w-full md:w-[80%]"
         >
           {/* Step 1: Name and Country */}
           {step === 1 && (
             <>
-              {/* Name Input */}
-              {/* <div className="mb-12">
-                <label
-                  htmlFor="name-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  Name
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <UserRound size={32} />
-                  </div>
-                  <input
-                    id="name-input"
-                    type="text"
-                    placeholder="Your Name"
-                    {...register("name", { required: "Name is required" })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.name && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.name.message}
-                  </p>
-                )}
-              </div> */}
-
               {/* Team Name Input */}
               <FormInput
                 id="teamName"
@@ -197,34 +196,7 @@ export function RegisterForm() {
           {/* Step 2: University and Team Name */}
           {step === 2 && (
             <>
-              {/* University Input
-              <div className="mb-12">
-                <label
-                  htmlFor="university-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  University of Origin
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <GraduationCap size={32} />
-                  </div>
-                  <input
-                    id="university-input"
-                    type="text"
-                    placeholder="Your University"
-                    {...register("university", {
-                      required: "University is required",
-                    })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.university && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.university.message}
-                  </p>
-                )}
-              </div> */}
+              {/* University Input */}
               <FormInput
                 id="university"
                 label="University"
@@ -241,22 +213,25 @@ export function RegisterForm() {
               {memberInputs.map((member, index) => (
                 <div key={index} className="mb-4">
                   <div className="relative">
-                    <div className="absolute top-1/2 left-3 z-10 -translate-y-1/2 text-[#05C174]">
-                      <Users size={32} />
+                    <div className="absolute top-1/2 left-[5%] z-10 -translate-y-1/2 text-[#05C174]">
+                      {/* Desktop */}
+                      <Users size={32} className="hidden md:block" />
+                      {/* Mobile */}
+                      <Users size={20} className="block md:hidden" />
                     </div>
                     <input
                       type="text"
                       placeholder={`Team Member ${index + 1} Name`}
                       value={member}
                       onChange={(e) => updateMember(index, e.target.value)}
-                      className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
+                      className="font-family-spacemono text-sm sm:text-md lg:text-xl w-full border-0 block bg-[url('/images/auth/formInput.svg')] bg-contain bg-no-repeat aspect-6/1 active:outline-none outline-none border-[#05C174] p-0 pl-[15%] text-[#05B0C1] placeholder-[#05B0C1]"
                     />
                   </div>
                   {memberInputs.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeMember(index)}
-                      className="text-destructive hover:text-destructive/90 mt-2 block transition-all duration-300 hover:scale-105 hover:shadow-[0_0_10px_red]"
+                      className="text-destructive hover:text-destructive/90 mt-2 block transition-all duration-300 hover:drop-shadow-[0_0_10px_red]"
                     >
                       Remove
                     </button>
@@ -266,9 +241,14 @@ export function RegisterForm() {
               <button
                 type="button"
                 onClick={addMember}
-                className="font-family-spacemono h-12 w-full border border-[#05C174] px-4 text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
+                className={`${memberInputs.length > 4 ? 'hidden ' : ''} font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold`}
               >
-                Add Member
+                <div className="relative">
+                  <Users size={32} className="absolute left-[2.5%]" />
+                  <p className="text-sm sm:text-md lg:text-xl">
+                    Add Team Member
+                  </p>
+                </div>
               </button>
               {memberError && (
                 <p className="text-destructive mt-1 text-sm">{memberError}</p>
@@ -281,37 +261,7 @@ export function RegisterForm() {
           {/* Step 3: WhatsApp and Line ID */}
           {step === 3 && (
             <>
-              {/* WhatsApp Number Inputs */}
-              {/* <div className="mb-12">
-                <label
-                  htmlFor="whatsapp-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  WhatsApp Number
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <Phone size={32} />
-                  </div>
-                  <input
-                    id="whatsapp-input"
-                    type="text"
-                    placeholder="Your WhatsApp Number"
-                    {...register("whatsapp", {
-                      required: "WhatsApp number is required",
-                      validate: (value) =>
-                        /^\+?[1-9]\d{1,14}$/.test(value) ||
-                        "Invalid phone number format (e.g., +1234567890)",
-                    })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.whatsapp && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.whatsapp.message}
-                  </p>
-                )}
-              </div> */}
+              {/* WhatsApp Input */}
               <FormInput
                 id="whatsapp"
                 label="WhatsApp Number"
@@ -320,37 +270,12 @@ export function RegisterForm() {
                 rules={{
                   required: "WhatsApp number is required",
                   validate: (value) =>
-                    /^\+?[1-9]\d{1,14}$/.test(value) ||
-                    "Invalid phone number format",
+                    /^\+[1-9]\d{1,14}$/.test(value) ||
+                    "Invalid phone number format (e.g., +1234567890)",
                 }}
               />
 
               {/* Line ID Input */}
-              {/* <div className="mb-4">
-                <label
-                  htmlFor="lineId-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  Active Line ID
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <MessageCircle size={32} />
-                  </div>
-                  <input
-                    id="lineId-input"
-                    type="text"
-                    placeholder="Your Line ID"
-                    {...register("lineId", { required: "Line ID is required" })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.lineId && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.lineId.message}
-                  </p>
-                )}
-              </div> */}
               <FormInput
                 id="lineId"
                 label="Line ID"
@@ -364,33 +289,6 @@ export function RegisterForm() {
           {step === 4 && (
             <>
               {/* Password Input */}
-              {/* <div className="mb-12">
-                <label
-                  htmlFor="password-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <Lock size={32} />
-                  </div>
-                  <input
-                    id="password-input"
-                    type="password"
-                    placeholder="Enter Password"
-                    {...register("password", {
-                      required: "Password is required",
-                    })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.password && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.password.message}
-                  </p>
-                )}
-              </div> */}
               <FormInput
                 id="password"
                 label="Password"
@@ -400,37 +298,7 @@ export function RegisterForm() {
                 rules={{ required: "Password is required" }}
               />
 
-
               {/* Confirm Password Input */}
-              {/* <div className="mb-4">
-                <label
-                  htmlFor="confirmPassword-input"
-                  className="mb-2 block text-lg text-[#05C174]"
-                >
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <div className="absolute top-1/2 left-3 -translate-y-1/2 transform text-[#05C174]">
-                    <Lock size={32} />
-                  </div>
-                  <input
-                    id="confirmPassword-input"
-                    type="password"
-                    placeholder="Confirm Password"
-                    {...register("confirmPassword", {
-                      required: "Confirm password is required",
-                      validate: (value) =>
-                        value === password || "Passwords do not match",
-                    })}
-                    className="font-family-spacemono h-16 w-full border border-[#05C174] p-4 pl-14 text-[#05B0C1] placeholder-[#05B0C1]"
-                  />
-                </div>
-                {errors.confirmPassword && (
-                  <p className="text-destructive mt-1 text-sm">
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
-              </div> */}
               <FormInput
                 id="confirmPassword"
                 label="Confirm Password"
@@ -445,38 +313,13 @@ export function RegisterForm() {
               />
             </>
           )}
-          {/* Buttons */}
-          <div className="mt-0 flex justify-between">
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={prevStep}
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
-              >
-                Previous
-              </button>
-            )}
-            {step < 4 && (
-              <button
-                type="button"
-                onClick={nextStep}
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
-              >
-                Next
-              </button>
-            )}
-            {step === 4 && (
-              <button
-                type="submit"
-                className="font-family-spacemono h-12 w-24 border border-[#05C174] text-[#05C174] transition-all duration-300 hover:scale-105 hover:bg-[#05C174] hover:text-black hover:shadow-[0_0_10px_#05C174]"
-              >
-                Submit
-              </button>
-            )}
-          </div>
+          
         </form>
         </FormProvider>
       </div>
     </div>
   );
 }
+
+export const RegisterForm = forwardRef(RegisterFormComponent);
+export default RegisterForm;

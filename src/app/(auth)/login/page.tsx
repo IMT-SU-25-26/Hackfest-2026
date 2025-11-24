@@ -1,125 +1,43 @@
-"use client";
+'use client'
+import LoginForm, { LoginFormHandle } from '@/components/auth/LoginForm'
+import Link from 'next/link';
+import React from 'react'
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
-import Image from "next/image";
-import { Link } from "lucide-react";
+function LoginPage2() {
+    const formRef = React.useRef<LoginFormHandle>(null);
+    return (
+        <>
+            {/* Page Background */}
+            <div className="w-full min-h-screen bg-cover bg-no-repeat bg-center bg-[url('/images/login/Background.svg')] bg-[#090223">
+                <div className='absolute left-0 top-0 w-full min-h-screen bg-[#090223]/0 flex justify-center items-center pt-[7vh]'>
 
-export default function LoginPage() {
-  const [teamName, setTeamName] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
-
-    const result = await signIn("credentials", {
-      redirect: false,
-      team_name: teamName,
-      password,
-    });
-
-    if (result?.error) {
-      setError("Invalid credentials");
-      return;
-    }
-
-    router.push("/");
-  }
-
-  return (
-
-    <div className="relative min-h-screen w-full h-full overflow-hidden font-[Orbitron] text-cyan-300 bg-[#090223]">
-            {/* Background Grid Placeholder */}
-            <div className="absolute inset-0">
-                <Image
-                    src="/login/Background.svg" // replace with your neon grid bg asset
-                    alt="Background"
-                    fill
-                    className="object-cover opacity-40"
-                />
-            </div>
-
-
-            
-
-
-            {/* Main Container */}
-            <form onSubmit={handleLogin} className="relative z-10 flex justify-center mt-16">
-                <div className="bg-[url(/login/outerframe.svg)] bg-contain bg-no-repeat w-[900px]  p-10 rounded-xl bg-[black/40 ]backdrop-blur-sm">
-                    
-
-
-                    {/* Form Section */}
-                    <div className="space-y-10 mt-15">
-                        {/* Team Name */}
-                        <div className="w-2/3 mx-auto">
-                            <label className="block mb-4 text-lg font-semibold text-[#05C174]">Enter your team name</label>
-                            <div className="flex items-center gap-4 bg-[url(/login/textfield.svg)] bg-contain bg-no-repeat p-4 rounded-md ">
-                                <Image
-                                    src="/login/personlogo.svg" // placeholder icon
-                                    alt="User Icon"
-                                    width={42}
-                                    height={42}
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Enter your team name"
-                                    value={teamName}
-                                    onChange={(e) => setTeamName(e.target.value)}
-                                    className=" flex-1 outline-none placeholder-[#05B0C1]/45 text-[#05B0C1]  mx-1/3"
-                                />
-                            </div>
-                        </div>
-
-
-                        {/* Password */}
-                        <div className="w-2/3 mx-auto">
-                            <label className="block mb-4 text-lg font-semibold text-[#05C174]">Enter your password</label>
-                            <div className="flex items-center gap-4 bg-[url(/login/textfield.svg)] bg-contain bg-no-repeat p-4 rounded-md  ">
-                                <Image
-                                    src="/login/lock.svg" // placeholder lock icon
-                                    alt="Lock Icon"
-                                    width={32}
-                                    height={32}
-                                />
-                                <input
-                                    type="password"
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="bg-transparent flex-1 outline-none placeholder-[#05B0C1]/45 text-[#05B0C1]"
-                                />
-                            </div>
+                    {/* Login Container BG */}
+                    <div className="relative pt-0 -top-[3vh] md:pt-[2%] bg-[url('/images/auth/bgContainer-mobile.svg')] md:bg-[url('/images/login/outerframe.svg')] aspect-355/472 md:aspect-1187/627 min-w-[400px] md:min-w-[600px] w-[65%] md:w-[70%] max-w-[990px] bg-contain flex flex-col justify-center items-center bg-no-repeat">
+                        <p className='block md:hidden glow-pulse text-3xl font-family-audiowide text-[#05B0C1]'>LOGIN</p>
+                        <LoginForm ref={formRef} />
+                        
+                        <p className='text-sm lg:text-md xl:text-lg text-center font-family-spacemono text-white'>{`Don't have an account?`} <Link href={'/register'} className='text-[#05B0C1]'>Registration</Link></p>
+                        {/* Button Login */}
+                        <div
+                            onClick={() => formRef.current?.submit()}
+                            className="
+                                relative md:absolute -bottom-[3%] md:-bottom-[8%]
+                                bg-[url('/images/utils/buttonBG.svg')]
+                                w-[45%] md:w-[30%] bg-no-repeat bg-contain aspect-361/100
+                                flex justify-center items-center
+                                transition-all duration-300
+                                hover:drop-shadow-[0_0_15px_#05B0C1]
+                                cursor-pointer
+                            "
+                            >
+                            <p className='font-family-audiowide text-md lg:text-xl text-[$090223]'>login</p>
                         </div>
                     </div>
 
-                    {/* Error Message */}
-                    {error && (
-                    <p className="text-red-400 text-center mt-4 font-bold drop-shadow-[0_0_10px_#ff0000]">
-                        {error}
-                    </p>
-                    )}
-
-
-                    {/* Login Button */}
-                    <div className=" h-15 w-50 text-center mt-12 mx-auto justify-center">
-                        <button type="submit" className="px-16 py-4 h-15 w-55 bg-[url(/login/loginbutton.svg)] bg-cover justify-center text-black text-xl font-bold rounded-md hover:bg-cyan-400 transition tracking-wide shadow-[0_0_20px_#00ffff]">
-
-                        </button>
-                    </div>
-
-
-                    {/* Registration */}
-                    <p className="text-center mt-8 text-sm text-white">
-                        Don’t have an account?{' '}
-                        <a href="/register" className="text-cyan-400 underline cursor-pointer">Registration</a>
-                    </p>
                 </div>
-            </form>
-    </div>
-  );
+            </div>
+        </>
+    )
 }
+
+export default LoginPage2

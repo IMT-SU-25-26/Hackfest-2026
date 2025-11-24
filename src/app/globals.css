@@ -170,3 +170,69 @@
   width: 0;
   height: 0;
 }
+
+.glow-pulse {
+  animation: glitch-glow 8s ease-in-out infinite;
+  text-shadow:
+    0 0 10px #05B0C1,
+    0 0 20px #05B0C1,
+    0 0 40px #05B0C1;
+}
+
+@keyframes glitch-glow {
+  0%, 15% {
+    opacity: 1;
+    text-shadow:
+      0 0 10px #05B0C1,
+      0 0 20px #05B0C1,
+      0 0 40px #05B0C1;
+  }
+
+  16% {
+    opacity: 0.4;
+    text-shadow:
+      0 0 2px #05B0C1,
+      0 0 5px #05B0C1;
+  }
+
+  19%, 45% {
+    opacity: 1;
+    text-shadow:
+      0 0 10px #05B0C1,
+      0 0 20px #05B0C1,
+      0 0 40px #05B0C1;
+  }
+
+  46% {
+    opacity: 0.3;
+    text-shadow:
+      0 0 3px #05B0C1;
+  }
+  47% {
+    opacity: 0.9;
+    text-shadow:
+      0 0 18px #05B0C1;
+  }
+
+  48%, 90% {
+    opacity: 1;
+    text-shadow:
+      0 0 15px #05B0C1,
+      0 0 30px #05B0C1,
+      0 0 60px #05B0C1;
+  }
+
+  91% {
+    opacity: 0.5;
+    text-shadow:
+      0 0 4px #05B0C1;
+  }
+
+  92%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 10px #05B0C1,
+      0 0 30px #05B0C1,
+      0 0 50px #05B0C1;
+  }
+}

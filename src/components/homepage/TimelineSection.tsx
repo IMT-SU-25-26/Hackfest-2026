@@ -4,7 +4,7 @@ import Image from "next/image";
 function TimelineSection() {
   return (
     <div
-      className="w-[100w-dvw] min-h-screen flex flex-col items-center justify-center bg-[#0a0a1f] bg-no-repeat bg-[url('/timeline/decorative-lines-mobile.svg')] md:bg-[url('/timeline/decorative-lines-desktop.svg')] bg-top"
+      className="w-[100w-dvw] min-h-screen flex flex-col items-center justify-center bg-[#0a0a1f] bg-no-repeat bg-[url('/images/timeline/decorative-lines-mobile.svg')] md:bg-[url('/images/timeline/decorative-lines-desktop.svg')] bg-top"
       style={{
         backgroundSize: "100% auto",
       }}
@@ -19,7 +19,7 @@ function TimelineSection() {
           {/* Desktop Timeline */}
           <div className="hidden md:block w-full">
             <Image
-              src="/timeline/timeline-desktop.svg"
+              src="/images/timeline/timeline-desktop.svg"
               alt="Timeline Desktop"
               width={1200}
               height={400}
@@ -32,7 +32,7 @@ function TimelineSection() {
           <div className="md:hidden w-full flex justify-center">
             <div className="w-full max-w-[280px]">
               <Image
-                src="/timeline/timeline-mobile.svg"
+                src="/images/timeline/timeline-mobile.svg"
                 alt="Timeline Mobile"
                 width={280}
                 height={600}
@@ -50,7 +50,7 @@ function TimelineSection() {
         <div
           className="hidden md:block w-full min-h-[600px] relative"
           style={{
-            backgroundImage: "url('/timeline/background-fee.svg')",
+            backgroundImage: "url('/images/timeline/background-fee.svg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -66,7 +66,7 @@ function TimelineSection() {
 
             <div className="w-full max-w-4xl">
               <Image
-                src="/timeline/fee-desktop.svg"
+                src="/images/timeline/fee-desktop.svg"
                 alt="Fee Desktop"
                 width={900}
                 height={350}
@@ -97,7 +97,7 @@ function TimelineSection() {
 
             <div className="w-full max-w-[280px]">
               <Image
-                src="/timeline/fee-mobile.svg"
+                src="/images/timeline/fee-mobile.svg"
                 alt="Fee Mobile"
                 width={280}
                 height={600}

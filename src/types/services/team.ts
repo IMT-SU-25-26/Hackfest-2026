@@ -20,7 +20,7 @@ export const createTeamSchema =  z.object({
 
     phone_number: z
         .string()
-        .min(7 ,"Phone number is required")
+        .min(7 ,"Phone number must be at least 7 characters")
         .max(15, "Phone number must be at most 15 characters"),
 
     line_id: z
@@ -30,8 +30,8 @@ export const createTeamSchema =  z.object({
 
     password: z
         .string()
-        .min(8)
-        .max(100),
+        .min(8, "Password must be at least 8 characters")
+        .max(100, "Password must be at most 100 characters"),
 
     proposal_url: z
         .string()

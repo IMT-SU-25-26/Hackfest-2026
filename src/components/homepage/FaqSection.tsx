@@ -48,7 +48,7 @@ function FaqSection() {
         <div className="flex items-center justify-between mb-0 p-6 border-t-2 border-l-2 border-r-2 border-[#00ff88]">
           <div className="flex items-center gap-4">
             <Image
-              src="/FAQ/brain.svg"
+              src="/images/FAQ/brain.svg"
               alt="Brain Icon"
               width={60}
               height={60}
@@ -66,7 +66,7 @@ function FaqSection() {
 
           <div className="flex items-center gap-4">
             <Image
-              src="/FAQ/danger.svg"
+              src="/images/FAQ/danger.svg"
               alt="Danger Icon"
               width={60}
               height={60}

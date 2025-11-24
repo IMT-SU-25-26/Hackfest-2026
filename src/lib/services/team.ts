@@ -6,6 +6,7 @@ import { ActionResult } from "@/types/action";
 import { Team } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
+import { handlePrismaError } from "../handlePrismaError";
 
 export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({
@@ -26,12 +27,13 @@ export async function registerTeam(
 ): Promise<ActionResult<Team>> {
   const validation = createTeamSchema.safeParse(data);
   if (!validation.success) {
-    const errors = validation.error.issues
-      .map((err) => `${err.path.join(".")}: ${err.message}`)
-      .join(", ");
+    const errorsArray = validation.error.issues.map(
+      (err) => `${err.message}`
+    );
+
     return {
       success: false,
-      error: `Validation failed: ${errors}`,
+      error: errorsArray,
     };
   }
 
@@ -56,7 +58,7 @@ export async function registerTeam(
   } catch (error) {
     return {
       success: false,
-      error: `Database error: ${error}`,
+      error: handlePrismaError(error),
     };
   }
 }
@@ -67,12 +69,13 @@ export async function updateTeam(
 ): Promise<ActionResult<Team>> {
   const validation = updateTeamSchema.safeParse(data);
   if (!validation.success) {
-    const errors = validation.error.issues
-      .map((err) => `${err.path.join(".")}: ${err.message}`)
-      .join(", ");
+    const errorsArray = validation.error.issues.map(
+      (err) => `${err.message}`
+    );
+
     return {
       success: false,
-      error: `Validation failed: ${errors}`,
+      error: errorsArray,
     };
   }
 
@@ -92,7 +95,7 @@ export async function updateTeam(
   } catch (error) {
     return {
       success: false,
-      error: `Database error: ${error}`,
+      error: handlePrismaError(error),
     };
   }
 }
@@ -114,7 +117,7 @@ export async function deleteTeam(
   } catch (error) {
     return {
       success: false,
-      error: `Database error: ${error}`,
+      error: handlePrismaError(error),
     };
   }
 }
