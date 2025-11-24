@@ -6,145 +6,185 @@ import Image from "next/image";
 // Interface untuk sponsor data
 interface Sponsor {
   name: string;
-  logo: string; // path ke logo sponsor
+  logo: string;
   width?: number;
   height?: number;
 }
 
-// Interface untuk social media/info links
-interface InfoLink {
-  name: string;
-  logo: string; // path ke logo (Instagram, LinkedIn, etc)
-  url: string;
-  width?: number;
-  height?: number;
-}
-
-// ========================================
-// CARA MENAMBAHKAN SPONSOR:
-// ========================================
-// 1. Simpan logo sponsor di folder: /public/sponsors/
-//    Contoh: /public/sponsors/google.png
-// 2. Tambahkan data sponsor di array ini:
+// Array sponsor - tambahkan sponsor di sini ketika sudah ada
 const sponsors: Sponsor[] = [
-  // Contoh (hapus comment '//' untuk mengaktifkan):
-  { name: "Google", logo: "/images/FAQ/danger.svg", width: 100, height: 100 },
-  { name: "Google", logo: "/images/FAQ/danger.svg", width: 100, height: 100 },
-  { name: "Google", logo: "/images/FAQ/danger.svg", width: 100, height: 100 },
-  { name: "Google", logo: "/images/FAQ/danger.svg", width: 100, height: 100 },
-  // { name: "Microsoft", logo: "/sponsors/microsoft.png", width: 150, height: 100 },
+  // ========================================
+  // CARA MENAMBAHKAN SPONSOR:
+  // ========================================
+  // 
+  // 1. Simpan logo sponsor di folder: /public/sponsors/
+  //    Contoh: /public/sponsors/sponsor1.png
+  //
+  // 2. Tambahkan data sponsor di array ini
+  //
+  // SPONSOR BESAR (Kotak Baris Atas - maksimal 4):
+  // Index 0-3 akan tampil di kotak BESAR (100x100px)
+  // Contoh:
+  // { name: "Sponsor 1", logo: "/sponsors/sponsor1.png", width: 80, height: 80 },
+  // { name: "Sponsor 2", logo: "/sponsors/sponsor2.png", width: 80, height: 80 },
+  // { name: "Sponsor 3", logo: "/sponsors/sponsor3.png", width: 80, height: 80 },
+  // { name: "Sponsor 4", logo: "/sponsors/sponsor4.png", width: 80, height: 80 },
+  //
+  // SPONSOR KECIL (Kotak Baris Bawah - index 5 sampai 12):
+  // Index 4-11 akan tampil di kotak KECIL (50x50px)
+  // Contoh untuk sponsor kecil:
+  // { name: "Sponsor 5", logo: "/sponsors/sponsor5.png", width: 40, height: 40 },
+  // { name: "Sponsor 6", logo: "/sponsors/sponsor6.png", width: 40, height: 40 },
+  // { name: "Sponsor 7", logo: "/sponsors/sponsor7.png", width: 40, height: 40 },
+  // { name: "Sponsor 8", logo: "/sponsors/sponsor8.png", width: 40, height: 40 },
+  // ... dst sampai index 11 (total 8 sponsor kecil)
+  //
+  // CONTOH LENGKAP (Hapus comment '//' untuk mengaktifkan):
+  { name: "Sponsor Besar 1", logo: "images/FAQ/danger.svg", width: 80, height: 80 },
+  { name: "Sponsor Besar 2", logo: "images/FAQ/danger.svg", width: 80, height: 80 },
+  { name: "Sponsor Besar 3", logo: "images/FAQ/danger.svg", width: 80, height: 80 },
+  { name: "Sponsor Besar 4", logo: "images/FAQ/danger.svg", width: 80, height: 80 },
+  { name: "Sponsor Kecil 1", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
+  { name: "Sponsor Kecil 2", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
+  { name: "Sponsor Kecil 3", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
+  { name: "Sponsor Kecil 4", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
+  { name: "Sponsor Kecil 5", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
+  { name: "Sponsor Kecil 6", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
+  { name: "Sponsor Kecil 7", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
+  { name: "Sponsor Kecil 8", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
 ];
 
-// ========================================
-// CARA MENAMBAHKAN INFO LINKS (Social Media, etc):
-// ========================================
-// 1. Simpan logo/icon di folder: /public/social/
-//    Contoh: /public/social/instagram.png
-// 2. Tambahkan data di array ini:
-const infoLinks: InfoLink[] = [
-  // Contoh (hapus comment '//' untuk mengaktifkan):
-  { name: "Instagram", logo: "/images/FAQ/danger.svg", url: "https://instagram.com/...", width: 40, height: 40 },
-  { name: "LinkedIn", logo: "/images/FAQ/danger.svg", url: "https://linkedin.com/...", width: 40, height: 40 },
-  { name: "Twitter", logo: "/images/FAQ/danger.svg", url: "https://twitter.com/...", width: 40, height: 40 },
-  { name: "YouTube", logo: "/images/FAQ/danger.svg", url: "https://youtube.com/...", width: 40, height: 40 },
+// Social media links
+const socialLinks: any[] = [
+  { name: "Instagram", icon: "📷", url: "#" },
+  { name: "Twitter", icon: "🐦", url: "#" },
+  { name: "LinkedIn", icon: "💼", url: "#" },
+  { name: "YouTube", icon: "📺", url: "#" },
+  { name: "Facebook", icon: "📘", url: "#" },
+  { name: "TikTok", icon: "🎵", url: "#" },
+  { name: "Discord", icon: "💬", url: "#" },
+  { name: "GitHub", icon: "🐙", url: "#" },
 ];
 
 function Footer() {
+  // Helper function untuk merender placeholder jika data sponsor belum ada
+  // Tipe 'size' menentukan apakah ini kotak besar (large) atau kecil (small)
+  const renderPlaceholder = (index: number, size: "large" | "small") => (
+    <div
+      key={`${size}-placeholder-${index}`}
+      className={`bg-[#60d394] aspect-square rounded ${
+        size === "large" ? "col-span-2" : "col-span-1"
+      }`}
+    />
+  );
+
   return (
-    <footer className="bg-[#001138] border-t-2 border-[#00ff88] py-12 px-4 font-mono w-[100w-dvw]">
-      <div className="max-w-7xl mx-auto">
-        {/* Top Section - Sponsored By (Center) */}
-        <div className="mb-12">
-          <h3 className="text-white text-xl font-family-audiowide md:text-2xl font-bold mb-6 uppercase text-center">
-            SPONSORED BY
-          </h3>
+    <footer className="bg-[#4ade80] py-12 px-6 md:px-16 font-mono text-black">
+      <div className="max-w-full mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-6 mb-8">
           
-          {/* Sponsor Logos Container */}
-          <div className="flex flex-wrap gap-6 justify-center items-center min-h-[120px]">
-            {sponsors.length > 0 ? (
-              sponsors.map((sponsor, index) => (
-                <div
-                  key={index}
-                  className="p-4 rounded flex items-center justify-center hover:bg-white/20 transition-colors"
-                >
-                  <Image
-                    src={sponsor.logo}
-                    alt={sponsor.name}
-                    width={sponsor.width || 150}
-                    height={sponsor.height || 100}
-                    className="object-contain"
-                  />
-                </div>
-              ))
-            ) : (
-              // Placeholder text ketika belum ada sponsor
-              <p className="text-[#00ff88]/50 text-sm italic">
-                Sponsor logos will appear here
-              </p>
-            )}
+          {/* Left Section - Sponsored By */}
+          <div>
+            <h3 className="text-xl md:text-2xl font-bold mb-6 uppercase">
+              Sponsored By
+            </h3>
+            
+            {/* WRAPPER UTAMA:
+                max-w-md: Membatasi lebar total area sponsor agar kotak tidak terlalu besar.
+                grid-cols-8: Membagi area menjadi 8 kolom kecil untuk alignment sempurna.
+            */}
+            <div className="max-w-md w-full grid grid-cols-8 gap-3">
+              
+              {/* --- BARIS ATAS (Sponsor Besar) --- */}
+              {/* Loop 4 slot untuk sponsor besar */}
+              {[...Array(4)].map((_, i) => {
+                const sponsor = sponsors[i]; // Ambil data index 0,1,2,3
+                
+                if (sponsor) {
+                  return (
+                    <div
+                      key={`large-${i}`}
+                      className="bg-[#05B0C1] aspect-square col-span-2 flex items-center justify-center p-3 rounded"
+                    >
+                      <Image
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        width={sponsor.width || 100}
+                        height={sponsor.height || 100}
+                        className="object-contain w-full h-full"
+                      />
+                    </div>
+                  );
+                }
+                // Jika tidak ada data, render placeholder besar
+                return renderPlaceholder(i, "large");
+              })}
+
+              {/* --- BARIS BAWAH (Sponsor Kecil) --- */}
+              {/* Loop 8 slot untuk sponsor kecil */}
+              {[...Array(8)].map((_, i) => {
+                const dataIndex = i + 4; // Offset index karena 0-3 sudah dipakai sponsor besar
+                const sponsor = sponsors[dataIndex]; 
+
+                if (sponsor) {
+                  return (
+                    <div
+                      key={`small-${i}`}
+                      className="bg-[#05B0C1] aspect-square col-span-1 flex items-center justify-center p-1.5 rounded"
+                    >
+                      <Image
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        width={sponsor.width || 50}
+                        height={sponsor.height || 50}
+                        className="object-contain w-full h-full"
+                      />
+                    </div>
+                  );
+                }
+                // Jika tidak ada data, render placeholder kecil
+                return renderPlaceholder(i, "small");
+              })}
+            </div>
+          </div>
+
+          {/* Right Section - For More Information */}
+          <div className="flex flex-col items-start md:items-end justify-between">
+            <div>
+              <h3 className="text-xl md:text-2xl font-bold mb-6 uppercase text-left md:text-right">
+                For More Information :
+              </h3>
+              {/* Social Media Icons Grid */}
+              <div className="grid grid-cols-4 gap-4 mb-6">
+                {socialLinks.length > 0 ? (
+                  socialLinks.map((social, index) => (
+                    <a
+                      key={index}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#05B0C1] w-12 h-12 flex items-center justify-center text-2xl rounded hover:bg-[#50c384] transition-colors"
+                      title={social.name}
+                    >
+                      {social.icon}
+                    </a>
+                  ))
+                ) : (
+                  // Placeholder icons jika belum ada link
+                  [...Array(4)].map((_, i) => (
+                    <div key={i} className="bg-[#05B0C1] w-12 h-12 rounded opacity-50" />
+                  ))
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Section - Logo & Copyright (Left) + For More Information (Right) */}
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
-          {/* Left Side: IMT Logo + Copyright Text */}
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
-            {/* IMT Logo */}
-            <div className="shrink-0">
-              <div className="w-30 h-30 mt-[-10] flex items-center justify-center bg-[#0a0a1f] p-0">
-                <Image 
-                  src="/images/FAQ/logoimt.svg" 
-                  alt="IMT Logo" 
-                  width={120} 
-                  height={120}
-                  className="object-contain"
-                />
-              </div>
-            </div>
-
-            {/* Copyright Text */}
-            <div className="text-[#00ff88] font-family-spacemono text-sm md:text-base leading-relaxed space-y-1 text-center md:text-left">
-              <p>© 2025 Informatics (IMT) Student Union</p>
-              <p>Universitas Ciputra Surabaya.</p>
-              <p>All rights reserved.</p>
-            </div>
-          </div>
-
-          {/* Right Side: For More Information */}
-          <div className="text-center md:text-right">
-            <h3 className="text-white text-xl md:text-2xl font-family-audiowide font-bold mb-6 uppercase">
-              FOR MORE INFORMATION :
-            </h3>
-            
-            {/* Info Links Container */}
-            <div className="flex flex-wrap gap-4 justify-center md:justify-end items-center">
-              {infoLinks.length > 0 ? (
-                infoLinks.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 rounded hover:bg-[#00ff88]/20 transition-colors hover:scale-110 transform duration-200"
-                    title={link.name}
-                  >
-                    <Image
-                      src={link.logo}
-                      alt={link.name}
-                      width={link.width || 40}
-                      height={link.height || 40}
-                      className="object-contain"
-                    />
-                  </a>
-                ))
-              ) : (
-                // Placeholder text ketika belum ada links
-                <p className="text-[#00ff88]/50 text-sm italic">
-                  Social media links will appear here
-                </p>
-              )}
-            </div>
-          </div>
+        {/* Bottom Copyright Text */}
+        <div className="text-sm md:text-base leading-relaxed space-y-1 mt-12 pt-6">
+          <p>© 2025 Informatics (IMT) Student Union</p>
+          <p>Universitas Ciputra Surabaya.</p>
+          <p>All rights reserved.</p>
         </div>
       </div>
     </footer>
