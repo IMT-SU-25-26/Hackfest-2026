@@ -35,6 +35,9 @@ function NavBar() {
         
         {/* Desktop Menu */}
         <div className="hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center">
+          <Link href={"/#timeline"} className="hover:text-[#00C074] transition-colors">Timeline</Link>
+          <Link href={"/#regsFee"} className="hover:text-[#00C074] transition-colors">Regs Fee</Link>
+          <Link href={"/faq"} className="hover:text-[#00C074] transition-colors">FAQ</Link>
 
           {session ? (
             <>

@@ -4,7 +4,8 @@ import Image from "next/image";
 function TimelineSection() {
   return (
     <div
-      className="w-[100w-dvw] min-h-screen flex flex-col items-center justify-center bg-[#0a0a1f] bg-no-repeat bg-[url('/images/timeline/decorative-lines-mobile.svg')] md:bg-[url('/images/timeline/decorative-lines-desktop.svg')] bg-top"
+      id="timeline"
+      className="pt-[5%] w-[100w-dvw] min-h-screen flex flex-col items-center justify-center bg-[#0a0a1f] bg-no-repeat bg-[url('/images/timeline/decorative-lines-mobile.svg')] md:bg-[url('/images/timeline/decorative-lines-desktop.svg')] bg-top"
       style={{
         backgroundSize: "100% auto",
       }}
@@ -45,7 +46,7 @@ function TimelineSection() {
       </div>
 
       {/* Registration Fee Section - Full Width Background */}
-      <div className="w-full relative pb-16">
+      <div className="w-full relative pb-16 pt-[5%]" id="regsFee">
         {/* Desktop Background */}
         <div
           className="hidden md:block w-full min-h-[600px] relative"
