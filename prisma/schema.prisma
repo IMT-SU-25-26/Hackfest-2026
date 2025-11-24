@@ -9,11 +9,14 @@ datasource db {
 }
 
 model TeamSession {
-  id           String   @id @default(cuid())
-  team_id      String
-  sessionToken String   @unique
-  expires      DateTime
-  team         Team     @relation(fields: [team_id], references: [team_id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  sessionToken  String @unique
+  team_id       String
+  team          Team     @relation(fields: [team_id], references: [team_id], onDelete: Cascade)
+  expires       DateTime
+  createdAt     DateTime @default(now())
+
+  @@index([team_id])
 }
 
 model Team {

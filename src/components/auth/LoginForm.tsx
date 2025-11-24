@@ -7,6 +7,7 @@ import { forwardRef, useImperativeHandle } from 'react';
 import { signIn } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { teamLogin } from '@/lib/auth/login';
 
 export interface LoginFormHandle {
   submit: () => void;
@@ -23,18 +24,23 @@ function LoginFormComponent(_props: unknown ,ref: React.Ref<LoginFormHandle>) {
     const Router = useRouter();
 
     const onSubmit = async (data: FormData) => {
-        const result = await signIn("credentials", {
-            redirect: false,
-            team_name: data.teamName,
-            password: data.password,
-        });
+        try {
+            // Only use NextAuth signIn - it handles everything
+            const result = await signIn("credentials", {
+                redirect: false,
+                team_name: data.teamName,
+                password: data.password,
+            });
 
-        if (result?.error) {
-            toast.error("Invalid credentials");
-            return;
-        }else{
+            if (result?.error) {
+                toast.error("Invalid credentials");
+                return;
+            }
+
             toast.success("Login successful!");
             Router.push("/");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Login failed");
         }
     };
 
