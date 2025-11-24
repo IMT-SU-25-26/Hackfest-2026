@@ -30,19 +30,9 @@ function RecapSection() {
     <div className="bg-[#0a0a1f] overflow-hidden">
       <div className="relative w-full">
 
-        {/* Image 1 (back layer) */}
-        <Image
-          src="/images/recap/blockBG.svg"
-          alt="Back Layer"
-          width={0}
-          height={0}
-          sizes="70dvw"
-          className="hidden md:block w-[70%] mx-auto h-auto relative z-0"
-          unoptimized
-        />
 
         {/* Image 2 (front layer + content on top) */}
-        <div className="mt-0 md:-mt-[18%] relative z-10">
+        <div className="mt-0 relative z-10">
           <div className="relative">
             <Image
               src="/images/recap/backgroundContainerMobile.svg"

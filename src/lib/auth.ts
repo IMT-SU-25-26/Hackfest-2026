@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma"
 import { NextAuthOptions } from "next-auth"
 import { JWT } from "next-auth/jwt"
 import { Session } from "next-auth"
+import { User } from "next-auth"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -42,7 +43,7 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
 
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: unknown }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.team_id = user.id
         token.team_name = user.team_name
@@ -55,7 +56,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.team_id = token.team_id as string
         session.user.team_name = token.team_name as string
-        session.user.role = token.role as string
+        session.user.role = token.role
       }
       return session
     },

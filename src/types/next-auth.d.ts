@@ -15,16 +15,12 @@ declare module "next-auth" {
       role: Role;
     } & DefaultSession["user"];
   }
-
-  interface AdapterUser {
-    team_id: string;
-    team_name: string;
-  }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     team_id: string;
     team_name: string;
+    role: Role;
   }
 }
