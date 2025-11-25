@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import JudgeCard from "./JudgeCard"
-import FaqSection from "../homepage/FaqSection"
+import FaqSection from "./FaqSection"
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Judge {
