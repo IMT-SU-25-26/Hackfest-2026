@@ -46,7 +46,7 @@ function TimelineSection() {
       </div>
 
       {/* Registration Fee Section - Full Width Background */}
-      <div className="w-full relative pb-16 pt-[5%]" id="regsFee">
+      <div className="w-full relative pt-[5%]" id="regsFee">
         {/* Desktop Background */}
         <div
           className="hidden md:block w-full min-h-[600px] relative"
@@ -58,7 +58,7 @@ function TimelineSection() {
           }}
         >
           {/* Overlay untuk memastikan readability */}
-          <div className="absolute inset-0 bg-[#0a0a1f]/40"></div>
+          {/* <div className="absolute inset-0 bg-[#0a0a1f]/0"></div> */}
 
           <div className="relative py-10 px-8 flex flex-col items-center">
             <h1 className="text-5xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-10 tracking-wider">
