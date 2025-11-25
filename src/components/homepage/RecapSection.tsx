@@ -37,13 +37,13 @@ function RecapSection() {
           width={0}
           height={0}
           sizes="70dvw"
-          className="hidden md:block w-[70%] mx-auto h-auto relative z-0"
+          className="hidden md:block w-[70%] mx-auto h-auto relative z-2"
           unoptimized
         />
 
         {/* Image 2 (front layer + content on top) */}
         <div className="mt-0 md:-mt-[18%] relative z-10">
-          <div className="relative">
+          <div className="relative z-2">
             <Image
               src="/recap/backgroundContainerMobile.svg"
               alt="Recap Background"
