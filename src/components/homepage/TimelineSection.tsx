@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 
 function TimelineSection() {
@@ -82,7 +81,7 @@ function TimelineSection() {
         <div
           className="block md:hidden w-full min-h-[500px] relative"
           style={{
-            backgroundImage: "url('/timeline/background-fee-mobile.svg')",
+            backgroundImage: "url('/timeline/background-fee.svg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
