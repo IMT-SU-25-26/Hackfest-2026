@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface FaqItem {
   question: string;
@@ -31,6 +32,7 @@ const faqData: FaqItem[] = [
 ];
 
 function FaqSection() {
+  const router = useRouter()
   const [openIndexes, setOpenIndexes] = useState<number[]>([2]);
 
   const toggleFaq = (index: number) => {
@@ -42,8 +44,8 @@ function FaqSection() {
   };
 
   return (
-    <section className="bg-[#0a0a1f] h-80vh py-16 px-4 font-mono w-[100w-dvw]">
-      <div className="max-w-7xl mx-auto ">
+    <section className="w-full bg-[url('/images/FAQ/bg-faq.svg')] bg-cover bg-no-repeat bg-[#0a0a1f] py-16 px-4 font-mono">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-0 p-6 border-t-2 border-l-2 border-r-2 border-[#00ff88]">
           <div className="flex items-center gap-4">
@@ -84,7 +86,7 @@ function FaqSection() {
           {faqData.map((faq, index) => (
             <div
               key={index}
-              className={`bg-[#0a0a1f] overflow-hidden ${index > 0 ? 'border-t-2 border-[#00ff88]' : ''}`}
+              className={`bg-[#0a0a1f]/20 overflow-hidden ${index > 0 ? 'border-t-2 border-[#00ff88]' : ''}`}
             >
               {/* Question */}
               <button
@@ -128,6 +130,23 @@ function FaqSection() {
           ))}
         </div>
       </div>
+
+      <div className="flex justify-center flex-col items-center mt-[5%]">
+          <h1 className="font-family-audiowide glow-pulse text-[#05B0C1] text-5xl">Still have more questions ?</h1>
+          
+          <button
+              type="button"
+              onClick={()=>{router.push("qna")}}
+              className={`font-family-spacemono mt-[2%] mb-[5%] w-[80%] max-w-[600px] aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold`}
+          >
+              <div className="relative">
+                  <p className="font-family-audiowide text-center text-sm sm:text-md lg:text-xl">
+                      Ask Question
+                  </p>
+              </div>
+          </button>
+      </div>
+
     </section>
   );
 }
