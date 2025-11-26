@@ -91,7 +91,7 @@ function FaqSection() {
               {/* Question */}
               <button
                 onClick={() => toggleFaq(index)}
-                className="w-full flex items-center justify-between p-6 text-left transition-colors"
+                className="w-full flex items-center justify-between p-6 text-left hover:bg-[#0f0f2a] transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <span className="text-[#00ff88] text-xl">&gt;</span>
@@ -132,7 +132,7 @@ function FaqSection() {
       </div>
 
       <div className="flex justify-center flex-col items-center mt-[5%]">
-          <h1 className="font-family-audiowide glow-pulse text-[#05B0C1] text-3xl md:text-5xl text-center">Still have more questions ?</h1>
+          <h1 className="font-family-audiowide glow-pulse text-[#05B0C1] text-5xl">Still have more questions ?</h1>
           
           <button
               type="button"
