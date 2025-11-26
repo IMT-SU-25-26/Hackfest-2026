@@ -10,8 +10,8 @@ import {
     UpdateMemberInput,
     updateMemberSchema,
 } from "@/types/services/member";
-import prisma from "../prisma";
-import { handlePrismaError } from "../handlePrismaError";
+import prisma from "../config/prisma";
+import { handlePrismaError } from "../utils/handlePrismaError";
 
 export async function getMemberById(id: string): Promise<Member | null> {
     return prisma.member.findUnique({

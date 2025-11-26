@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useState, useRef, useEffect } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import {
   Earth,
@@ -9,13 +9,16 @@ import {
   Phone,
   MessageCircle,
   Lock,
+  Upload,
 } from "lucide-react";
 import { registerTeam } from "@/lib/services/team";
 import { registerAllMember } from "@/lib/services/member";
 import { toast } from "react-toastify";
 import FormInput from "./FormInput";
-import { toastError } from "@/lib/utils";
+import { toastError } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
+import cloudinary from "@/lib/config/cloudinary";
+import { generateSignature } from "@/lib/utils/cloudinary";
 
 type FormData = {
   name: string;
@@ -26,6 +29,8 @@ type FormData = {
   lineId: string;
   password: string;
   confirmPassword: string;
+  twibbonUrl?: string;
+  posterUrl?: string;
 };
 
 export interface RegisterFormHandle {
@@ -38,22 +43,131 @@ export interface RegisterFormHandle {
 export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<RegisterFormHandle>) {
   const Router = useRouter();
   const methods = useForm<FormData>();
-  const { handleSubmit, control, trigger } = methods;
+  const { handleSubmit, control, trigger, setValue } = methods;
 
   const [step, setStep] = useState(1);
-  // const [step, setStep] = stepParam;
   const [memberInputs, setMemberInputs] = useState<string[]>([""]);
   const [memberError, setMemberError] = useState<string | null>(null);
-
-  // const {
-  //   register,
-  //   handleSubmit, 
-  //   control,
-  //   trigger,
-  //   formState: { errors },
-  // } = useForm<FormData>();
+  const [twibbonFile, setTwibbonFile] = useState<string | null>(null);
+  const [posterFile, setPosterFile] = useState<string | null>(null);
+  const [widgetsReady, setWidgetsReady] = useState(false);
+  const twibbonWidgetRef = useRef<any>(null);
+  const posterWidgetRef = useRef<any>(null);
 
   const password = useWatch({ control, name: "password" });
+
+  useEffect(() => {
+    const initializeWidgets = () => {
+      if (typeof window !== "undefined" && (window as any).cloudinary) {
+        const cloudinary = (window as any).cloudinary;
+
+        // Twibbon Widget
+        twibbonWidgetRef.current = cloudinary.createUploadWidget(
+          {
+            cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+            uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+            folder: "hackfest-2026/twibbon",
+            resourceType: "image",
+            multiple: false,
+            maxFiles: 1,
+            styles: {
+              palette: {
+                window: "#090223",
+                windowBorder: "#05C174",
+                tabIcon: "#05B0C1",
+                menuIcons: "#05B0C1",
+                textDark: "#000000",
+                textLight: "#fcfffd",
+                link: "#05C174",
+                action: "#05C174",
+                inactiveTabIcon: "#555a5f",
+                error: "#F42424",
+                inProgress: "#4384F5",
+                complete: "#20B488",
+                sourceBg: "#E4EoF1"
+              },
+              fonts: {
+                default: null,
+                "'Courier New', monospace": {
+                  url: "https://fonts.googleapis.com/css?family=Courier+New",
+                  active: true
+                }
+              }
+            },
+            clientAllowedFormats: ["jpg", "jpeg", "png", "gif", "webp"],
+            maxFileSize: 5242880 // 5MB
+          },
+          (error: any, result: any) => {
+            if (error) {
+              toast.error("Upload failed");
+              return;
+            }
+            if (result?.event === "success") {
+              setTwibbonFile(result.info.secure_url);
+              setValue("twibbonUrl", result.info.secure_url);
+              toast.success("Twibbon uploaded successfully!");
+            }
+          }
+        );
+
+        // Poster Widget
+        posterWidgetRef.current = cloudinary.createUploadWidget(
+          {
+            cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+            uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+            folder: "hackfest-2026/poster",
+            resourceType: "image",
+            multiple: false,
+            maxFiles: 1,
+            styles: {
+              palette: {
+                window: "#090223",
+                windowBorder: "#05C174",
+                tabIcon: "#05B0C1",
+                menuIcons: "#05B0C1",
+                textDark: "#000000",
+                textLight: "#fcfffd",
+                link: "#05C174",
+                action: "#05C174",
+                inactiveTabIcon: "#555a5f",
+                error: "#F42424",
+                inProgress: "#4384F5",
+                complete: "#20B488",
+                sourceBg: "#E4EoF1"
+              },
+              fonts: {
+                default: null,
+                "'Courier New', monospace": {
+                  url: "https://fonts.googleapis.com/css?family=Courier+New",
+                  active: true
+                }
+              }
+            },
+            clientAllowedFormats: ["jpg", "jpeg", "png", "gif", "webp"],
+            maxFileSize: 5242880 // 5MB
+          },
+          (error: any, result: any) => {
+            if (error) {
+              toast.error("Upload failed");
+              return;
+            }
+            if (result?.event === "success") {
+              setPosterFile(result.info.secure_url);
+              setValue("posterUrl", result.info.secure_url);
+              toast.success("Poster uploaded successfully!");
+            }
+          }
+        );
+
+        setWidgetsReady(true);
+      } else {
+        // Retry if Cloudinary not loaded yet
+        setTimeout(initializeWidgets, 500);
+      }
+    };
+
+    initializeWidgets();
+  }, [setValue]);
 
   const nextStep = async (): Promise<number | null> => {
     let fieldsToValidate: (keyof FormData)[] = [];
@@ -70,19 +184,28 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
         } else {
           setMemberError(null);
         }
-        const newStep2 = Math.min(4, step + 1);
+        const newStep2 = Math.min(5, step + 1);
         setStep(newStep2);
         return newStep2;
       case 3:
         fieldsToValidate = ["whatsapp", "lineId"];
         break;
       case 4:
+        // Validate file uploads
+        if (!twibbonFile || !posterFile) {
+          toast.error("Please upload both Twibbon and Poster files");
+          return null;
+        }
+        const newStep4 = Math.min(5, step + 1);
+        setStep(newStep4);
+        return newStep4;
+      case 5:
         fieldsToValidate = ["password", "confirmPassword"];
         break;
     }
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
-      const newStep = Math.min(4, step + 1);
+      const newStep = Math.min(5, step + 1);
       setStep(newStep);
       return newStep;
     }
@@ -113,11 +236,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
 
   const onSubmit = async (data: FormData) => {
     console.log("Form Data:", data);
-    console.log(
-      "Members:",
-      memberInputs.filter((m) => m.trim()),
-    );
-    // Handle Submission Logic Here
     // Register Team
     const team = await registerTeam({
       team_name: data.teamName,
@@ -144,9 +262,9 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
     }else{
       toast.error(members.error);
     }
-
   };
 
+  // Trigger Button by ref
   useImperativeHandle(ref, () => ({
     nextStep,
     prevStep,
@@ -155,6 +273,31 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
     },
     getStep: () => step,
   }));
+
+  // Handle Upload button
+  // function handleUploadTwibbon(){
+  //   const timestamp = Math.floor(Date.now() / 1000);
+  //   const signature = generateSignature({
+  //     timestamp,
+  //     folder: "hackfest2026/twibbon"
+  //   })
+
+  //   const widget = window.cloudinary.createUploadWidget({
+  //     cloudName: "your_cloud_name",
+  //     uploadPreset: "your_signed_preset",
+  //     folder: "optional_folder", // must match signed param if locked
+  //     apiKey: "your_api_key",
+  //     timestamp, // from server
+  //     signature, // from server
+  //   },
+  //   (err, result) => {
+  //     if (!err && result && result.event === "success") {
+  //       console.log("Uploaded:", result.info);
+  //     }
+  //   }
+  // );
+
+  // }
 
   return (
     <div className="font-family-audiowide relative z-1 flex flex-col items-center justify-center">
@@ -175,7 +318,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
           {/* Step 1: Name and Country */}
           {step === 1 && (
             <>
-              {/* Team Name Input */}
               <FormInput
                 id="teamName"
                 label="Team Name"
@@ -193,10 +335,10 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               />
             </>
           )}
-          {/* Step 2: University and Team Name */}
+          
+          {/* Step 2: University and Team Members */}
           {step === 2 && (
             <>
-              {/* University Input */}
               <FormInput
                 id="university"
                 label="University"
@@ -205,7 +347,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                 rules={{ required: "University is required" }}
               />
 
-            {/*Team Members */}
             <div className="mb-4">
               <label className="mb-2 block text-lg text-[#05C174]">
                 Team Member Names
@@ -214,9 +355,7 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                 <div key={index} className="mb-4">
                   <div className="relative">
                     <div className="absolute top-1/2 left-[5%] z-10 -translate-y-1/2 text-[#05C174]">
-                      {/* Desktop */}
                       <Users size={32} className="hidden md:block" />
-                      {/* Mobile */}
                       <Users size={20} className="block md:hidden" />
                     </div>
                     <input
@@ -254,14 +393,12 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                 <p className="text-destructive mt-1 text-sm">{memberError}</p>
               )}
             </div>
-              
             </>
           )}
           
           {/* Step 3: WhatsApp and Line ID */}
           {step === 3 && (
             <>
-              {/* WhatsApp Input */}
               <FormInput
                 id="whatsapp"
                 label="WhatsApp Number"
@@ -275,7 +412,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                 }}
               />
 
-              {/* Line ID Input */}
               <FormInput
                 id="lineId"
                 label="Line ID"
@@ -285,10 +421,49 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               />
             </>
           )}
-          {/* Step 4: Password and Confirm Password */}
+
+          {/* Step 4: Upload Twibbon and Poster */}
           {step === 4 && (
             <>
-              {/* Password Input */}
+              {/* Upload Twibbon */}
+              <label className="mb-2 block text-lg text-[#05C174]">
+                Twibbon Image
+              </label>
+              <button
+                type="button"
+                onClick={()=>{}}
+                className="font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold cursor-pointer flex items-center justify-center mb-4"
+              >
+                <div className="relative flex items-center justify-center w-full h-full">
+                  <Upload size={32} className="absolute left-[2.5%]" />
+                  <p className="text-sm sm:text-md lg:text-xl">
+                    {twibbonFile ? "✓ Uploaded" : "Upload Twibbon File"}
+                  </p>
+                </div>
+              </button>
+              
+              {/* Upload Poster */}
+              <label className="mb-2 block text-lg text-[#05C174]">
+                Poster
+              </label>
+              <button
+                type="button"
+                onClick={()=>{}}
+                className="font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold cursor-pointer flex items-center justify-center"
+              >
+                <div className="relative flex items-center justify-center w-full h-full">
+                  <Upload size={32} className="absolute left-[2.5%]" />
+                  <p className="text-sm sm:text-md lg:text-xl">
+                    {posterFile ? "✓ Uploaded" : "Upload Poster File"}
+                  </p>
+                </div>
+              </button>
+            </>
+          )}
+
+          {/* Step 5: Password and Confirm Password */}
+          {step === 5 && (
+            <>
               <FormInput
                 id="password"
                 label="Password"
@@ -298,7 +473,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                 rules={{ required: "Password is required" }}
               />
 
-              {/* Confirm Password Input */}
               <FormInput
                 id="confirmPassword"
                 label="Confirm Password"

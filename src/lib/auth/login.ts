@@ -3,7 +3,7 @@
 
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
-import prisma from "../prisma";
+import prisma from "../config/prisma";
 import { cookies } from "next/headers";
 
 export async function teamLogin(team_name: string, password: string) {

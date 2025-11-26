@@ -1,12 +1,12 @@
 'use server';
 
 import { CreateTeamInput, createTeamSchema, TeamResult, UpdateTeamInput, updateTeamSchema } from "@/types/services/team";
-import prisma from "../prisma";
+import prisma from "../config/prisma";
 import { ActionResult } from "@/types/action";
 import { Team } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
-import { handlePrismaError } from "../handlePrismaError";
+import { handlePrismaError } from "../utils/handlePrismaError";
 
 export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({

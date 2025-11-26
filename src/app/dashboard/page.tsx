@@ -1,7 +1,7 @@
 import TeamList from '@/components/dashboard/TeamList'
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/config/prisma';
 import React from 'react'
 
 export default async function Dashboard() {

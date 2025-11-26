@@ -54,7 +54,7 @@ export default function RegisterPage() {
           </div>
         )}
 
-        {visibleStep < 4 && (
+        {visibleStep < 5 && (
           <div
             onClick={async ()=>{
               const s = await formRegisRef.current?.nextStep?.();
@@ -72,7 +72,7 @@ export default function RegisterPage() {
           </div>
         )}
         
-        {visibleStep === 4 && (
+        {visibleStep === 5 && (
           <div
 
             className="

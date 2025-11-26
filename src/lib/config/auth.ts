@@ -1,6 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt"
-import prisma from "@/lib/prisma"
+import prisma from "@/lib/config/prisma"
 import { NextAuthOptions } from "next-auth"
 import { JWT } from "next-auth/jwt"
 import { Session } from "next-auth"
