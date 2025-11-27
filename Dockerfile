@@ -25,27 +25,21 @@
 # CMD ["pnpm", "start"]
 
 
-FROM node:20-bullseye AS deps
+FROM node:20 AS deps
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
-FROM node:20-bullseye AS builder
+RUN npm install -g pnpm
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+FROM node:20 AS builder
 WORKDIR /app
+
+# Copy pnpm binary from deps stage
+COPY --from=deps /usr/local/bin/pnpm /usr/local/bin/pnpm
+
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
+
 RUN pnpm prisma generate
 RUN pnpm build
-
-FROM node:20-bullseye AS runner
-WORKDIR /app
-
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-
-EXPOSE 3000
-CMD ["pnpm", "start"]
