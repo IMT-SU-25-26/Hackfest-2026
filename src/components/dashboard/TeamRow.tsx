@@ -1,11 +1,8 @@
-// app/admin/teams/TeamRow.tsx
-
-import { useState } from "react";
-import { deleteTeam } from "@/lib/services/team";
-import { Member, Team } from "@/generated/prisma";
+import React, { useState } from "react";
+import { deleteTeam } from "@/lib/services/team"; 
+import { Team, Member } from "@/generated/prisma";
 import { toast } from "react-toastify";
 
-// Extend the Prisma Team type to include members for type safety
 type TeamWithMembers = Team & { members: Member[] };
 
 interface TeamRowProps {
@@ -31,6 +28,7 @@ const TeamRow: React.FC<TeamRowProps> = ({
 
     setIsDeleting(true);
     try {
+      // Assuming deleteTeam is imported correctly
       const result = await deleteTeam(team.team_id);
       if (result.success) {
         toast.success("Team deleted successfully");
@@ -65,20 +63,38 @@ const TeamRow: React.FC<TeamRowProps> = ({
           {team.line_id}
         </td>
         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-          <div className="flex justify-center space-x-2">
+          {/* Added flex-wrap to handle multiple buttons on smaller screens */}
+          <div className="flex justify-center items-center gap-2 flex-wrap">
+            
+            {/* --- NEW BUTTON: POSTER --- */}
+            <a
+              href={team.poster_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded-full font-semibold text-xs tracking-wider transition duration-150 no-underline"
+            >
+              POSTER
+            </a>
+
+            {/* --- NEW BUTTON: TWIBBON --- */}
+            <a
+              href={team.twibbon_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-full font-semibold text-xs tracking-wider transition duration-150 no-underline"
+            >
+              TWIBBON
+            </a>
+
+            {/* EXISTING EDIT BUTTON */}
             <button
               onClick={onEditClick}
               className="text-white bg-teal-600 hover:bg-teal-500 px-3 py-1 rounded-full font-semibold text-xs tracking-wider transition duration-150"
             >
               EDIT
             </button>
-            <button
-              onClick={handleDelete}
-              disabled={isDeleting}
-              className="text-red-400 border border-red-500 hover:bg-red-900/50 px-3 py-1 rounded-full font-semibold text-xs tracking-wider transition duration-150 disabled:opacity-50"
-            >
-              {isDeleting ? "DELETING..." : "DELETE"}
-            </button>
+
+            {/* EXISTING MEMBERS TOGGLE */}
             <button
               onClick={() => setIsMembersOpen(!isMembersOpen)}
               className={`px-3 py-1 rounded-full font-semibold text-xs tracking-wider transition duration-150 ${
@@ -89,6 +105,15 @@ const TeamRow: React.FC<TeamRowProps> = ({
             >
               {isMembersOpen ? "CLOSE" : "MEMBERS"}
             </button>
+
+             {/* EXISTING DELETE BUTTON */}
+             <button
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="text-red-400 border border-red-500 hover:bg-red-900/50 px-3 py-1 rounded-full font-semibold text-xs tracking-wider transition duration-150 disabled:opacity-50"
+            >
+              {isDeleting ? "..." : "DELETE"}
+            </button>
           </div>
         </td>
       </tr>
@@ -98,13 +123,13 @@ const TeamRow: React.FC<TeamRowProps> = ({
         <tr className="bg-gray-800/80">
           <td colSpan={6} className="px-6 py-4 border-t border-teal-400/30">
             <h4 className="text-sm font-extrabold mb-2 text-teal-400 tracking-wider">
-              MEMBER LOG ({team.members.length})
+              Team Member ({team.members.length})
             </h4>
             {team.members.length > 0 ? (
               <ul className="list-disc list-inside space-y-1 ml-4 text-gray-300">
                 {team.members.map((member) => (
                   <li key={member.member_id} className="text-sm">
-                    <span className="font-mono text-teal-400/90">ID:</span> {member.member_id.slice(0, 8)}... - <span className="font-semibold">{member.name}</span>
+                    <span className="font-mono text-teal-400/90"></span> <span className="font-semibold">{member.name}</span>
                   </li>
                 ))}
               </ul>
