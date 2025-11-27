@@ -11,7 +11,7 @@ async function main() {
   // Hash passwords
   const passwordAlpha = await bcrypt.hash("password123", 10);
   const passwordBeta = await bcrypt.hash("password456", 10);
-  const passwordAdmin = await bcrypt.hash("admin123", 10);
+  const passwordAdmin = await bcrypt.hash("h4ckf3st@4dm1n", 10);
 
   // Team 1
   const team1 = await prisma.team.create({
@@ -66,7 +66,7 @@ async function main() {
   // ✅ Admin Team (Only 1 member)
   const teamAdmin = await prisma.team.create({
     data: {
-      team_name: "Hackfest Admin",
+      team_name: "Admin Hackfest",
       country: "Indonesia",
       university: "Admin HQ",
       phone_number: "0000000000",
