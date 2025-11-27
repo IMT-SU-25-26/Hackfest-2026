@@ -240,7 +240,7 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
       toast.error("Make sure all field is filled")
       return
     }
-    
+
     const team = await registerTeam({
       team_name: data.teamName,
       country: data.country,
@@ -291,35 +291,32 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
     }
 
     try {
-      // 2. Get signature and timestamp from server
       const { signature, timestamp } = await generateSignature({folder, upload_preset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!});
-
-      // 3. Create the widget
       const widget = window.cloudinary.createUploadWidget(
         {
           cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
           apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
           uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
           folder: folder,
-
+          
           uploadSignature: signature,
           uploadSignatureTimestamp: timestamp,
-
+          
           sources: ['local', 'url'],
           multiple: false,
+          singleUploadAutoClose: false,
         },
-        (error: any, result: any) => {
+        (error: string, result: CloudinaryUploadWidgetResults) => {
           if (!error && result && result.event === "success") {
-            console.log("Done! Here is the image info: ", result.info);
-            // Save the secure_url to your state
-            setFileUrl(result.info.secure_url);
-          } else if (error) {
+            const info = result.info as CloudinaryUploadWidgetInfo;
+            console.log("Done! Here is the image info: ", info);
+            setFileUrl(info.secure_url);
+          }
+          else if (error) {
             console.error("Upload error:", error);
           }
         }
       );
-
-      // 4. IMPORTANT: Open the widget
       widget.open();
 
     } catch (error) {
