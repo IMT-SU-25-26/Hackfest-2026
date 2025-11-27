@@ -82,7 +82,7 @@ function TimelineSection() {
         <div
           className="block md:hidden w-full min-h-[500px] relative"
           style={{
-            backgroundImage: "url('/timeline/background-fee-mobile.svg')",
+            backgroundImage: "url('/images/timeline/background-fee-mobile.svg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
