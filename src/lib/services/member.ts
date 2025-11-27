@@ -46,6 +46,7 @@ export async function registerMember(
             message: "Member created successfully",
         };
     } catch (error) {
+        console.log("Error Register member : \n"+error)
         return {
             success: false,
             error: handlePrismaError(error),
@@ -90,6 +91,7 @@ export async function registerAllMember(
       data: [],
     };
   } catch (err) {
+    console.log("Error Register All member : \n"+err)
     return { success: false, error: handlePrismaError(err)};
   }
 }
@@ -124,6 +126,7 @@ export async function updateMember(
             message: "Member updated successfully",
         };
     } catch (err) {
+        console.log("Error Update member : \n"+err)
         return { success: false, error: handlePrismaError(err) };
     }
 }

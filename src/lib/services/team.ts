@@ -56,6 +56,7 @@ export async function registerTeam(
       message: "Team registered successfully",
     };
   } catch (error) {
+    console.log("Error Register Team: \n"+error)
     return {
       success: false,
       error: handlePrismaError(error),
@@ -93,6 +94,7 @@ export async function updateTeam(
       message: "Team updated successfully",
     };
   } catch (error) {
+    console.log("Error Update Team: \n"+error)
     return {
       success: false,
       error: handlePrismaError(error),
@@ -115,6 +117,7 @@ export async function deleteTeam(
       message: "Team deleted successfully",
     };
   } catch (error) {
+    console.log("Error Delete Team: \n"+error)
     return {
       success: false,
       error: handlePrismaError(error),

@@ -24,6 +24,8 @@ async function main() {
       password: passwordAlpha,
       proposal_url: "https://example.com/proposal-alpha",
       role: "USER",
+      poster_url: "https://posterteam1",
+      twibbon_url: "https://twibbonteam1",
       members: {
         create: [
           { name: "Member 1A" },
@@ -47,6 +49,8 @@ async function main() {
       password: passwordBeta,
       proposal_url: "https://example.com/proposal-beta",
       role: "USER",
+      poster_url: "https://posterteam2",
+      twibbon_url: "https://twibbonteam2",
       members: {
         create: [
           { name: "Member 1B" },
@@ -70,6 +74,8 @@ async function main() {
       password: passwordAdmin,
       proposal_url: null,
       role: "ADMIN",
+      poster_url: "https://posterAdmin",
+      twibbon_url: "https://twibbonAdmin",
       members: {
         create: [
           { name: "Hackfest Administrator" },

@@ -33,9 +33,19 @@ export const createTeamSchema =  z.object({
         .min(8, "Password must be at least 8 characters")
         .max(100, "Password must be at most 100 characters"),
 
+    poster_url: z
+        .string()
+        .min(1, "Poster URL is required")
+        .url("Invalid Poster Url"),
+
+    twibbon_url: z
+        .string()
+        .min(1, "Twibbon URL is required")
+        .url("Invalid twibbon URL"),
+
     proposal_url: z
         .string()
-        .url("Invalid URL")
+        .url("Invalid Proposal URL")
         .optional(),
     
 })

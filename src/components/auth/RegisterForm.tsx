@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useImperativeHandle, useState, useRef, useEffect } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import {
   Earth,
@@ -17,8 +17,8 @@ import { toast } from "react-toastify";
 import FormInput from "./FormInput";
 import { toastError } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
-import cloudinary from "@/lib/config/cloudinary";
 import { generateSignature } from "@/lib/utils/cloudinary";
+import Script from "next/script";
 
 type FormData = {
   name: string;
@@ -48,126 +48,125 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
   const [step, setStep] = useState(1);
   const [memberInputs, setMemberInputs] = useState<string[]>([""]);
   const [memberError, setMemberError] = useState<string | null>(null);
-  const [twibbonFile, setTwibbonFile] = useState<string | null>(null);
-  const [posterFile, setPosterFile] = useState<string | null>(null);
-  const [widgetsReady, setWidgetsReady] = useState(false);
-  const twibbonWidgetRef = useRef<any>(null);
-  const posterWidgetRef = useRef<any>(null);
+  const [twibbonUrl, setTwibbonUrl] = useState<string | null>(null);
+  const [posterUrl, setPosterUrl] = useState<string | null>(null);
+  // const twibbonWidgetRef = useRef<any>(null);
+  // const posterWidgetRef = useRef<any>(null);
 
   const password = useWatch({ control, name: "password" });
 
-  useEffect(() => {
-    const initializeWidgets = () => {
-      if (typeof window !== "undefined" && (window as any).cloudinary) {
-        const cloudinary = (window as any).cloudinary;
+  // useEffect(() => {
+  //   const initializeWidgets = () => {
+  //     if (typeof window !== "undefined" && (window as any).cloudinary) {
+  //       const cloudinary = (window as any).cloudinary;
 
-        // Twibbon Widget
-        twibbonWidgetRef.current = cloudinary.createUploadWidget(
-          {
-            cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-            uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-            folder: "hackfest-2026/twibbon",
-            resourceType: "image",
-            multiple: false,
-            maxFiles: 1,
-            styles: {
-              palette: {
-                window: "#090223",
-                windowBorder: "#05C174",
-                tabIcon: "#05B0C1",
-                menuIcons: "#05B0C1",
-                textDark: "#000000",
-                textLight: "#fcfffd",
-                link: "#05C174",
-                action: "#05C174",
-                inactiveTabIcon: "#555a5f",
-                error: "#F42424",
-                inProgress: "#4384F5",
-                complete: "#20B488",
-                sourceBg: "#E4EoF1"
-              },
-              fonts: {
-                default: null,
-                "'Courier New', monospace": {
-                  url: "https://fonts.googleapis.com/css?family=Courier+New",
-                  active: true
-                }
-              }
-            },
-            clientAllowedFormats: ["jpg", "jpeg", "png", "gif", "webp"],
-            maxFileSize: 5242880 // 5MB
-          },
-          (error: any, result: any) => {
-            if (error) {
-              toast.error("Upload failed");
-              return;
-            }
-            if (result?.event === "success") {
-              setTwibbonFile(result.info.secure_url);
-              setValue("twibbonUrl", result.info.secure_url);
-              toast.success("Twibbon uploaded successfully!");
-            }
-          }
-        );
+  //       // Twibbon Widget
+  //       twibbonWidgetRef.current = cloudinary.createUploadWidget(
+  //         {
+  //           cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  //           uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+  //           folder: "hackfest-2026/twibbon",
+  //           resourceType: "image",
+  //           multiple: false,
+  //           maxFiles: 1,
+  //           styles: {
+  //             palette: {
+  //               window: "#090223",
+  //               windowBorder: "#05C174",
+  //               tabIcon: "#05B0C1",
+  //               menuIcons: "#05B0C1",
+  //               textDark: "#000000",
+  //               textLight: "#fcfffd",
+  //               link: "#05C174",
+  //               action: "#05C174",
+  //               inactiveTabIcon: "#555a5f",
+  //               error: "#F42424",
+  //               inProgress: "#4384F5",
+  //               complete: "#20B488",
+  //               sourceBg: "#E4EoF1"
+  //             },
+  //             fonts: {
+  //               default: null,
+  //               "'Courier New', monospace": {
+  //                 url: "https://fonts.googleapis.com/css?family=Courier+New",
+  //                 active: true
+  //               }
+  //             }
+  //           },
+  //           clientAllowedFormats: ["jpg", "jpeg", "png", "gif", "webp"],
+  //           maxFileSize: 5242880 // 5MB
+  //         },
+  //         (error: any, result: any) => {
+  //           if (error) {
+  //             toast.error("Upload failed");
+  //             return;
+  //           }
+  //           if (result?.event === "success") {
+  //             setTwibbonFile(result.info.secure_url);
+  //             setValue("twibbonUrl", result.info.secure_url);
+  //             toast.success("Twibbon uploaded successfully!");
+  //           }
+  //         }
+  //       );
 
-        // Poster Widget
-        posterWidgetRef.current = cloudinary.createUploadWidget(
-          {
-            cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-            uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-            folder: "hackfest-2026/poster",
-            resourceType: "image",
-            multiple: false,
-            maxFiles: 1,
-            styles: {
-              palette: {
-                window: "#090223",
-                windowBorder: "#05C174",
-                tabIcon: "#05B0C1",
-                menuIcons: "#05B0C1",
-                textDark: "#000000",
-                textLight: "#fcfffd",
-                link: "#05C174",
-                action: "#05C174",
-                inactiveTabIcon: "#555a5f",
-                error: "#F42424",
-                inProgress: "#4384F5",
-                complete: "#20B488",
-                sourceBg: "#E4EoF1"
-              },
-              fonts: {
-                default: null,
-                "'Courier New', monospace": {
-                  url: "https://fonts.googleapis.com/css?family=Courier+New",
-                  active: true
-                }
-              }
-            },
-            clientAllowedFormats: ["jpg", "jpeg", "png", "gif", "webp"],
-            maxFileSize: 5242880 // 5MB
-          },
-          (error: any, result: any) => {
-            if (error) {
-              toast.error("Upload failed");
-              return;
-            }
-            if (result?.event === "success") {
-              setPosterFile(result.info.secure_url);
-              setValue("posterUrl", result.info.secure_url);
-              toast.success("Poster uploaded successfully!");
-            }
-          }
-        );
+  //       // Poster Widget
+  //       posterWidgetRef.current = cloudinary.createUploadWidget(
+  //         {
+  //           cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  //           uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+  //           folder: "hackfest-2026/poster",
+  //           resourceType: "image",
+  //           multiple: false,
+  //           maxFiles: 1,
+  //           styles: {
+  //             palette: {
+  //               window: "#090223",
+  //               windowBorder: "#05C174",
+  //               tabIcon: "#05B0C1",
+  //               menuIcons: "#05B0C1",
+  //               textDark: "#000000",
+  //               textLight: "#fcfffd",
+  //               link: "#05C174",
+  //               action: "#05C174",
+  //               inactiveTabIcon: "#555a5f",
+  //               error: "#F42424",
+  //               inProgress: "#4384F5",
+  //               complete: "#20B488",
+  //               sourceBg: "#E4EoF1"
+  //             },
+  //             fonts: {
+  //               default: null,
+  //               "'Courier New', monospace": {
+  //                 url: "https://fonts.googleapis.com/css?family=Courier+New",
+  //                 active: true
+  //               }
+  //             }
+  //           },
+  //           clientAllowedFormats: ["jpg", "jpeg", "png", "gif", "webp"],
+  //           maxFileSize: 5242880 // 5MB
+  //         },
+  //         (error: any, result: any) => {
+  //           if (error) {
+  //             toast.error("Upload failed");
+  //             return;
+  //           }
+  //           if (result?.event === "success") {
+  //             setPosterFile(result.info.secure_url);
+  //             setValue("posterUrl", result.info.secure_url);
+  //             toast.success("Poster uploaded successfully!");
+  //           }
+  //         }
+  //       );
 
-        setWidgetsReady(true);
-      } else {
-        // Retry if Cloudinary not loaded yet
-        setTimeout(initializeWidgets, 500);
-      }
-    };
+  //       setWidgetsReady(true);
+  //     } else {
+  //       // Retry if Cloudinary not loaded yet
+  //       setTimeout(initializeWidgets, 500);
+  //     }
+  //   };
 
-    initializeWidgets();
-  }, [setValue]);
+  //   initializeWidgets();
+  // }, [setValue]);
 
   const nextStep = async (): Promise<number | null> => {
     let fieldsToValidate: (keyof FormData)[] = [];
@@ -192,7 +191,7 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
         break;
       case 4:
         // Validate file uploads
-        if (!twibbonFile || !posterFile) {
+        if (!twibbonUrl || !posterUrl) {
           toast.error("Please upload both Twibbon and Poster files");
           return null;
         }
@@ -237,14 +236,22 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
   const onSubmit = async (data: FormData) => {
     console.log("Form Data:", data);
     // Register Team
+    if(!posterUrl && !twibbonUrl){
+      toast.error("Make sure all field is filled")
+      return
+    }
+    
     const team = await registerTeam({
       team_name: data.teamName,
       country: data.country,
       university: data.university,
       phone_number: data.whatsapp,
       line_id: data.lineId,
-      password: data.password
+      password: data.password,
+      poster_url: posterUrl!,
+      twibbon_url: twibbonUrl!
     })
+
     if(!team.success){
       toastError(team.error!);
       return;
@@ -275,29 +282,57 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
   }));
 
   // Handle Upload button
-  // function handleUploadTwibbon(){
-  //   const timestamp = Math.floor(Date.now() / 1000);
-  //   const signature = generateSignature({
-  //     timestamp,
-  //     folder: "hackfest2026/twibbon"
-  //   })
+// Reusable Handler
+  const handleOpenWidget = async (folder: string, setFileUrl: (url: string) => void) => {
+    // 1. Check if script is loaded
+    if (!window.cloudinary) {
+      console.error("Cloudinary script not loaded yet");
+      return;
+    }
 
-  //   const widget = window.cloudinary.createUploadWidget({
-  //     cloudName: "your_cloud_name",
-  //     uploadPreset: "your_signed_preset",
-  //     folder: "optional_folder", // must match signed param if locked
-  //     apiKey: "your_api_key",
-  //     timestamp, // from server
-  //     signature, // from server
-  //   },
-  //   (err, result) => {
-  //     if (!err && result && result.event === "success") {
-  //       console.log("Uploaded:", result.info);
-  //     }
-  //   }
-  // );
+    try {
+      // 2. Get signature and timestamp from server
+      const { signature, timestamp } = await generateSignature({folder, upload_preset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!});
 
-  // }
+      // 3. Create the widget
+      const widget = window.cloudinary.createUploadWidget(
+        {
+          cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+          apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+          uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+          folder: folder,
+
+          uploadSignature: signature,
+          uploadSignatureTimestamp: timestamp,
+
+          sources: ['local', 'url'],
+          multiple: false,
+        },
+        (error: any, result: any) => {
+          if (!error && result && result.event === "success") {
+            console.log("Done! Here is the image info: ", result.info);
+            // Save the secure_url to your state
+            setFileUrl(result.info.secure_url);
+          } else if (error) {
+            console.error("Upload error:", error);
+          }
+        }
+      );
+
+      // 4. IMPORTANT: Open the widget
+      widget.open();
+
+    } catch (error) {
+      console.error("Error generating signature:", error);    
+    }
+  };
+
+  async function handleUploadTwibbon(){
+    await handleOpenWidget("hackfest26/twibbon/", (url)=>{setTwibbonUrl(url)});
+  }
+  async function handleUploadPoster(){
+    await handleOpenWidget("hackfest26/poster/", (url)=>{setPosterUrl(url)});
+  }
 
   return (
     <div className="font-family-audiowide relative z-1 flex flex-col items-center justify-center">
@@ -431,13 +466,13 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               </label>
               <button
                 type="button"
-                onClick={()=>{}}
+                onClick={()=>{handleUploadTwibbon()}}
                 className="font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold cursor-pointer flex items-center justify-center mb-4"
               >
                 <div className="relative flex items-center justify-center w-full h-full">
                   <Upload size={32} className="absolute left-[2.5%]" />
                   <p className="text-sm sm:text-md lg:text-xl">
-                    {twibbonFile ? "✓ Uploaded" : "Upload Twibbon File"}
+                    {twibbonUrl ? "✓ Uploaded" : "Upload Twibbon File"}
                   </p>
                 </div>
               </button>
@@ -448,13 +483,13 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               </label>
               <button
                 type="button"
-                onClick={()=>{}}
+                onClick={()=>{handleUploadPoster()}}
                 className="font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold cursor-pointer flex items-center justify-center"
               >
                 <div className="relative flex items-center justify-center w-full h-full">
                   <Upload size={32} className="absolute left-[2.5%]" />
                   <p className="text-sm sm:text-md lg:text-xl">
-                    {posterFile ? "✓ Uploaded" : "Upload Poster File"}
+                    {posterUrl ? "✓ Uploaded" : "Upload Poster File"}
                   </p>
                 </div>
               </button>
@@ -491,6 +526,10 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
         </form>
         </FormProvider>
       </div>
+      <Script 
+        src="https://widget.cloudinary.com/v2.0/global/all.js" 
+        onLoad={() => console.log("Cloudinary Widget Loaded")}
+      />
     </div>
   );
 }

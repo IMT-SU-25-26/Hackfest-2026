@@ -27,6 +27,8 @@ model Team {
   phone_number String
   line_id      String
   password     String
+  poster_url   String
+  twibbon_url  String
   proposal_url String?
   role         Role          @default(USER)
   members      Member[]
