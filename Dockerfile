@@ -24,19 +24,19 @@
 # EXPOSE 3000
 # CMD ["pnpm", "start"]
 
-
 FROM node:20 AS deps
 WORKDIR /app
 
-RUN npm install -g pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
+
 
 FROM node:20 AS builder
 WORKDIR /app
 
-# Copy pnpm binary from deps stage
-COPY --from=deps /usr/local/bin/pnpm /usr/local/bin/pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
