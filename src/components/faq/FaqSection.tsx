@@ -3,37 +3,24 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { DiscussionData } from "@/types/services/discussion";
+import { Send } from "lucide-react";
+import { createReply } from "@/lib/services/discussion";
+import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
+import { Role } from "@/generated/prisma";
 
-interface FaqItem {
-  question: string;
-  answer: string[];
+type FaqSectionProps = {
+  discussion: DiscussionData[];
 }
 
-const faqData: FaqItem[] = [
-  {
-    question: "Apa itu hackfest ?",
-    answer: [
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    ],
-  },
-  {
-    question: "Kenapa harus hackfest ?",
-    answer: [
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    ],
-  },
-  {
-    question: "Hackfest berapa kali?",
-    answer: [
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    ],
-  },
-];
+function FaqSection({discussion}:FaqSectionProps) {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.role === Role.ADMIN;
 
-function FaqSection() {
   const router = useRouter()
   const [openIndexes, setOpenIndexes] = useState<number[]>([2]);
+  const [replyContent, setReplyContent] = useState<{ [key: string]: string }>({});
 
   const toggleFaq = (index: number) => {
     setOpenIndexes((prev) =>
@@ -43,8 +30,33 @@ function FaqSection() {
     );
   };
 
+  async function replyQuestion(questionId: string) {
+    const content = replyContent[questionId];
+    if (!content?.trim()) {
+      toast.warn("Please write a reply");
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append("content", content);
+    formData.append("discussionId", questionId);
+    
+    try {
+      const result = await createReply(formData);
+      if (result?.success) {
+        setReplyContent({ ...replyContent, [questionId]: "" });
+        toast.success("Reply posted successfully");
+      } else {
+        toast.error(result?.error || "Failed to post reply");
+      }
+    } catch (error) {
+      console.error("Error posting reply:", error);
+      toast.error("Error posting reply");
+    }
+  }
+
   return (
-    <section className="w-full bg-[url('/images/FAQ/bg-faq.svg')] bg-cover bg-no-repeat bg-[#0a0a1f] py-16 px-4 font-mono">
+    <section id="faq" className="w-full bg-[url('/images/FAQ/bg-faq.svg')] bg-cover bg-no-repeat bg-[#0a0a1f] py-16 px-4 font-mono">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-0 p-6 border-t-2 border-l-2 border-r-2 border-[#00ff88]">
@@ -62,8 +74,8 @@ function FaqSection() {
             />
           </div>
 
-          <h2 className="text-5xl md:text-6xl font-family-audiowide font-bold text-[#00ff88] tracking-wider">
-            FAQ
+          <h2 className="text-3xl md:text-6xl font-family-audiowide font-bold text-[#00ff88] tracking-wider">
+            Discussion
           </h2>
 
           <div className="flex items-center gap-4">
@@ -83,7 +95,7 @@ function FaqSection() {
 
         {/* FAQ Items */}
         <div className="border-2 border-[#00ff88]">
-          {faqData.map((faq, index) => (
+          {discussion.map((faq, index) => (
             <div
               key={index}
               className={`bg-[#0a0a1f]/20 overflow-hidden ${index > 0 ? 'border-t-2 border-[#00ff88]' : ''}`}
@@ -91,7 +103,7 @@ function FaqSection() {
               {/* Question */}
               <button
                 onClick={() => toggleFaq(index)}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-[#0f0f2a] transition-colors"
+                className="w-full flex items-center justify-between p-6 text-left transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <span className="text-[#00ff88] text-xl">&gt;</span>
@@ -108,22 +120,45 @@ function FaqSection() {
 
               {/* Answer */}
               <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                className={`transition-all duration-300 ease-in-out ${
                   openIndexes.includes(index)
-                    ? "max-h-96 opacity-100"
-                    : "max-h-0 opacity-0"
+                    ? "max-h-96 opacity-100 overflow-visible"
+                    : "max-h-0 opacity-0 overflow-hidden"
                 }`}
               >
                 <div className="px-6 pb-6 pl-14 space-y-3">
-                  {faq.answer.map((paragraph, pIndex) => (
+                  {faq.replies.map((reply, pIndex) => (
                     <p
                       key={pIndex}
                       className="text-[#00ff88] text-base md:text-lg leading-relaxed"
                     >
                       <span className="text-[#00ff88]  mr-2">&gt;</span>
-                      {paragraph}
+                      {reply.content}
                     </p>
                   ))}
+
+                  {isAdmin && (
+                    <>
+                      {/* Reply Question */}
+                      <div className="flex gap-2 mt-4">
+                        <input 
+                          type="text" 
+                          placeholder="Write a reply..."
+                          value={replyContent[faq.id] || ""}
+                          onChange={(e) => setReplyContent({ ...replyContent, [faq.id]: e.target.value })}
+                          className="flex-1 border border-[#05C174] outline-0 active:outline-0 focus:outline-0 focus:border-[#00ff88] font-family-audiowide text-[#05C174] placeholder-[#05C174]/50 p-[1%] bg-transparent transition-colors" 
+                        />
+                        <button 
+                          className="bg-[#05C174] hover:bg-[#00ff88] text-[#090223] aspect-square p-2 rounded transition-colors flex items-center justify-center"
+                          title="Reply"
+                          onClick={() => replyQuestion(faq.id)}
+                        >
+                          <Send size={20} />
+                        </button>
+                      </div>
+                    </>
+                  )}
+
                 </div>
               </div>
             </div>
@@ -132,11 +167,11 @@ function FaqSection() {
       </div>
 
       <div className="flex justify-center flex-col items-center mt-[5%]">
-          <h1 className="font-family-audiowide glow-pulse text-[#05B0C1] text-5xl">Still have more questions ?</h1>
+          <h1 className="font-family-audiowide glow-pulse text-[#05B0C1] text-center text-3xl md:text-5xl">Still have more questions ?</h1>
           
           <button
               type="button"
-              onClick={()=>{router.push("qna")}}
+              onClick={()=>{router.push("askQuestion")}}
               className={`font-family-spacemono mt-[2%] mb-[5%] w-[80%] max-w-[600px] aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold`}
           >
               <div className="relative">

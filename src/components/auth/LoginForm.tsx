@@ -6,8 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { forwardRef, useImperativeHandle } from 'react';
 import { signIn } from 'next-auth/react';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import { teamLogin } from '@/lib/auth/login';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export interface LoginFormHandle {
   submit: () => void;
@@ -22,6 +21,8 @@ function LoginFormComponent(_props: unknown ,ref: React.Ref<LoginFormHandle>) {
     const methods = useForm<FormData>();
     const { handleSubmit } = methods;
     const Router = useRouter();
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get("callbackUrl") || "/";
 
     const onSubmit = async (data: FormData) => {
         try {
@@ -38,7 +39,7 @@ function LoginFormComponent(_props: unknown ,ref: React.Ref<LoginFormHandle>) {
             }
 
             toast.success("Login successful!");
-            Router.push("/");
+            Router.push(callbackUrl);
         } catch (error) {
             toast.error(error instanceof Error ? error.message : "Login failed");
         }

@@ -1,7 +1,7 @@
 'use client'
 import LoginForm, { LoginFormHandle } from '@/components/auth/LoginForm'
 import Link from 'next/link';
-import React from 'react'
+import React, { Suspense } from 'react'
 
 function LoginPage2() {
     const formRef = React.useRef<LoginFormHandle>(null);
@@ -14,7 +14,9 @@ function LoginPage2() {
                     {/* Login Container BG */}
                     <div className="relative pt-0 -top-[3vh] md:pt-[2%] bg-[url('/images/auth/bgContainer-mobile.svg')] md:bg-[url('/images/login/outerframe.svg')] aspect-355/472 md:aspect-1187/627 min-w-[400px] md:min-w-[600px] w-[65%] md:w-[70%] max-w-[990px] bg-contain flex flex-col justify-center items-center bg-no-repeat">
                         <p className='block md:hidden glow-pulse text-3xl font-family-audiowide text-[#05B0C1]'>LOGIN</p>
-                        <LoginForm ref={formRef} />
+                        <Suspense>
+                            <LoginForm ref={formRef} />
+                        </Suspense>
                         
                         <p className='text-sm lg:text-md xl:text-lg text-center font-family-spacemono text-white'>{`Don't have an account?`} <Link href={'/register'} className='text-[#05B0C1]'>Registration</Link></p>
                         {/* Button Login */}

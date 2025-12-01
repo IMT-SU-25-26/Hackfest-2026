@@ -1,0 +1,26 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "../config/auth";
+
+export const getAuthSession = () => {
+  return getServerSession(authOptions);
+};
+
+export const getCurrentUser = async () => {
+  const session = await getAuthSession();
+
+  if (!session?.user) {
+    throw new Error("Unauthorized: No session found.");
+  }
+
+  return session.user;
+};
+
+export const getCurrentUserId = async () => {
+  const session = await getAuthSession();
+
+  if (!session?.user?.team_id) {
+    throw new Error("Unauthorized: No user ID found in session.");
+  }
+
+  return session.user.team_id;
+};
