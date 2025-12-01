@@ -36,7 +36,7 @@ function NavBar() {
         <div className="hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center">
           <Link href={"/#timeline"} className="hover:text-[#00C074] transition-colors">Timeline</Link>
           <Link href={"/#regsFee"} className="hover:text-[#00C074] transition-colors">Regs Fee</Link>
-          <Link href={"/faq"} className="hover:text-[#00C074] transition-colors">FAQ</Link>
+          <Link href={"/discussion"} className="hover:text-[#00C074] transition-colors">QNA</Link>
 
           {session ? (
             <>
@@ -79,6 +79,9 @@ function NavBar() {
         }`}
       >
         <div className="flex flex-col text-white font-family-audiowide p-4 gap-4">
+          <Link href={"/#timeline"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>Timeline</Link>
+          <Link href={"/#regsfee"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>Regs Fee</Link>
+          <Link href={"/discussion"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>QNA</Link>
           {session ? (
             <>
               {session.user?.role === 'ADMIN' && (

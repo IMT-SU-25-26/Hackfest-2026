@@ -71,11 +71,11 @@ function JudgeSection() {
 
     return (
         <>
-            <h2 className="text-[#05B0C1] font-family-audiowide text-center text-[330%] glow-pulse">Introduce Our Judges</h2>
+            <h2 className="text-[#05B0C1] font-family-audiowide text-center text-4xl md:text-[330%] glow-pulse">Introduce Our Judges</h2>
             <div className="w-full mt-[2%] aspect-1440/547 bg-[url('/images/faq/bgJudge.svg')] bg-contain bg-no-repeat relative">
                 
                 {/* Images of judges */}
-                <div className="w-full h-full flex flex-col md:flex-row flex-wrap gap-4 justify-evenly items-center overflow-hidden">
+                <div className="w-full flex flex-col md:flex-row flex-wrap gap-4 justify-evenly items-center overflow-hidden">
                     {currentCards.map((judge, index) => (
                         <JudgeCard
                             imgUrl={judge.imgUrl}

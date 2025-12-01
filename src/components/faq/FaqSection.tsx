@@ -74,7 +74,7 @@ function FaqSection({discussion}:FaqSectionProps) {
             />
           </div>
 
-          <h2 className="text-5xl md:text-6xl font-family-audiowide font-bold text-[#00ff88] tracking-wider">
+          <h2 className="text-3xl md:text-6xl font-family-audiowide font-bold text-[#00ff88] tracking-wider">
             Discussion
           </h2>
 
