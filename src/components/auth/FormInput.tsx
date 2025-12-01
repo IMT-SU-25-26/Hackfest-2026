@@ -8,6 +8,8 @@ interface FormInputProps {
   placeholder?: string;
   icon?: LucideIcon; // lucide-react compatible
   rules?: RegisterOptions; // validation rules
+  bgUrl?: string;
+  aspectRatio?: string;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -17,6 +19,8 @@ const FormInput: React.FC<FormInputProps> = ({
   placeholder,
   icon: Icon,
   rules,
+  bgUrl = "/images/auth/formInput.svg",
+  aspectRatio = "672/102"
 }) => {
   const {
     register,
@@ -26,7 +30,7 @@ const FormInput: React.FC<FormInputProps> = ({
   const errorMessage = errors[id]?.message as string | undefined;
 
   return (
-    <div className="mb-3 sm:mb-2">
+    <div className="mb-3 sm:mb-2 w-full">
       <label
         htmlFor={id}
         className="mb-2 block text-md text-[#05C174] font-family-audiowide"
@@ -35,7 +39,12 @@ const FormInput: React.FC<FormInputProps> = ({
       </label>
 
       {/* BG Input  */}
-      <div className="relative w-full focus-within:drop-shadow-[0_0_1px_#05C174] transition-300 aspect-7/1 sm:aspect-6/1 bg-contain bg-no-repeat bg-[url('/images/auth/formInput.svg')]">
+      <div className={`relative w-full focus-within:drop-shadow-[0_0_1px_#05C174] transition-300 aspect-7/1 sm:aspect-6/1 bg-contain bg-no-repeat`}
+        style={{
+          aspectRatio: `${aspectRatio}`,
+          backgroundImage: `url(${bgUrl})`
+        }}
+      >
         {Icon && (
             <>
               <div className="hidden lg:block absolute left-[5%] top-1/2 -translate-y-1/2 text-[#05C174]">

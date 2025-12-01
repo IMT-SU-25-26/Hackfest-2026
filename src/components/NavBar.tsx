@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
-import { teamLogout } from '@/lib/auth/login';
 import { useRouter } from "next/navigation";
 
 function NavBar() {

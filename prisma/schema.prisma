@@ -33,16 +33,47 @@ model Team {
   role         Role          @default(USER)
   members      Member[]
   teamSession  TeamSession[]
+
+  discussions  Discussion[]
+  replies      Reply[]
 }
 
 model Member {
-  member_id String @id @default(cuid())
-  name      String
-  team_id   String
-  team      Team   @relation(fields: [team_id], references: [team_id])
+  member_id     String @id @default(cuid())
+  name          String
+  team_id       String
+  team          Team   @relation(fields: [team_id], references: [team_id])
 }
 
 enum Role {
   ADMIN
   USER
+}
+
+
+// Discussion for QNA
+model Discussion {
+  id            String @id @default(cuid())
+  title         String @db.Text
+  question      String @db.Text
+  authorId      String
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author        Team    @relation(fields: [authorId], references: [team_id], onDelete: Cascade)
+  replies       Reply[]
+}
+
+model Reply {
+  id            String @id @default(cuid())
+  content       String @db.Text
+  authorId      String
+  discussionId  String
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  author        Team       @relation(fields: [authorId], references: [team_id], onDelete: Cascade)
+  discussion    Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
 }

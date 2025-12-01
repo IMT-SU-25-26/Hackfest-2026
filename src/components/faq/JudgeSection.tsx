@@ -124,7 +124,7 @@ function JudgeSection() {
                 )}
             </div>
 
-            <FaqSection />
+
         </>
     )
 }
