@@ -27,7 +27,7 @@ const FormAskQuestion = forwardRef<AskQuestionHandle>((_, ref) => {
                 if (result.success) {
                     toast.success("Question created successfully!");
                     methods.reset();
-                    router.push("/faq#faq")
+                    router.push("/qna#faq")
                 } else {
                     toast.error(result.error || "An unexpected error occurred");
                     if(result.error == "Please login to ask a question"){
