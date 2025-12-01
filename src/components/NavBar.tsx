@@ -45,7 +45,7 @@ function NavBar() {
                   href={"/dashboard"} 
                   className="hover:text-[#00C074] transition-colors"
                 >
-                  DASHBOARD
+                  Dashboard
                 </Link>
               )}
               <button 
@@ -90,7 +90,7 @@ function NavBar() {
                   className="hover:text-[#00C074] transition-colors py-2"
                   onClick={closeMenu}
                 >
-                  DASHBOARD
+                  Dashboard
                 </Link>
               )}
               <button 
