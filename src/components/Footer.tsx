@@ -72,14 +72,14 @@ function Footer() {
   const renderPlaceholder = (index: number, size: "large" | "small") => (
     <div
       key={`${size}-placeholder-${index}`}
-      className={`bg-[#60d394] aspect-square rounded ${
+      className={`bg-[#001138] aspect-square rounded ${
         size === "large" ? "col-span-2" : "col-span-1"
       }`}
     />
   );
 
   return (
-    <footer className="bg-[#4ade80] py-12 px-6 md:px-16 font-mono text-black">
+    <footer className="bg-[#001138] py-12 px-6 md:px-16 font-mono text-white">
       <div className="max-w-full mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-6 mb-8">
           
@@ -181,10 +181,25 @@ function Footer() {
         </div>
 
         {/* Bottom Copyright Text */}
-        <div className="text-sm md:text-base leading-relaxed space-y-1 mt-12 pt-6">
-          <p>© 2025 Informatics (IMT) Student Union</p>
-          <p>Universitas Ciputra Surabaya.</p>
-          <p>All rights reserved.</p>
+        <div className="flex items-start gap-6 mt-0 pt-6">
+          {/* Logo IMT */}
+          <div className="flex-shrink-0">
+            <Image
+              src="/images/footer/IMTLOGO.svg"
+              alt="IMT Logo"
+              width={100}
+              height={100}
+              className="object-contain md:mt-[-10]"
+              style={{ height: '7rem', width: 'auto' }}
+            />
+          </div>
+          
+          {/* Copyright Text */}
+          <div className="text-sm md:text-base leading-relaxed space-y-1">
+            <p>© 2025 Informatics (IMT) Student Union</p>
+            <p>Universitas Ciputra Surabaya.</p>
+            <p>All rights reserved.</p>
+          </div>
         </div>
       </div>
     </footer>
