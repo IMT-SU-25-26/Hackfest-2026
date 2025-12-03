@@ -37,7 +37,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # fake DB URL just for prisma generate
-ENV DATABASE_URL="file:./dev.db"
+ENV DATABASE_URL="postgresql://user:pass@localhost:5432/dummydb"
 
 RUN pnpm prisma generate
 RUN pnpm build
