@@ -35,7 +35,7 @@ function NavBar() {
         {/* Desktop Menu */}
         <div className="hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center">
           <Link href={"/#timeline"} className="hover:text-[#00C074] transition-colors">Timeline</Link>
-          <Link href={"/#regsFee"} className="hover:text-[#00C074] transition-colors">Regs Fee</Link>
+          <Link href={"/#regsFee"} className="hover:text-[#00C074] transition-colors">Fee</Link>
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors">QNA</Link>
 
           {session ? (
@@ -52,11 +52,11 @@ function NavBar() {
                 onClick={handleLogout}
                 className="hover:text-[#00C074] transition-colors"
               >
-                LOGOUT
+                Logout
               </button>
             </>
           ) : (
-            <Link href={"/login"} className="hover:text-[#00C074] transition-colors">LOGIN</Link>
+            <Link href={"/login"} className="hover:text-[#00C074] transition-colors">Login</Link>
           )}
         </div>
 
@@ -80,7 +80,7 @@ function NavBar() {
       >
         <div className="flex flex-col text-white font-family-audiowide p-4 gap-4">
           <Link href={"/#timeline"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>Timeline</Link>
-          <Link href={"/#regsfee"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>Regs Fee</Link>
+          <Link href={"/#regsfee"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>Fee</Link>
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>QNA</Link>
           {session ? (
             <>
@@ -97,7 +97,7 @@ function NavBar() {
                 onClick={handleLogout}
                 className="text-left hover:text-[#00C074] transition-colors py-2"
               >
-                LOGOUT
+                Logout
               </button>
             </>
           ) : (
@@ -106,7 +106,7 @@ function NavBar() {
               className="hover:text-[#00C074] transition-colors py-2"
               onClick={closeMenu}
             >
-              LOGIN
+              Login
             </Link>
           )}
         </div>

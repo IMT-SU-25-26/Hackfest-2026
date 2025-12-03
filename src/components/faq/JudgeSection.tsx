@@ -71,7 +71,7 @@ function JudgeSection() {
 
     return (
         <>
-            <h2 className="text-[#05B0C1] font-family-audiowide text-center text-4xl md:text-[330%] glow-pulse">Introduce Our Judges</h2>
+            <h2 className="text-[#05B0C1] font-family-audiowide text-center text-4xl md:text-[330%] glow-pulse">Introducing Our Judges</h2>
             <div className="w-full mt-[2%] aspect-1440/547 bg-[url('/images/faq/bgJudge.svg')] bg-contain bg-no-repeat relative">
                 
                 {/* Images of judges */}

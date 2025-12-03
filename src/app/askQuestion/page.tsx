@@ -23,7 +23,7 @@ function Qna() {
           
           {/* Form sizer */}
           <div className="w-[80%] md:w-[65%] m-auto">
-            <p className="block md:hidden text-3xl mb-[2%] font-family-audiowide text-[#05B0C1] glow-glitch text-center">Ask Question</p>
+            <p className="block md:hidden text-3xl mb-[2%] font-family-audiowide text-[#05B0C1] glow-glitch text-center">Ask a Question</p>
             <FormAskQuestion ref={formRef} />
           </div>
           {/* Button Login */}

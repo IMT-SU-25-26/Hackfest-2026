@@ -176,7 +176,7 @@ function FaqSection({discussion}:FaqSectionProps) {
           >
               <div className="relative">
                   <p className="font-family-audiowide text-center text-sm sm:text-md lg:text-xl">
-                      Ask Question
+                      Ask a Question
                   </p>
               </div>
           </button>
