@@ -3,6 +3,8 @@ import JudgeSection from "@/components/faq/JudgeSection"
 import VideoSection from "@/components/faq/VideoSection"
 import { getAllDiscussions } from "@/lib/services/discussion"
 
+export const dynamic = 'force-dynamic'
+
 async function FaqPage() {
     const discussion = await getAllDiscussions()
     return (
