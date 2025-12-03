@@ -10,7 +10,7 @@ type JudgeCardProps={
 
 function JudgeCard({imgUrl, classImage, name, title}: JudgeCardProps) {
     return (
-        <div className="relative min-w-[253px] w-[70%] md:w-[25%] aspect-355/472 bg-[url('/images/faq/judge-card.svg')] bg-contain bg-no-repeat">
+        <div className="relative min-w-[253px] w-[70%] md:w-[25%] aspect-355/472 bg-[url('/images/FAQ/judge-card.svg')] bg-contain bg-no-repeat">
             <div className="relative top-[12%] -left-[0.9%] w-[88%] m-auto aspect-square overflow-hidden">
                 <Image
                     src={imgUrl}
