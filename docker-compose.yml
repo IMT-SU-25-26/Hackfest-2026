@@ -15,6 +15,12 @@ services:
     restart: always
     networks:
       - npm_default
+    command: >
+      sh -c "
+      pnpm prisma migrate deploy &&
+      pnpm prisma generate &&
+      pnpm start
+      "
 
 networks:
   npm_default:
