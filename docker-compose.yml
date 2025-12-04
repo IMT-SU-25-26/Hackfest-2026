@@ -19,6 +19,7 @@ services:
       sh -c "
       pnpm prisma migrate deploy &&
       pnpm prisma generate &&
+      pnpm prisma db seed &&
       pnpm start
       "
 
