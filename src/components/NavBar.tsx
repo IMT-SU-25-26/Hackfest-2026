@@ -19,6 +19,31 @@ function NavBar() {
     router.push('/login');
   };
 
+  // Handle navigation to hash links
+  const handleNavigation = (href: string) => {
+    closeMenu();
+    
+    if (href.startsWith('/#')) {
+      const elementId = href.substring(2); // Remove '#'
+      
+      // If already on home page, just scroll
+      if (window.location.pathname === '/') {
+        const element = document.getElementById(elementId);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Navigate to home first, then scroll
+        router.push('/');
+        // Use setTimeout to allow page to load
+        setTimeout(() => {
+          const element = document.getElementById(elementId);
+          element?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else {
+      router.push(href);
+    }
+  };
+
   return (
     <>
       <nav className="w-full fixed top-0 left-0 z-50 px-[5%] bg-[#1C0951] border-b-2 border-[#00C074] h-[7vh] flex justify-between gap-4 items-center">
@@ -34,8 +59,8 @@ function NavBar() {
         
         {/* Desktop Menu */}
         <div className="hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center">
-          <Link href={"/#timeline"} className="hover:text-[#00C074] transition-colors">Timeline</Link>
-          <Link href={"/#regsFee"} className="hover:text-[#00C074] transition-colors">Fee</Link>
+          <button onClick={() => handleNavigation('/#timeline')} className="hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">Timeline</button>
+          <button onClick={() => handleNavigation('/#regsFee')} className="hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">Fee</button>
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors">QNA</Link>
 
           {session ? (
@@ -50,7 +75,7 @@ function NavBar() {
               )}
               <button 
                 onClick={handleLogout}
-                className="hover:text-[#00C074] transition-colors"
+                className="hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0"
               >
                 Logout
               </button>
@@ -79,9 +104,9 @@ function NavBar() {
         }`}
       >
         <div className="flex flex-col text-white font-family-audiowide p-4 gap-4">
-          <Link href={"/#timeline"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>Timeline</Link>
-          <Link href={"/#regsfee"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>Fee</Link>
-          <Link href={"/qna"} className="hover:text-[#00C074] transition-colors py-2"onClick={closeMenu}>QNA</Link>
+          <button onClick={() => handleNavigation('/#timeline')} className="hover:text-[#00C074] transition-colors py-2 text-left bg-none border-none p-0 cursor-pointer">Timeline</button>
+          <button onClick={() => handleNavigation('/#regsFee')} className="hover:text-[#00C074] transition-colors py-2 text-left bg-none border-none p-0 cursor-pointer">Fee</button>
+          <Link href={"/qna"} className="hover:text-[#00C074] transition-colors py-2" onClick={closeMenu}>QNA</Link>
           {session ? (
             <>
               {session.user?.role === 'ADMIN' && (
@@ -95,7 +120,7 @@ function NavBar() {
               )}
               <button 
                 onClick={handleLogout}
-                className="text-left hover:text-[#00C074] transition-colors py-2"
+                className="text-left hover:text-[#00C074] transition-colors py-2 bg-none border-none p-0 cursor-pointer"
               >
                 Logout
               </button>
@@ -112,7 +137,7 @@ function NavBar() {
         </div>
       </div>
     </>
-  )}
-
+  );
+}
 
 export default NavBar;
