@@ -177,11 +177,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
       return;
     }
 
-    console.log(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME);
-    console.log(process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
-    console.log(process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
-
-
     try {
       const { signature, timestamp } = await generateSignature({folder, upload_preset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!});
       const widget = window.cloudinary.createUploadWidget(
