@@ -55,119 +55,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
 
   const password = useWatch({ control, name: "password" });
 
-  // useEffect(() => {
-  //   const initializeWidgets = () => {
-  //     if (typeof window !== "undefined" && (window as any).cloudinary) {
-  //       const cloudinary = (window as any).cloudinary;
-
-  //       // Twibbon Widget
-  //       twibbonWidgetRef.current = cloudinary.createUploadWidget(
-  //         {
-  //           cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  //           uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-  //           folder: "hackfest-2026/twibbon",
-  //           resourceType: "image",
-  //           multiple: false,
-  //           maxFiles: 1,
-  //           styles: {
-  //             palette: {
-  //               window: "#090223",
-  //               windowBorder: "#05C174",
-  //               tabIcon: "#05B0C1",
-  //               menuIcons: "#05B0C1",
-  //               textDark: "#000000",
-  //               textLight: "#fcfffd",
-  //               link: "#05C174",
-  //               action: "#05C174",
-  //               inactiveTabIcon: "#555a5f",
-  //               error: "#F42424",
-  //               inProgress: "#4384F5",
-  //               complete: "#20B488",
-  //               sourceBg: "#E4EoF1"
-  //             },
-  //             fonts: {
-  //               default: null,
-  //               "'Courier New', monospace": {
-  //                 url: "https://fonts.googleapis.com/css?family=Courier+New",
-  //                 active: true
-  //               }
-  //             }
-  //           },
-  //           clientAllowedFormats: ["jpg", "jpeg", "png", "gif", "webp"],
-  //           maxFileSize: 5242880 // 5MB
-  //         },
-  //         (error: any, result: any) => {
-  //           if (error) {
-  //             toast.error("Upload failed");
-  //             return;
-  //           }
-  //           if (result?.event === "success") {
-  //             setTwibbonFile(result.info.secure_url);
-  //             setValue("twibbonUrl", result.info.secure_url);
-  //             toast.success("Twibbon uploaded successfully!");
-  //           }
-  //         }
-  //       );
-
-  //       // Poster Widget
-  //       posterWidgetRef.current = cloudinary.createUploadWidget(
-  //         {
-  //           cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  //           uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-  //           folder: "hackfest-2026/poster",
-  //           resourceType: "image",
-  //           multiple: false,
-  //           maxFiles: 1,
-  //           styles: {
-  //             palette: {
-  //               window: "#090223",
-  //               windowBorder: "#05C174",
-  //               tabIcon: "#05B0C1",
-  //               menuIcons: "#05B0C1",
-  //               textDark: "#000000",
-  //               textLight: "#fcfffd",
-  //               link: "#05C174",
-  //               action: "#05C174",
-  //               inactiveTabIcon: "#555a5f",
-  //               error: "#F42424",
-  //               inProgress: "#4384F5",
-  //               complete: "#20B488",
-  //               sourceBg: "#E4EoF1"
-  //             },
-  //             fonts: {
-  //               default: null,
-  //               "'Courier New', monospace": {
-  //                 url: "https://fonts.googleapis.com/css?family=Courier+New",
-  //                 active: true
-  //               }
-  //             }
-  //           },
-  //           clientAllowedFormats: ["jpg", "jpeg", "png", "gif", "webp"],
-  //           maxFileSize: 5242880 // 5MB
-  //         },
-  //         (error: any, result: any) => {
-  //           if (error) {
-  //             toast.error("Upload failed");
-  //             return;
-  //           }
-  //           if (result?.event === "success") {
-  //             setPosterFile(result.info.secure_url);
-  //             setValue("posterUrl", result.info.secure_url);
-  //             toast.success("Poster uploaded successfully!");
-  //           }
-  //         }
-  //       );
-
-  //       setWidgetsReady(true);
-  //     } else {
-  //       // Retry if Cloudinary not loaded yet
-  //       setTimeout(initializeWidgets, 500);
-  //     }
-  //   };
-
-  //   initializeWidgets();
-  // }, [setValue]);
-
   const nextStep = async (): Promise<number | null> => {
     let fieldsToValidate: (keyof FormData)[] = [];
     switch (step) {
@@ -289,6 +176,11 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
       console.error("Cloudinary script not loaded yet");
       return;
     }
+
+    console.log(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME);
+    console.log(process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+    console.log(process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
+
 
     try {
       const { signature, timestamp } = await generateSignature({folder, upload_preset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!});
