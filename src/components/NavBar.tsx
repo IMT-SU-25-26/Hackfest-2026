@@ -58,7 +58,7 @@ function NavBar() {
         </Link>
         
         {/* Desktop Menu */}
-        <div className="hidden md:flex text-white font-family-audiowide gap-4 justify-center items-center">
+        <div className="hidden md:flex text-white font-family-audiowide gap-7 justify-center items-center">
           <button onClick={() => handleNavigation('/#timeline')} className="hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">Timeline</button>
           <button onClick={() => handleNavigation('/#regsFee')} className="hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">Fee</button>
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors">QNA</Link>
