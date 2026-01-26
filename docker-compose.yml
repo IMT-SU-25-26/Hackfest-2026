@@ -50,6 +50,9 @@ services:
     restart: always
     networks:
       - npm_default
+    depends_on:
+      - migration
+      - seed
 
 networks:
   npm_default:
