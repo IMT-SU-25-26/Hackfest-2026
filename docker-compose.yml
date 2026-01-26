@@ -4,7 +4,7 @@ services:
     container_name: hackfest-migration
     env_file:
       - .env
-    command: prisma migrate deploy
+    command: npx prisma migrate deploy
     networks:
       - npm_default
 
@@ -13,7 +13,7 @@ services:
     container_name: hackfest-seed
     env_file:
       - .env
-    command: prisma db seed
+    command: npx prisma db seed
     depends_on:
       - migration
     networks:
