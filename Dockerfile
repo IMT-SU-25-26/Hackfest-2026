@@ -1,13 +1,16 @@
-FROM node:20 AS builder
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# -------- Stage 1: Build --------
+FROM node:20-slim AS builder
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 
 WORKDIR /app
+RUN corepack enable pnpm
+COPY package.json pnpm-lock.yaml* ./
+COPY prisma ./prisma
+RUN pnpm i --frozen-lockfile
 
-# Install dependencies
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
 
-# Copy project files
 COPY . .
 
 # fake DB URL
@@ -24,33 +27,43 @@ ENV NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=$NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
 RUN pnpm prisma generate
 RUN pnpm build
 
-EXPOSE 3000
 
-# -------- Stage 2: Migrator (for database migrations) --------
-FROM node:20-alpine AS migrator
-RUN npm install -g pnpm
+# -------- Stage 2: Runtime --------
+FROM node:20-slim AS runner
 WORKDIR /app
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
-
-CMD ["pnpm", "prisma", "migrate", "deploy"]
-
-
-# -------- Stage 3: Runtime --------
-FROM node:20-alpine AS runner
-WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:/app/node_modules/.bin:$PATH"
+
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 
 # Copy only what standalone needs
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
+
+# Prisma schema and config (for migration and seeder)
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./
+
+
+# Install CLI tools and regenerate Prisma client for runtime
+RUN pnpm add prisma@6.19.2 tsx dotenv @prisma/client@6.19.2 @prisma/adapter-pg pg \
+    && pnpm prisma generate
+
+
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+
+CMD ["node" , "server.js"]
+
