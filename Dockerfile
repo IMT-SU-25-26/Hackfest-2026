@@ -39,6 +39,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:/app/node_modules/.bin:$PATH"
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummydb"
 
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
