@@ -35,9 +35,10 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     pnpm add prisma@6.18.0 tsx dotenv @prisma/client@6.18.0 @prisma/adapter-pg pg \
     && pnpm prisma generate
 
-
+    
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 
 ENV PNPM_HOME="/pnpm"
@@ -45,7 +46,6 @@ ENV PATH="$PNPM_HOME:/app/node_modules/.bin:$PATH"
 ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummydb"
 
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
 RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
