@@ -1,19 +1,33 @@
 # -------- Stage 1: Build --------
 FROM node:20-slim AS builder
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i --frozen-lockfile
+
+# 1. SETUP PNPM FIRST
+# We must set the path and enable corepack BEFORE running any pnpm command
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+# 2. Install System Dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-RUN corepack enable pnpm
+
+# 3. Copy Manifest Files
+# We must copy package.json BEFORE installing dependencies
 COPY package.json pnpm-lock.yaml* ./
 COPY prisma ./prisma
-RUN pnpm i --frozen-lockfile
 
+# 4. Install Dependencies (With Cache)
+# This will now work because pnpm is enabled and package.json exists
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm config set store-dir /pnpm/store && \
+    pnpm i --frozen-lockfile
 
+# 5. Copy Source Code & Build
 COPY . .
 
-# fake DB URL
+# Fake DB URL for build validation
 ENV DATABASE_URL="postgresql://user:pass@localhost:5432/dummydb"
 
 ARG NEXT_PUBLIC_CLOUDINARY_API_KEY
@@ -31,43 +45,34 @@ RUN pnpm build
 # -------- Stage 2: Runtime --------
 FROM node:20-slim AS runner
 WORKDIR /app
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm add prisma@6.18.0 tsx dotenv @prisma/client@6.18.0 @prisma/adapter-pg pg \
-    && pnpm prisma generate
 
-    
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN corepack enable && corepack prepare pnpm@latest --activate
 
-
+# 1. SETUP PNPM (Again for the new stage)
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:/app/node_modules/.bin:$PATH"
-ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummydb"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
+# 2. Set Dummy URL for Runtime Build Steps
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummydb"
 
 RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-
-# Copy only what standalone needs
+# Copy artifacts
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-
-
-# Prisma schema and config (for migration and seeder)
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./
 
-
-# Install CLI tools and regenerate Prisma client for runtime
-RUN pnpm add prisma@6.18.0 tsx dotenv @prisma/client@6.18.0 @prisma/adapter-pg pg \
+# 3. Install Runtime Tools (With Cache)
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm config set store-dir /pnpm/store && \
+    pnpm add prisma@6.18.0 tsx dotenv @prisma/client@6.18.0 @prisma/adapter-pg pg \
     && pnpm prisma generate
-
 
 EXPOSE 3000
 
-
 CMD ["node" , "server.js"]
-
