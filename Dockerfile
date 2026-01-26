@@ -1,4 +1,4 @@
-FROM node:20 AS base
+FROM node:20 AS builder
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
