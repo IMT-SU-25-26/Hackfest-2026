@@ -44,3 +44,7 @@ services:
       - npm_default
     depends_on:
       - migration # Now it can find the 'migration' service
+
+networks:
+  npm_default:
+    external: true
