@@ -1,21 +1,19 @@
 services:
   migration:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
       target: migrator
     container_name: hackfest_migration
-    command: pnpm prisma migrate deploy
+    # Profiles removed so 'app' can find it during build/start
     env_file:
       - .env
     networks:
       - npm_default
-    profiles:
-      - manual
 
   seed:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
       target: migrator
     container_name: hackfest_seed
@@ -25,7 +23,7 @@ services:
     networks:
       - npm_default
     profiles:
-      - manual
+      - manual # Keep this if you only want to seed manually
 
   app:
     container_name: hackfest
@@ -45,9 +43,4 @@ services:
     networks:
       - npm_default
     depends_on:
-      - migration
-      - seed
-
-networks:
-  npm_default:
-    external: true
+      - migration # Now it can find the 'migration' service
