@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
       target: migrator
     container_name: hackfest_seed
-    command: /bin/sh -c "pnpm prisma db seed"
+    command: pnpm prisma db seed
     env_file:
       - .env
     networks:
