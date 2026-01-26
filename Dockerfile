@@ -1,8 +1,8 @@
 # -------- Stage 1: Build --------
 FROM node:20-slim AS builder
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i --frozen-lockfile
 RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
-
 
 WORKDIR /app
 RUN corepack enable pnpm
@@ -31,6 +31,9 @@ RUN pnpm build
 # -------- Stage 2: Runtime --------
 FROM node:20-slim AS runner
 WORKDIR /app
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm add prisma@6.18.0 tsx dotenv @prisma/client@6.18.0 @prisma/adapter-pg pg \
+    && pnpm prisma generate
 
 
 ENV NODE_ENV=production
