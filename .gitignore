@@ -2,8 +2,6 @@
 
 /public/images/recap/video/*
 
-/prisma/seed.ts
-
 # dependencies
 /node_modules
 /.pnp

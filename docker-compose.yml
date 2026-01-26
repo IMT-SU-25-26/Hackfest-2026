@@ -1,4 +1,32 @@
 services:
+  migration:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: migrator
+    container_name: hackfest_migration
+    command: pnpm prisma migrate deploy
+    env_file:
+      - .env
+    networks:
+      - npm_default
+    profiles:
+      - manual
+
+  seed:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: migrator
+    container_name: hackfest_seed
+    command: /bin/sh -c "pnpm prisma db seed"
+    env_file:
+      - .env
+    networks:
+      - npm_default
+    profiles:
+      - manual
+
   app:
     container_name: hackfest
     build:
@@ -22,13 +50,6 @@ services:
     restart: always
     networks:
       - npm_default
-    command: >
-      sh -c "
-      pnpm prisma migrate deploy &&
-      pnpm prisma generate &&
-      pnpm prisma db seed &&
-      pnpm start
-      "
 
 networks:
   npm_default:
