@@ -1,4 +1,4 @@
-import { Discussion, Reply, Team } from "@/generated/prisma";
+import { Discussion, Reply, Team, User } from "@/generated/prisma";
 
 export interface FormQuestion{
     title: string,
@@ -7,9 +7,9 @@ export interface FormQuestion{
 
 export interface DiscussionData extends Discussion{
     replies: ReplyData[],
-    author: Team
+    author: User
 }
 
 export interface ReplyData extends Reply{
-    author: Team
+    author: User
 }

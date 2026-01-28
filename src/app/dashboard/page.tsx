@@ -10,15 +10,15 @@ export default async function Dashboard() {
   const teamRole = headersList.get('x-team-role');
 
   // Double-check: verify role against database (prevents escalation if token is somehow manipulated)
-  if (teamId) {
-    const team = await prisma.team.findUnique({
-      where: { team_id: teamId },
-    });
+  // if (teamId) {
+  //   const team = await prisma.team.findUnique({
+  //     where: { team_id: teamId },
+  //   });
 
-    if (!team || team.role !== 'ADMIN') {
-      redirect('/');
-    }
-  }
+  //   if (!team || team.role !== 'ADMIN') {
+  //     redirect('/');
+  //   }
+  // }
 
   return (
     <>
