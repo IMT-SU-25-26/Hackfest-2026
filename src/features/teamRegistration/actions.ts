@@ -8,10 +8,13 @@ export async function checkUserEmail(email: string): Promise<{ exists: boolean }
   try {
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true }
+      select: { id: true, teamId: true }
     });
     
-    return { exists: !!user };
+    // Check if user exists AND is not already in a team
+    const canJoin = !!user && user.teamId === null;
+    
+    return { exists: canJoin };
   } catch (error) {
     console.error("Error checking email:", error);
     return { exists: false };

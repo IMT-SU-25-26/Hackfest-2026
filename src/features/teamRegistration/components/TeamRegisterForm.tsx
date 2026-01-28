@@ -291,7 +291,7 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
                       </div>
                       
                       {isDropdownOpen && (
-                          <div className="absolute top-full mt-2 left-0 w-full z-50 border border-[#05C174] bg-transparent backdrop-blur-md rounded-xl overflow-hidden shadow-[0_0_15px_#05C174]">
+                          <div className="absolute top-full mt-2 left-0 w-full z-50 border border-[#05C174] bg-transparent backdrop-blur-md overflow-hidden shadow-[0_0_15px_#05C174]">
                               <div 
                                 onClick={() => { setValue("category", "UIUX" as TeamCategory); setIsDropdownOpen(false); }}
                                 className="px-4 py-3 hover:bg-[#05C174]/20 cursor-pointer text-[#05B0C1] font-family-spacemono transition-colors border-b border-[#05C174]/30"
@@ -396,7 +396,15 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
             <>
                <div className="mb-6 text-[#05B0C1] font-family-spacemono border border-[#05C174] p-4 rounded bg-black/50">
                   <p className="mb-2 font-bold text-[#05C174]">Payment Instructions</p>
-                  <p className="text-sm mb-2">Please transfer the registration fee with the following message format:</p>
+                  <p className="text-sm mb-1">Please transfer the registration fee to:</p>
+                  <div className="bg-[#05C174]/10 p-3 rounded mb-4">
+                      <p className="text-sm">Bank: <span className="font-bold text-[#05C174]">Blu by BCA</span></p>
+                      <p className="text-sm">No. Rekening: <span className="font-bold text-[#05C174] select-all">005714837012</span></p>
+                      <p className="text-sm">Atas Nama: <span className="font-bold text-[#05C174]">Priscilia King Chandra</span></p>
+                      <p className="text-sm mt-2">Amount: <span className="font-bold text-[#05C174]">Rp 200.001</span></p>
+                  </div>
+                  
+                  <p className="text-sm mb-2">Transfer Description:</p>
                   <p className="text-lg font-bold bg-[#05C174]/20 p-2 text-center select-all">
                      {teamName || "[Team Name]"} - {category}
                   </p>
