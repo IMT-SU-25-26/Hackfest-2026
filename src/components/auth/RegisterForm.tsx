@@ -10,6 +10,7 @@ import {
   MessageCircle,
   Lock,
   Upload,
+  Loader2,
 } from "lucide-react";
 import { registerTeam } from "@/lib/services/team";
 import { registerAllMember } from "@/lib/services/member";
@@ -17,8 +18,7 @@ import { toast } from "react-toastify";
 import FormInput from "./FormInput";
 import { toastError } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
-import { generateSignature } from "@/lib/utils/cloudinary";
-import Script from "next/script";
+import UploadButton from "../common/UploadButton";
 
 type FormData = {
   name: string;
@@ -43,15 +43,13 @@ export interface RegisterFormHandle {
 export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<RegisterFormHandle>) {
   const Router = useRouter();
   const methods = useForm<FormData>();
-  const { handleSubmit, control, trigger, setValue } = methods;
+  const { handleSubmit, control, trigger } = methods;
 
   const [step, setStep] = useState(1);
   const [memberInputs, setMemberInputs] = useState<string[]>([""]);
   const [memberError, setMemberError] = useState<string | null>(null);
   const [twibbonUrl, setTwibbonUrl] = useState<string | null>(null);
   const [posterUrl, setPosterUrl] = useState<string | null>(null);
-  // const twibbonWidgetRef = useRef<any>(null);
-  // const posterWidgetRef = useRef<any>(null);
 
   const password = useWatch({ control, name: "password" });
 
@@ -167,56 +165,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
     },
     getStep: () => step,
   }));
-
-  // Handle Upload button
-// Reusable Handler
-  const handleOpenWidget = async (folder: string, setFileUrl: (url: string) => void) => {
-    // 1. Check if script is loaded
-    if (!window.cloudinary) {
-      console.error("Cloudinary script not loaded yet");
-      return;
-    }
-
-    try {
-      const { signature, timestamp } = await generateSignature({folder, upload_preset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!});
-      const widget = window.cloudinary.createUploadWidget(
-        {
-          cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-          apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-          uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-          folder: folder,
-          
-          uploadSignature: signature,
-          uploadSignatureTimestamp: timestamp,
-          
-          sources: ['local', 'url'],
-          multiple: false,
-          singleUploadAutoClose: false,
-        },
-        (error: string, result: CloudinaryUploadWidgetResults) => {
-          if (!error && result && result.event === "success") {
-            const info = result.info as CloudinaryUploadWidgetInfo;
-            console.log("Done! Here is the image info: ", info);
-            setFileUrl(info.secure_url);
-          }
-          else if (error) {
-            console.error("Upload error:", error);
-          }
-        }
-      );
-      widget.open();
-
-    } catch (error) {
-      console.error("Error generating signature:", error);    
-    }
-  };
-
-  async function handleUploadTwibbon(){
-    await handleOpenWidget("hackfest26/twibbon/", (url)=>{setTwibbonUrl(url)});
-  }
-  async function handleUploadPoster(){
-    await handleOpenWidget("hackfest26/poster/", (url)=>{setPosterUrl(url)});
-  }
 
   return (
     <div className="font-family-audiowide relative z-1 flex flex-col items-center justify-center">
@@ -348,35 +296,69 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               <label className="mb-2 block text-lg text-[#05C174]">
                 Twibbon Image
               </label>
-              <button
-                type="button"
-                onClick={()=>{handleUploadTwibbon()}}
-                className="font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold cursor-pointer flex items-center justify-center mb-4"
+              <UploadButton 
+                options={{ folder: "hackfest26/twibbon/" }}
+                onSuccess={(url) => setTwibbonUrl(url)}
               >
-                <div className="relative flex items-center justify-center w-full h-full">
-                  <Upload size={32} className="absolute left-[2.5%]" />
-                  <p className="text-sm sm:text-md lg:text-xl">
-                    {twibbonUrl ? "✓ Uploaded" : "Upload Twibbon File"}
-                  </p>
-                </div>
-              </button>
+                {({ open, isLoading }) => (
+                  <button
+                    type="button"
+                    disabled={isLoading}
+                    onClick={open}
+                    className="font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold cursor-pointer flex items-center justify-center mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <div className="relative flex items-center justify-center w-full h-full">
+                      {isLoading ? (
+                        <div className="flex items-center gap-2">
+                          <Loader2 size={24} className="animate-spin text-black" />
+                          <span className="text-sm">Loading...</span>
+                        </div>
+                      ) : (
+                        <>
+                          <Upload size={32} className="absolute left-[2.5%]" />
+                          <p className="text-sm sm:text-md lg:text-xl">
+                            {twibbonUrl ? "✓ Uploaded" : "Upload Twibbon File"}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </button>
+                )}
+              </UploadButton>
               
               {/* Upload Poster */}
               <label className="mb-2 block text-lg text-[#05C174]">
                 Poster
               </label>
-              <button
-                type="button"
-                onClick={()=>{handleUploadPoster()}}
-                className="font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold cursor-pointer flex items-center justify-center"
+              <UploadButton 
+                options={{ folder: "hackfest26/poster/" }}
+                onSuccess={(url) => setPosterUrl(url)}
               >
-                <div className="relative flex items-center justify-center w-full h-full">
-                  <Upload size={32} className="absolute left-[2.5%]" />
-                  <p className="text-sm sm:text-md lg:text-xl">
-                    {posterUrl ? "✓ Uploaded" : "Upload Poster File"}
-                  </p>
-                </div>
-              </button>
+                {({ open, isLoading }) => (
+                  <button
+                    type="button"
+                    disabled={isLoading}
+                    onClick={open}
+                    className="font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold cursor-pointer flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <div className="relative flex items-center justify-center w-full h-full">
+                      {isLoading ? (
+                        <div className="flex items-center gap-2">
+                          <Loader2 size={24} className="animate-spin text-black" />
+                          <span className="text-sm">Loading...</span>
+                        </div>
+                      ) : (
+                        <>
+                          <Upload size={32} className="absolute left-[2.5%]" />
+                          <p className="text-sm sm:text-md lg:text-xl">
+                            {posterUrl ? "✓ Uploaded" : "Upload Poster File"}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </button>
+                )}
+              </UploadButton>
             </>
           )}
 
@@ -410,10 +392,6 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
         </form>
         </FormProvider>
       </div>
-      <Script 
-        src="https://widget.cloudinary.com/v2.0/global/all.js" 
-        onLoad={() => console.log("Cloudinary Widget Loaded")}
-      />
     </div>
   );
 }
