@@ -10,7 +10,7 @@ import { User } from "@/generated/prisma";
 interface FormInput {
   name: string;
   country: string;
-  university: string;
+  institution: string;
   phone_number: string;
   line_id: string;
 }
@@ -29,7 +29,7 @@ const EditTeamModal: React.FC<EditTeamModalProps> = ({
   const [formData, setFormData] = useState<FormInput>({
     name: user.name,
     country: user.country,
-    university: user.university,
+    institution: user.institution || "",
     phone_number: user.phone_number,
     line_id: user.line_id,
   });
@@ -93,12 +93,12 @@ const EditTeamModal: React.FC<EditTeamModalProps> = ({
 
               <div className="text-left">
                 <label className="block text-sm font-medium text-gray-300">
-                  University
+                  Institution
                 </label>
                 <input
                   type="text"
-                  name="university"
-                  value={formData.university}
+                  name="institution"
+                  value={formData.institution}
                   onChange={handleChange}
                   className="mt-1 block w-full bg-gray-700 border border-gray-600 focus:border-teal-400 focus:ring-teal-400 text-white rounded-md shadow-sm p-2"
                   required

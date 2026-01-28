@@ -52,7 +52,7 @@ const TeamRow: React.FC<TeamRowProps> = ({
           {user.name}
         </td>
         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-          {user.university}
+          {user.institution}
         </td>
         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
           {user.phone_number}

@@ -1,6 +1,6 @@
 'use client'
 
-import { Lock, Users } from 'lucide-react';
+import { Lock, Mail } from 'lucide-react';
 import FormInput from './FormInput'
 import { FormProvider, useForm } from 'react-hook-form';
 import { forwardRef, useImperativeHandle } from 'react';
@@ -13,7 +13,7 @@ export interface LoginFormHandle {
 }
 
 interface FormData {
-    teamName: string;
+    email: string;
     password: string;
 }
 
@@ -29,7 +29,7 @@ function LoginFormComponent(_props: unknown ,ref: React.Ref<LoginFormHandle>) {
             // Only use NextAuth signIn - it handles everything
             const result = await signIn("credentials", {
                 redirect: false,
-                team_name: data.teamName,
+                email: data.email,
                 password: data.password,
             });
 
@@ -59,12 +59,12 @@ function LoginFormComponent(_props: unknown ,ref: React.Ref<LoginFormHandle>) {
         <form action="" className='w-[85%] md:w-[60%]'>
             
             <FormInput
-                id="teamName"
-                label="Team Name"
-                type="text"
-                icon={Users}
-                placeholder="Enter your team name"
-                rules={{ required: "Team name is required" }}
+                id="email"
+                label="Email"
+                type="email"
+                icon={Mail}
+                placeholder="Enter your email"
+                rules={{ required: "Email is required" }}
             />
             
             <FormInput

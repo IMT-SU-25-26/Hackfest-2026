@@ -65,6 +65,12 @@ function NavBar() {
 
           {session ? (
             <>
+              <Link 
+                href={"/profile"} 
+                className="hover:text-[#00C074] transition-colors"
+              >
+                Profile
+              </Link>
               {session.user?.role === 'ADMIN' && (
                 <Link 
                   href={"/dashboard"} 
@@ -109,6 +115,13 @@ function NavBar() {
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors py-2" onClick={closeMenu}>QNA</Link>
           {session ? (
             <>
+              <Link 
+                href={"/profile"} 
+                className="hover:text-[#00C074] transition-colors py-2"
+                onClick={closeMenu}
+              >
+                Profile
+              </Link>
               {session.user?.role === 'ADMIN' && (
                 <Link 
                   href={"/dashboard"} 

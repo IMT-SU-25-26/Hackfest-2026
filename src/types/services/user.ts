@@ -13,9 +13,9 @@ export const createUserSchema =  z.object({
         .min(1, "Country is required")
         .max(100, "Country must be at most 100 characters"),
 
-    university: z
+    institution: z
         .string()
-        .max(100, "University must be at most 100 characters")
+        .max(100, "Institution must be at most 100 characters")
         .optional(),
 
     phone_number: z

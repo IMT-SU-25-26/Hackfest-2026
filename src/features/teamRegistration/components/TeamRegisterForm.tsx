@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import FormInput from "@/components/auth/FormInput";
-import UploadButton from "@/components/common/UploadButton";
+import UploadButton from "@/components/UploadButton";
 import { createTeam } from "@/lib/services/team";
 import { checkUserEmail } from "../actions";
 import { toastError } from "@/lib/utils/utils";

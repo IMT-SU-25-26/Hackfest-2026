@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import FormInput from "./FormInput";
 import { toastError } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
-import UploadButton from "../common/UploadButton";
+import UploadButton from "../UploadButton";
 
 type FormData = {
   userName: string;
