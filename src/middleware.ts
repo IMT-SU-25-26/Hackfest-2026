@@ -35,9 +35,9 @@ export async function middleware(request: NextRequest) {
 
     // Pass token data to server components via headers
     const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('x-team-id', token.team_id as string);
-    requestHeaders.set('x-team-name', token.team_name as string);
-    requestHeaders.set('x-team-role', token.role as string);
+    requestHeaders.set('x-user-id', token.id as string);
+    requestHeaders.set('x-user-name', token.name as string);
+    requestHeaders.set('x-user-role', token.role as string);
 
     return NextResponse.next({
       request: {
@@ -53,3 +53,4 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ['/dashboard/:path*'],
 };
+

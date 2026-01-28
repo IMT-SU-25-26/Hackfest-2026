@@ -57,7 +57,7 @@ export async function getUserDiscussions(userId: string): Promise<Discussion[]> 
 export async function createDiscussion(formData: FormQuestion): Promise<ActionResult<Discussion>> {
   const session = await getAuthSession();
 
-  if (!session?.user?.team_id) {
+  if (!session?.user?.id) {
     return {
       success: false,
       error: "Please login to ask a question",
@@ -78,7 +78,7 @@ export async function createDiscussion(formData: FormQuestion): Promise<ActionRe
     data: {
       title,
       question,
-      authorId: session.user.team_id,
+      authorId: session.user.id,
     },
   });
 
@@ -94,7 +94,7 @@ export async function createDiscussion(formData: FormQuestion): Promise<ActionRe
 export async function createReply(formData: FormData) : Promise<ActionResult<Reply>> {
   const session = await getAuthSession();
 
-  if (!session?.user?.team_id || session?.user?.role!=Role.ADMIN) {
+  if (!session?.user?.id || session?.user?.role!=Role.ADMIN) {
     return {
       success: false,
       error: "Unauthorized",
@@ -116,7 +116,7 @@ export async function createReply(formData: FormData) : Promise<ActionResult<Rep
     data: {
       content,
       discussionId,
-      authorId: session.user.team_id,
+      authorId: session.user.id,
     },
   });
 

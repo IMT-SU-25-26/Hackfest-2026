@@ -35,7 +35,7 @@ export default function RegisterPage() {
       <RegisterForm ref={formRegisRef} />
 
       {/* BUTTON */}
-      <div className={`absolute bottom-[5%] md:-bottom-[8%] w-full flex ${visibleStep === 1 ? 'justify-center' : 'justify-between'} gap-[5%] md:gap-0 px-[9%] md:px-[15%]`}>
+      <div className={`absolute bottom-[5%] md:-bottom-[8%] w-full flex ${visibleStep === 1 ? 'justify-center' : 'justify-between'} gap-[5%] md:gap-0 px-[9%] md:px-[15%] z-20`}>
         {visibleStep > 1 && (
           <div
             onClick={() => {
@@ -54,11 +54,17 @@ export default function RegisterPage() {
           </div>
         )}
 
-        {visibleStep < 5 && (
+        {visibleStep < 4 && (
           <div
             onClick={async ()=>{
-              const s = await formRegisRef.current?.nextStep?.();
-              if (s) setVisibleStep(s);
+              // console.log("Next button clicked in RegisterPage");
+              try {
+                const s = await formRegisRef.current?.nextStep?.();
+                // console.log("nextStep returned:", s);
+                if (s) setVisibleStep(s);
+              } catch (e) {
+                // console.error("Error calling nextStep:", e);
+              }
             }}
             className="
                 bg-[url('/images/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
@@ -72,7 +78,7 @@ export default function RegisterPage() {
           </div>
         )}
         
-        {visibleStep === 5 && (
+        {visibleStep === 4 && (
           <div
 
             className="

@@ -4,24 +4,21 @@
 import { useState, useEffect } from "react";
 import EditTeamModal from "./EditTeamModal";
 import TeamRow from "./TeamRow";
-import { Member, Team } from "@/generated/prisma";
-import { getAllTeams } from "@/lib/services/team";
-
-// Extend the Prisma Team type to include members for type safety
-type TeamWithMembers = Team& { members: Member[] };
+import { User } from "@/generated/prisma";
+import { getAllUsers } from "@/lib/services/user";
 
 const TeamList: React.FC = () => {
-  const [teams, setTeams] = useState<TeamWithMembers[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingTeam, setEditingTeam] = useState<TeamWithMembers | null>(null);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
 
   // Function to fetch data
-  const fetchTeams = async () => {
+  const fetchUsers = async () => {
     setLoading(true);
     try {
-      // The getAllTeams function is assumed to be defined as in the prompt's context
-      const fetchedTeams = await getAllTeams();
-      setTeams(fetchedTeams);
+      // The getAllUsers function is assumed to be defined as in the prompt's context
+      const fetchedUsers = await getAllUsers();
+      setUsers(fetchedUsers);
     } catch (error) {
       console.error("Failed to fetch teams:", error);
       // Handle error display for user
@@ -31,13 +28,13 @@ const TeamList: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchTeams();
+    fetchUsers();
   }, []);
 
   // Handler for successful deletion/update to refresh the list
   const handleActionSuccess = () => {
-    fetchTeams();
-    setEditingTeam(null);
+    fetchUsers();
+    setEditingUser(null);
   };
 
   if (loading) {
@@ -48,7 +45,7 @@ const TeamList: React.FC = () => {
     );
   }
 
-  if (teams.length === 0) {
+  if (users.length === 0) {
     return (
       <div className="text-center p-8">
         <h2 className="text-xl font-semibold">No Teams Registered 😞</h2>
@@ -104,13 +101,13 @@ const TeamList: React.FC = () => {
             </tr>
           </thead>
           <tbody className="bg-gray-800 divide-y divide-teal-400/10">
-            {teams.map((team, index) => (
+            {users.map((user, index) => (
               <TeamRow
-                key={team.team_id}
-                team={team}
+                key={user.id}
+                user={user}
                 index={index + 1}
                 onDeleteSuccess={handleActionSuccess}
-                onEditClick={() => setEditingTeam(team)}
+                onEditClick={() => setEditingUser(user)}
               />
             ))}
           </tbody>
@@ -118,10 +115,10 @@ const TeamList: React.FC = () => {
       </div>
 
       {/* Edit Modal */}
-      {editingTeam && (
+      {editingUser && (
         <EditTeamModal
-          team={editingTeam}
-          onClose={() => setEditingTeam(null)}
+          user={editingUser}
+          onClose={() => setEditingUser(null)}
           onUpdateSuccess={handleActionSuccess}
         />
       )}

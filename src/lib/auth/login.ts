@@ -1,4 +1,4 @@
-// app/actions/teamLogin.ts
+// app/actions/userLogin.ts
 "use server";
 
 import bcrypt from "bcrypt";
@@ -6,23 +6,23 @@ import { randomUUID } from "crypto";
 import prisma from "../config/prisma";
 import { cookies } from "next/headers";
 
-export async function teamLogin(team_name: string, password: string) {
-  const team = await prisma.team.findUnique({
-    where: { team_name },
+export async function userLogin(name: string, password: string) {
+  const user = await prisma.user.findUnique({
+    where: { name },
   });
 
-  if (!team) throw new Error("Invalid credentials");
+  if (!user) throw new Error("Invalid credentials");
 
-  const isValid = await bcrypt.compare(password, team.password);
+  const isValid = await bcrypt.compare(password, user.password);
   if (!isValid) throw new Error("Invalid credentials");
 
   // create a session token
   const sessionToken = randomUUID();
   const expires = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24h
 
-  await prisma.teamSession.create({
+  await prisma.userSession.create({
     data: {
-      team_id: team.team_id,
+      user_id: user.id,
       sessionToken,
       expires,
     },
@@ -39,20 +39,20 @@ export async function teamLogin(team_name: string, password: string) {
   });
 
   return {
-    team_id: team.team_id,
-    team_name: team.team_name,
-    role: team.role,
+    id: user.id,
+    name: user.name,
+    role: user.role,
     sessionToken,
     expires,
   };
 }
 
-export async function teamLogout() {
+export async function userLogout() {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get('sessionToken')?.value;
   
   if (sessionToken) {
-    await prisma.teamSession.delete({
+    await prisma.userSession.delete({
       where: { sessionToken },
     }).catch(() => null);
   }

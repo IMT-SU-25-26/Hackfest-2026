@@ -2,13 +2,13 @@
 "use client";
 
 import { useState } from "react";
-import { updateTeam } from "@/lib/services/team";
-import { Team } from "@/generated/prisma";
+import { updateUser } from "@/lib/services/user";
+import { User } from "@/generated/prisma";
 
 // Define the input type for the form
-// This should match the structure of your UpdateTeamInput
+// This should match the structure of your UpdateUserInput
 interface FormInput {
-  team_name: string;
+  name: string;
   country: string;
   university: string;
   phone_number: string;
@@ -16,22 +16,22 @@ interface FormInput {
 }
 
 interface EditTeamModalProps {
-  team: Team;
+  user: User;
   onClose: () => void;
   onUpdateSuccess: () => void;
 }
 
 const EditTeamModal: React.FC<EditTeamModalProps> = ({
-  team,
+  user,
   onClose,
   onUpdateSuccess,
 }) => {
   const [formData, setFormData] = useState<FormInput>({
-    team_name: team.team_name,
-    country: team.country,
-    university: team.university,
-    phone_number: team.phone_number,
-    line_id: team.line_id,
+    name: user.name,
+    country: user.country,
+    university: user.university,
+    phone_number: user.phone_number,
+    line_id: user.line_id,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -49,9 +49,9 @@ const EditTeamModal: React.FC<EditTeamModalProps> = ({
     setIsSubmitting(true);
 
     try {
-      // Pass the team's ID and the updated data to the server action
-      // We are casting formData to 'any' here since the exact UpdateTeamInput type is not provided.
-      const result = await updateTeam(team.team_id, formData);
+      // Pass the user's ID and the updated data to the server action
+      // We are casting formData to 'any' here since the exact UpdateUserInput type is not provided.
+      const result = await updateUser(user.id, formData);
 
       if (result.success) {
         alert(result.message);
@@ -72,7 +72,7 @@ const EditTeamModal: React.FC<EditTeamModalProps> = ({
       <div className="relative p-8 border w-full max-w-lg shadow-2xl rounded-lg bg-gray-800 border-teal-400/50">
         <div className="mt-3 text-center">
           <h3 className="text-xl leading-6 font-bold text-teal-400 mb-6 tracking-wide">
-            EDIT TEAM RECORD: {team.team_id.slice(0, 8)}...
+            EDIT TEAM RECORD: {user.id.slice(0, 8)}...
           </h3>
           <div className="px-7 py-3">
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -83,8 +83,8 @@ const EditTeamModal: React.FC<EditTeamModalProps> = ({
                 </label>
                 <input
                   type="text"
-                  name="team_name"
-                  value={formData.team_name}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   className="mt-1 block w-full bg-gray-700 border border-gray-600 focus:border-teal-400 focus:ring-teal-400 text-white rounded-md shadow-sm p-2"
                   required

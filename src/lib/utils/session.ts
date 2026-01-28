@@ -18,9 +18,10 @@ export const getCurrentUser = async () => {
 export const getCurrentUserId = async () => {
   const session = await getAuthSession();
 
-  if (!session?.user?.team_id) {
+  if (!session?.user?.id) {
     throw new Error("Unauthorized: No user ID found in session.");
   }
 
-  return session.user.team_id;
+  return session.user.id;
 };
+

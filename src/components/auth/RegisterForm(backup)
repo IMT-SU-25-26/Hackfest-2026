@@ -4,7 +4,8 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import {
   Earth,
-  User,
+  GraduationCap,
+  Users,
   Phone,
   MessageCircle,
   Lock,
@@ -13,6 +14,7 @@ import {
   Mail,
 } from "lucide-react";
 import { registerUser } from "@/lib/services/user";
+import { registerAllMember } from "@/lib/services/member";
 import { toast } from "react-toastify";
 import FormInput from "./FormInput";
 import { toastError } from "@/lib/utils/utils";
@@ -20,13 +22,17 @@ import { useRouter } from "next/navigation";
 import UploadButton from "../common/UploadButton";
 
 type FormData = {
-  userName: string;
+  name: string;
   country: string;
+  university: string;
+  userName: string;
   email: string;
   whatsapp: string;
   lineId: string;
   password: string;
   confirmPassword: string;
+  twibbonUrl?: string;
+  posterUrl?: string;
 };
 
 export interface RegisterFormHandle {
@@ -42,51 +48,52 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
   const { handleSubmit, control, trigger } = methods;
 
   const [step, setStep] = useState(1);
+  const [memberInputs, setMemberInputs] = useState<string[]>([""]);
+  const [memberError, setMemberError] = useState<string | null>(null);
   const [twibbonUrl, setTwibbonUrl] = useState<string | null>(null);
   const [posterUrl, setPosterUrl] = useState<string | null>(null);
 
   const password = useWatch({ control, name: "password" });
 
   const nextStep = async (): Promise<number | null> => {
-    // console.log("nextStep called, current step:", step);
     let fieldsToValidate: (keyof FormData)[] = [];
     switch (step) {
       case 1:
         fieldsToValidate = ["userName", "country", "email"];
         break;
       case 2:
+        fieldsToValidate = ["university"];
+        const isValid = memberInputs.every((m) => m.trim().length > 0);
+        if (!isValid) {
+          setMemberError("All team member names are required");
+          return null;
+        } else {
+          setMemberError(null);
+        }
+        const newStep2 = Math.min(5, step + 1);
+        setStep(newStep2);
+        return newStep2;
+      case 3:
         fieldsToValidate = ["whatsapp", "lineId"];
         break;
-      case 3:
+      case 4:
         // Validate file uploads
         if (!twibbonUrl || !posterUrl) {
-          toast.error("Please upload both Twibbon and Poster images");
+          toast.error("Please upload both Twibbon and Poster files");
           return null;
         }
-        const newStep3 = Math.min(4, step + 1);
-        setStep(newStep3);
-        return newStep3;
-      case 4:
+        const newStep4 = Math.min(5, step + 1);
+        setStep(newStep4);
+        return newStep4;
+      case 5:
         fieldsToValidate = ["password", "confirmPassword"];
         break;
     }
-    
-    // console.log("Triggering validation for:", fieldsToValidate);
     const isValid = await trigger(fieldsToValidate);
-    // console.log("Validation result:", isValid);
-    
     if (isValid) {
-      const newStep = Math.min(4, step + 1);
+      const newStep = Math.min(5, step + 1);
       setStep(newStep);
       return newStep;
-    } else {
-      // console.log("Validation errors:", methods.formState.errors);
-      fieldsToValidate.forEach((field) => {
-        const error = methods.formState.errors[field];
-        if (error && error.message) {
-          toast.error(error.message as string);
-        }
-      });
     }
     return null;
   };
@@ -97,23 +104,40 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
     return newStep;
   };
 
+  const addMember = () => {
+    setMemberInputs([...memberInputs, ""]);
+  };
+
+  const removeMember = (index: number) => {
+    if (memberInputs.length > 1) {
+      setMemberInputs(memberInputs.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateMember = (index: number, value: string) => {
+    const newInputs = [...memberInputs];
+    newInputs[index] = value;
+    setMemberInputs(newInputs);
+  };
+
   const onSubmit = async (data: FormData) => {
     console.log("Form Data:", data);
     // Register User
-    if(!posterUrl || !twibbonUrl){
-      toast.error("Make sure all fields are filled")
+    if(!posterUrl && !twibbonUrl){
+      toast.error("Make sure all field is filled")
       return
     }
 
     const user = await registerUser({
       name: data.userName,
       country: data.country,
+      university: data.university,
       email: data.email,
       phone_number: data.whatsapp,
       line_id: data.lineId,
       password: data.password,
-      poster_url: posterUrl,
-      twibbon_url: twibbonUrl
+      poster_url: posterUrl!,
+      twibbon_url: twibbonUrl!
     })
 
     if(!user.success){
@@ -121,8 +145,18 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
       return;
     }
 
-    toast.success("Registration successful!");
-    Router.push('/login');
+    const membersInput = memberInputs
+      .map((name) => name.trim())
+      .filter((name) => name);
+
+    // Register Members to the User
+    const members = await registerAllMember({names:membersInput, user_id:user.data!.id});
+    if (members.success) {
+      toast.success("Registration successful!");
+      Router.push('/login');
+    }else{
+      toast.error(members.error);
+    }
   };
 
   // Trigger Button by ref
@@ -151,14 +185,14 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
           onSubmit={handleSubmit(onSubmit)}
           className="relative flex flex-col w-full md:w-[80%]"
         >
-          {/* Step 1: User Name, Country, Email */}
+          {/* Step 1: Name and Country */}
           {step === 1 && (
             <>
               <FormInput
                 id="userName"
-                label="Enter your name"
-                placeholder="Your Name"
-                icon={User}
+                label="Team Name"
+                placeholder="Your Team Name"
+                icon={Users}
                 rules={{ required: "Name is required" }}
               />
 
@@ -172,8 +206,8 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
 
               <FormInput
                 id="email"
-                label="Institutional Email"
-                placeholder="your.email@university.edu"
+                label="Team Email"
+                placeholder="Your Team Email"
                 icon={Mail}
                 rules={{
                   required: "Email is required",
@@ -186,34 +220,94 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
             </>
           )}
           
-          {/* Step 2: WhatsApp and Line ID */}
+          {/* Step 2: University and Team Members */}
           {step === 2 && (
+            <>
+              <FormInput
+                id="university"
+                label="University"
+                placeholder="Your University"
+                icon={GraduationCap}
+                rules={{ required: "University is required" }}
+              />
+
+            <div className="mb-4">
+              <label className="mb-2 block text-lg text-[#05C174]">
+                Team Member Names
+              </label>
+              {memberInputs.map((member, index) => (
+                <div key={index} className="mb-4">
+                  <div className="relative">
+                    <div className="absolute top-1/2 left-[5%] z-10 -translate-y-1/2 text-[#05C174]">
+                      <Users size={32} className="hidden md:block" />
+                      <Users size={20} className="block md:hidden" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder={`Team Member ${index + 1} Name`}
+                      value={member}
+                      onChange={(e) => updateMember(index, e.target.value)}
+                      className="font-family-spacemono text-sm sm:text-md lg:text-xl w-full border-0 block bg-[url('/images/auth/formInput.svg')] bg-contain bg-no-repeat aspect-6/1 active:outline-none outline-none border-[#05C174] p-0 pl-[15%] text-[#05B0C1] placeholder-[#05B0C1]"
+                    />
+                  </div>
+                  {memberInputs.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeMember(index)}
+                      className="text-destructive hover:text-destructive/90 mt-2 block transition-all duration-300 hover:drop-shadow-[0_0_10px_red]"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addMember}
+                className={`${memberInputs.length > 4 ? 'hidden ' : ''} font-family-spacemono w-full aspect-6/1 bg-transparent bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center px-4 text-black transition-all duration-300 hover:text-black hover:drop-shadow-[0_0_8px_#05C174] text-lg font-bold`}
+              >
+                <div className="relative">
+                  <Users size={32} className="absolute left-[2.5%]" />
+                  <p className="text-sm sm:text-md lg:text-xl">
+                    Add Team Member
+                  </p>
+                </div>
+              </button>
+              {memberError && (
+                <p className="text-destructive mt-1 text-sm">{memberError}</p>
+              )}
+            </div>
+            </>
+          )}
+          
+          {/* Step 3: WhatsApp and Line ID */}
+          {step === 3 && (
             <>
               <FormInput
                 id="whatsapp"
                 label="WhatsApp Number"
-                placeholder="+62812345678"
+                placeholder="Your WhatsApp Number"
                 icon={Phone}
                 rules={{
                   required: "WhatsApp number is required",
                   validate: (value) =>
                     /^\+[1-9]\d{1,14}$/.test(value) ||
-                    "Use international format (e.g., +62812345678)",
+                    "Invalid phone number format (e.g., +1234567890)",
                 }}
               />
 
               <FormInput
                 id="lineId"
                 label="Line ID"
-                placeholder="Your Active Line ID"
+                placeholder="Your Line ID"
                 icon={MessageCircle}
                 rules={{ required: "Line ID is required" }}
               />
             </>
           )}
 
-          {/* Step 3: Upload Twibbon and Poster */}
-          {step === 3 && (
+          {/* Step 4: Upload Twibbon and Poster */}
+          {step === 4 && (
             <>
               {/* Upload Twibbon */}
               <label className="mb-2 block text-lg text-[#05C174]">
@@ -234,13 +328,13 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                       {isLoading ? (
                         <div className="flex items-center gap-2">
                           <Loader2 size={24} className="animate-spin text-black" />
-                          <span className="text-sm">Uploading...</span>
+                          <span className="text-sm">Loading...</span>
                         </div>
                       ) : (
                         <>
                           <Upload size={32} className="absolute left-[2.5%]" />
                           <p className="text-sm sm:text-md lg:text-xl">
-                            {twibbonUrl ? "✓ Twibbon Uploaded" : "Upload Twibbon Image"}
+                            {twibbonUrl ? "✓ Uploaded" : "Upload Twibbon File"}
                           </p>
                         </>
                       )}
@@ -251,7 +345,7 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               
               {/* Upload Poster */}
               <label className="mb-2 block text-lg text-[#05C174]">
-                Poster Image
+                Poster
               </label>
               <UploadButton 
                 options={{ folder: "hackfest26/poster/" }}
@@ -268,13 +362,13 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                       {isLoading ? (
                         <div className="flex items-center gap-2">
                           <Loader2 size={24} className="animate-spin text-black" />
-                          <span className="text-sm">Uploading...</span>
+                          <span className="text-sm">Loading...</span>
                         </div>
                       ) : (
                         <>
                           <Upload size={32} className="absolute left-[2.5%]" />
                           <p className="text-sm sm:text-md lg:text-xl">
-                            {posterUrl ? "✓ Poster Uploaded" : "Upload Poster Image"}
+                            {posterUrl ? "✓ Uploaded" : "Upload Poster File"}
                           </p>
                         </>
                       )}
@@ -285,8 +379,8 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
             </>
           )}
 
-          {/* Step 4: Password and Confirm Password */}
-          {step === 4 && (
+          {/* Step 5: Password and Confirm Password */}
+          {step === 5 && (
             <>
               <FormInput
                 id="password"
@@ -294,13 +388,7 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                 type="password"
                 placeholder="Enter Password"
                 icon={Lock}
-                rules={{ 
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters"
-                  }
-                }}
+                rules={{ required: "Password is required" }}
               />
 
               <FormInput

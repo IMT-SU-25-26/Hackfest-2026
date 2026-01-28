@@ -1,62 +1,42 @@
-import { Member, Team } from "@/generated/prisma";
+import { Team, User } from "@/generated/prisma";
 import z from "zod";
 
 // Team Schema for Validation
-export const createTeamSchema =  z.object({
-    team_name: z
-        .string()
-        .min(1, "Team name is required")
-        .max(50, "Team name must be at most 50 characters"),
-    
-    country: z
-        .string()
-        .min(1, "Country is required")
-        .max(100, "Country must be at most 100 characters"),
+export const createTeamSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Team Name is required")
+    .max(50, "Team Name must be at most 50 characters"),
+  
+  category: z.enum(["UIUX", "HACKATON"], {
+    message: "Category must be either UIUX or HACKATON",
+  }),
 
-    university: z
-        .string()
-        .min(1, "University is required")
-        .max(100, "University must be at most 100 characters"),
+  phone: z
+    .string()
+    .min(7, "Phone number must be at least 7 characters")
+    .max(15, "Phone number must be at most 15 characters"),
 
-    phone_number: z
-        .string()
-        .min(7 ,"Phone number must be at least 7 characters")
-        .max(15, "Phone number must be at most 15 characters"),
+  line_id: z
+    .string()
+    .min(1, "Line ID is required")
+    .max(100, "Line ID must be at most 100 characters"),
+  
+  payment_proof: z
+    .string()
+    .url("Invalid Payment Proof URL")
+    .optional(),
 
-    line_id: z
-        .string()
-        .min(1, "Line ID is required")
-        .max(100, "Line ID must be at most 100 characters"),
+  memberEmails: z.array(z.string().email()).optional(),
+});
 
-    password: z
-        .string()
-        .min(8, "Password must be at least 8 characters")
-        .max(100, "Password must be at most 100 characters"),
-
-    poster_url: z
-        .string()
-        .min(1, "Poster URL is required")
-        .url("Invalid Poster Url"),
-
-    twibbon_url: z
-        .string()
-        .min(1, "Twibbon URL is required")
-        .url("Invalid twibbon URL"),
-
-    proposal_url: z
-        .string()
-        .url("Invalid Proposal URL")
-        .optional(),
-    
-})
 export const updateTeamSchema = createTeamSchema.partial();
 
 // Types based on Validation Schemas
 export type CreateTeamInput = z.infer<typeof createTeamSchema>;
 export type UpdateTeamInput = z.infer<typeof updateTeamSchema>;
 
-
-// type for returned team
+// Type for returned team with members
 export interface TeamResult extends Team {
-    members: Member[]
+  members: User[];
 }

@@ -8,41 +8,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model TeamSession {
-  id            String   @id @default(cuid())
-  sessionToken  String @unique
-  team_id       String
-  team          Team     @relation(fields: [team_id], references: [team_id], onDelete: Cascade)
-  expires       DateTime
-  createdAt     DateTime @default(now())
+model UserSession {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  user_id      String
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  expires      DateTime
+  createdAt    DateTime @default(now())
 
-  @@index([team_id])
+  @@index([user_id])
 }
 
-model Team {
-  team_id      String        @id @default(cuid())
-  team_name    String        @unique
+model User {
+  id           String        @id @default(cuid())
+  name         String        @unique
   country      String
-  university   String
+  university   String?
   phone_number String
+  email        String        @unique
   line_id      String
   password     String
   poster_url   String
   twibbon_url  String
   proposal_url String?
   role         Role          @default(USER)
-  members      Member[]
-  teamSession  TeamSession[]
+  teamId       String?
+  team         Team?         @relation(fields: [teamId], references: [id])
+  userSession  UserSession[]
 
-  discussions  Discussion[]
-  replies      Reply[]
+  discussions Discussion[]
+  replies     Reply[]
 }
 
-model Member {
-  member_id     String @id @default(cuid())
-  name          String
-  team_id       String
-  team          Team   @relation(fields: [team_id], references: [team_id])
+model Team {
+  id            String       @id @default(cuid())
+  name          String       @unique
+  category      TeamCategory
+  phone         String
+  line_id       String
+  payment_proof String?
+
+  members   User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TeamCategory {
+  UIUX
+  HACKATON
 }
 
 enum Role {
@@ -50,30 +63,29 @@ enum Role {
   USER
 }
 
-
 // Discussion for QNA
 model Discussion {
-  id            String @id @default(cuid())
-  title         String @db.Text
-  question      String @db.Text
-  authorId      String
+  id       String @id @default(cuid())
+  title    String @db.Text
+  question String @db.Text
+  authorId String
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  author        Team    @relation(fields: [authorId], references: [team_id], onDelete: Cascade)
-  replies       Reply[]
+  author  User    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  replies Reply[]
 }
 
 model Reply {
-  id            String @id @default(cuid())
-  content       String @db.Text
-  authorId      String
-  discussionId  String
-  
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  
-  author        Team       @relation(fields: [authorId], references: [team_id], onDelete: Cascade)
-  discussion    Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  id           String @id @default(cuid())
+  content      String @db.Text
+  authorId     String
+  discussionId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author     User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  discussion Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
 }

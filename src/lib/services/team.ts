@@ -3,28 +3,26 @@
 import { CreateTeamInput, createTeamSchema, TeamResult, UpdateTeamInput, updateTeamSchema } from "@/types/services/team";
 import prisma from "../config/prisma";
 import { ActionResult } from "@/types/action";
-import { Team } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
-import bcrypt from "bcrypt";
 import { handlePrismaError } from "../utils/handlePrismaError";
 
 export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({
     include: { members: true },
-    orderBy: { team_id: "asc" },
+    orderBy: { createdAt: "desc" },
   });
 }
 
-export async function getTeamById(id: string): Promise<Team | null> {
+export async function getTeamById(id: string): Promise<TeamResult | null> {
   return await prisma.team.findUnique({
-    where: { team_id: id },
+    where: { id },
     include: { members: true },
   });
 }
 
-export async function registerTeam(
+export async function createTeam(
   data: CreateTeamInput
-): Promise<ActionResult<Team>> {
+): Promise<ActionResult<TeamResult>> {
   const validation = createTeamSchema.safeParse(data);
   if (!validation.success) {
     const errorsArray = validation.error.issues.map(
@@ -38,25 +36,27 @@ export async function registerTeam(
   }
 
   try {
-    const { password, ...rest } = validation.data;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { memberEmails, ...teamData } = validation.data;
 
     const team = await prisma.team.create({
       data: {
-        ...rest,
-        password: hashedPassword,
+        ...teamData,
+        members: memberEmails && memberEmails.length > 0 ? {
+          connect: memberEmails.map(email => ({ email }))
+        } : undefined
       },
+      include: { members: true },
     });
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return {
       success: true,
       data: team,
-      message: "Team registered successfully",
+      message: "Team created successfully",
     };
   } catch (error) {
-    console.log("Error Register Team: \n"+error)
+    console.log("Error Create Team: \n"+error)
     return {
       success: false,
       error: handlePrismaError(error),
@@ -67,7 +67,7 @@ export async function registerTeam(
 export async function updateTeam(
   id: string,
   data: UpdateTeamInput
-): Promise<ActionResult<Team>> {
+): Promise<ActionResult<TeamResult>> {
   const validation = updateTeamSchema.safeParse(data);
   if (!validation.success) {
     const errorsArray = validation.error.issues.map(
@@ -82,11 +82,12 @@ export async function updateTeam(
 
   try {
     const team = await prisma.team.update({
-      where: { team_id: id },
+      where: { id },
       data: validation.data,
+      include: { members: true },
     });
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return {
       success: true,
@@ -107,10 +108,10 @@ export async function deleteTeam(
 ): Promise<ActionResult<null>> {
   try {
     await prisma.team.delete({
-      where: { team_id: id },
+      where: { id },
     });
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return {
       success: true,
@@ -118,6 +119,70 @@ export async function deleteTeam(
     };
   } catch (error) {
     console.log("Error Delete Team: \n"+error)
+    return {
+      success: false,
+      error: handlePrismaError(error),
+    };
+  }
+}
+
+export async function addMemberToTeam(
+  teamId: string,
+  userId: string
+): Promise<ActionResult<TeamResult>> {
+  try {
+    const team = await prisma.team.update({
+      where: { id: teamId },
+      data: {
+        members: {
+          connect: { id: userId }
+        }
+      },
+      include: { members: true }
+    });
+    
+    revalidatePath("/dashboard");
+
+    return {
+      success: true,
+      data: team,
+      message: "Member added to team successfully"
+    };
+
+  } catch (error) {
+    console.log("Error Add Member to Team: \n"+error)
+    return {
+      success: false,
+      error: handlePrismaError(error),
+    };
+  }
+}
+
+export async function removeMemberFromTeam(
+  teamId: string,
+  userId: string
+): Promise<ActionResult<TeamResult>> {
+  try {
+    const team = await prisma.team.update({
+      where: { id: teamId },
+      data: {
+        members: {
+          disconnect: { id: userId }
+        }
+      },
+      include: { members: true }
+    });
+    
+    revalidatePath("/dashboard");
+
+    return {
+      success: true,
+      data: team,
+      message: "Member removed from team successfully"
+    };
+
+  } catch (error) {
+    console.log("Error Remove Member from Team: \n"+error)
     return {
       success: false,
       error: handlePrismaError(error),
