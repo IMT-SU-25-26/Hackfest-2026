@@ -46,6 +46,11 @@ export default async function TeamRegistrationPage() {
     redirect("/profile?error=incomplete_profile");
   }
 
+  // Check if user already has a team
+  if (user.teamId) {
+    redirect("/?error=You already have a team");
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
         <TeamRegistrationFlow />

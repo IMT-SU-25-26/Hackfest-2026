@@ -31,6 +31,15 @@ export default async function HackathonPreliminarySubmissionPage() {
      redirect("/?error=You are not in the Hackathon category competition");
   }
 
+  // Check if already submitted
+  if (
+    user.team.submission_originality_url &&
+    user.team.submission_lean_canvas_url &&
+    user.team.submission_gdrive_url
+  ) {
+    redirect("/?error=You already submit the submisison");
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
       <HackathonPreliminarySubmissionFlow teamId={user.team.id} />

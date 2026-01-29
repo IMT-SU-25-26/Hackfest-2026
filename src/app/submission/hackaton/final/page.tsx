@@ -35,6 +35,15 @@ export default async function HackathonFinalSubmissionPage() {
      redirect("/?error=You are not a finalist");
   }
 
+  // Check if already submitted
+  if (
+    user.team.submission_github_url &&
+    user.team.submission_ppt_url &&
+    user.team.submission_video_demo_url
+  ) {
+    redirect("/?error=You already submit the submisison");
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
       <HackathonFinalSubmissionFlow teamId={user.team.id} />

@@ -32,6 +32,11 @@ export default async function FinalTeamRegistrationPage() {
      redirect("/?error=You are not a finalist.");
   }
 
+  // Check if already completed final registration
+  if (user.team.surat_tugas_url && user.team.payment_proof) {
+     redirect("/?error=You already completed the final registration");
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
         <FinalTeamRegistrationFlow teamId={user.team.id} teamName={user.team.name} />
