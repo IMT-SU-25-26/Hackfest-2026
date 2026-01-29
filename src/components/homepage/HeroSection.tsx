@@ -1,9 +1,8 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, Suspense } from "react";
 import FaultyTerminal from "../FaultyTerminal";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
+import ToastHandler from "../utils/ToastHandler";
 
 function HeroSection() {
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -25,27 +24,14 @@ function HeroSection() {
     return () => observer.disconnect();
   }, []);
 
-  const searchParams = useSearchParams();
-  const toastShown = useRef(false);
-
-  useEffect(() => {
-    const error = searchParams.get("error");
-    if (error && !toastShown.current) {
-      toastShown.current = true;
-      setTimeout(() => {
-        toast.error(error);
-        const newUrl = new URL(window.location.href);
-        newUrl.searchParams.delete("error");
-        window.history.replaceState({}, "", newUrl.toString());
-      }, 100);
-    }
-  }, [searchParams]);
-
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
   return (
     <div className="relative min-h-screen pt-[7vh] w-[100w-dvw] flex flex-col justify-center items-center overflow-hidden">
+      <Suspense fallback={null}>
+        <ToastHandler />
+      </Suspense>
       <div ref={terminalRef} className="absolute w-full h-full">
         <div className="absolute w-full h-full bg-gradient-to-t pointer-events-none from-[#090223] to-transparent z-10">
         </div>
