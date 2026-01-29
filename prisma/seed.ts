@@ -8,6 +8,22 @@ async function main() {
   const passwordBeta = await bcrypt.hash("password45654", 10)
   const passwordAdmin = await bcrypt.hash("h4ckf3st@4dm1n?punyaIMT", 10)
 
+  const admin = await prisma.user.upsert({
+    where: { email: "admin@hackfest.com" },
+    update: {},
+    create: {
+      name: "Super Admin",
+      email: "admin@hackfest.com",
+      password: passwordAdmin,
+      role: "ADMIN",
+      country: "Indonesia",
+      phone_number: "0000000000",
+      line_id: "admin_line",
+      poster_url: "",
+      twibbon_url: "",
+    },
+  })
+  console.log({ admin })
 }
 
 main()
