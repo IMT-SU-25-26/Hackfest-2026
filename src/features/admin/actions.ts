@@ -75,3 +75,16 @@ export async function updateTeamFinalistStatus(teamId: string, isFinalist: boole
     return { success: false, error: "Failed to update team finalist status" };
   }
 }
+
+export async function deleteTeam(teamId: string) {
+  try {
+    await prisma.team.delete({
+      where: { id: teamId },
+    });
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting team:", error);
+    return { success: false, error: "Failed to delete team" };
+  }
+}

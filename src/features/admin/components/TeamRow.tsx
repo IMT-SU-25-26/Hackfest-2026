@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Team, User, TeamStatus } from "@/generated/prisma";
-import { Eye, FileText, Check, X } from "lucide-react";
+import { Eye, FileText, Check, X, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
-import { updateTeamStatus, updateTeamFinalistStatus } from "../actions";
+import { updateTeamStatus, updateTeamFinalistStatus, deleteTeam } from "../actions";
 
 interface TeamWithMembers extends Team {
   members: User[];
@@ -20,6 +20,7 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) =
   const [status, setStatus] = useState<TeamStatus>(team.status);
   const [isFinalist, setIsFinalist] = useState(team.isFinalist);
   const [loading, setLoading] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const handleStatusChange = async (newStatus: TeamStatus) => {
     if (loading) return;
@@ -37,6 +38,22 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) =
     }
   };
 
+  const handleDelete = async () => {
+    if (loading) return;
+    if (!confirm("Are you sure you want to delete this team? This action cannot be undone.")) return;
+
+    setLoading(true);
+    const result = await deleteTeam(team.id);
+    setLoading(false);
+
+    if (result.success) {
+      setIsDeleted(true);
+      toast.success("Team deleted successfully");
+    } else {
+      toast.error(result.error || "Failed to delete team");
+    }
+  };
+
   const handeViewProof = () => {
     if (team.payment_proof) {
       onViewProof(team.payment_proof);
@@ -44,6 +61,8 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) =
       toast.info("No payment proof available for this team.");
     }
   };
+
+  if (isDeleted) return null;
 
   return (
     <tr className="hover:bg-white/5 transition-colors border-b border-[#05C174]/20 font-spacemono text-sm">
@@ -128,6 +147,14 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) =
               <X size={18} />
             </button>
           )}
+          <button
+            onClick={handleDelete}
+            disabled={loading}
+            className="p-1.5 rounded-full hover:bg-red-700/20 text-red-600 transition-colors disabled:opacity-50"
+            title="Delete Team"
+          >
+            <Trash2 size={18} />
+          </button>
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
