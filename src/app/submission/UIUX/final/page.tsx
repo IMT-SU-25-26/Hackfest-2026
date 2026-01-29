@@ -1,0 +1,38 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/config/auth";
+import { redirect } from "next/navigation";
+import prisma from "@/lib/config/prisma";
+import UiUxFinalSubmissionFlow from "@/features/submission/components/UIUX/final/UiUxFinalSubmissionFlow";
+
+export default async function UiUxFinalSubmissionPage() {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    redirect("/login");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    include: { team: true },
+  });
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  if (!user.teamId || !user.team) {
+    // User must be in a team to submit
+    redirect("/"); 
+  }
+
+  if (user.team.category !== "UIUX") {
+     // Wrong category
+     redirect("/?error=You are not in the UI/UX category competition");
+  }
+
+  return (
+    <div className="min-h-screen w-full bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
+      <UiUxFinalSubmissionFlow teamId={user.team.id} />
+    </div>
+  );
+}

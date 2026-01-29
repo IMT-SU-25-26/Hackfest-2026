@@ -54,6 +54,16 @@ model Team {
   payment_proof String?
   status        TeamStatus   @default(PENDING)
 
+  submission_originality_url String?
+  submission_proposal_url    String?
+  submission_lean_canvas_url String?
+  submission_figma_url       String?
+  submission_gdrive_url      String?
+
+  submission_ppt_url        String?
+  submission_github_url     String?
+  submission_video_demo_url String?
+
   members   User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

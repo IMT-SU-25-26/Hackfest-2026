@@ -2,6 +2,8 @@
 import { useRef, useState, useEffect } from "react";
 import FaultyTerminal from "../FaultyTerminal";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 function HeroSection() {
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -22,6 +24,22 @@ function HeroSection() {
     observer.observe(terminalRef.current);
     return () => observer.disconnect();
   }, []);
+
+  const searchParams = useSearchParams();
+  const toastShown = useRef(false);
+
+  useEffect(() => {
+    const error = searchParams.get("error");
+    if (error && !toastShown.current) {
+      toastShown.current = true;
+      setTimeout(() => {
+        toast.error(error);
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.delete("error");
+        window.history.replaceState({}, "", newUrl.toString());
+      }, 100);
+    }
+  }, [searchParams]);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
