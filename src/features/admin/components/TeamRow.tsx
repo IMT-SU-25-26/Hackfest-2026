@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Team, User, TeamStatus } from "@/generated/prisma";
 import { Eye, FileText, Check, X } from "lucide-react";
 import { toast } from "react-toastify";
-import { updateTeamStatus } from "../actions";
+import { updateTeamStatus, updateTeamFinalistStatus } from "../actions";
 
 interface TeamWithMembers extends Team {
   members: User[];
@@ -63,6 +63,32 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) =
         >
           {status}
         </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        {status === "ACCEPTED" ? (
+             <label className="relative inline-flex items-center cursor-pointer">
+                <input 
+                    type="checkbox" 
+                    className="sr-only peer"
+                    checked={team.isFinalist}
+                    onChange={async (e) => {
+                        const newState = e.target.checked;
+                        // Optimistic update handled by revalidatePath usually, but local state might be good for instant feedback
+                        // actually for this, revalidatePath in server action is enough if we trust network speed, 
+                        // but let's just trigger it.
+                        // Ideally we should have local state for isFinalist too if we want instant switch flip.
+                        // I will assume team prop updates on revalidate, but to be safe for UI responsiveness let's just fire and forget or use local state if needed.
+                        // For now sticking to server action revalidate.
+                        
+                        await updateTeamFinalistStatus(team.id, newState);
+                        toast.success(`Team finalist status updated to ${newState}`);
+                    }}
+                />
+                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#05C174]"></div>
+            </label>
+        ) : (
+            <span className="text-gray-500 text-xs">-</span>
+        )}
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center gap-2">

@@ -46,3 +46,17 @@ export async function updateTeamStatus(teamId: string, status: TeamStatus) {
     return { success: false, error: "Failed to update team status" };
   }
 }
+
+export async function updateTeamFinalistStatus(teamId: string, isFinalist: boolean) {
+  try {
+    await prisma.team.update({
+      where: { id: teamId },
+      data: { isFinalist },
+    });
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating team finalist status:", error);
+    return { success: false, error: "Failed to update team finalist status" };
+  }
+}

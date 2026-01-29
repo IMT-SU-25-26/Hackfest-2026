@@ -10,9 +10,10 @@ import { ChevronDown } from "lucide-react";
 interface NavBarProps {
   teamStatus?: "PENDING" | "REJECTED" | "ACCEPTED";
   teamCategory?: "UIUX" | "HACKATON";
+  isFinalist?: boolean;
 }
 
-function NavBar({ teamStatus, teamCategory }: NavBarProps) {
+function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
   const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -85,7 +86,9 @@ function NavBar({ teamStatus, teamCategory }: NavBarProps) {
                   <div className="absolute top-full left-0 pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                     <div className="bg-[#1C0951] border border-[#00C074] flex flex-col items-start p-2 gap-2 shadow-lg">
                       <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Preliminary</Link>
-                      <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Final</Link>
+                      {isFinalist && (
+                        <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Final</Link>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -146,7 +149,9 @@ function NavBar({ teamStatus, teamCategory }: NavBarProps) {
                 <>
                   <div className="text-[#00C074] text-sm opacity-50 uppercase tracking-widest mt-2">Submission</div>
                   <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Preliminary</Link>
-                  <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Final</Link>
+                  {isFinalist && (
+                    <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Final</Link>
+                  )}
                 </>
               )}
 

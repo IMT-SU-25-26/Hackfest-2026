@@ -8,6 +8,7 @@ export default async function NavBarWrapper() {
   
   let teamStatus: "PENDING" | "REJECTED" | "ACCEPTED" | undefined = undefined;
   let teamCategory: "UIUX" | "HACKATON" | undefined = undefined;
+  let isFinalist: boolean = false;
 
   if (session?.user?.email) {
     const user = await prisma.user.findUnique({
@@ -18,7 +19,7 @@ export default async function NavBarWrapper() {
     if (user?.team) {
       teamStatus = user.team.status;
       teamCategory = user.team.category;
-    //   console.log("[NavBarWrapper] Fetched Team Data:", { teamStatus, teamCategory });
+      isFinalist = user.team.isFinalist;
     }
   }
 
@@ -26,6 +27,7 @@ export default async function NavBarWrapper() {
     <NavBar 
       teamStatus={teamStatus} 
       teamCategory={teamCategory}
+      isFinalist={isFinalist}
     />
   );
 }

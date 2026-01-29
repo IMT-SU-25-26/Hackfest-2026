@@ -30,6 +30,11 @@ export default async function UiUxFinalSubmissionPage() {
      redirect("/?error=You are not in the UI/UX category competition");
   }
 
+  if (!user.team.isFinalist) {
+     // Not finalist
+     redirect("/?error=You are not a finalist");
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
       <UiUxFinalSubmissionFlow teamId={user.team.id} />

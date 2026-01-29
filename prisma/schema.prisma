@@ -64,6 +64,8 @@ model Team {
   submission_github_url     String?
   submission_video_demo_url String?
 
+  isFinalist Boolean @default(false)
+
   members   User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
