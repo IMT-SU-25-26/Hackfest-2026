@@ -76,7 +76,7 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors">QNA</Link>
           
           {/* Final Registration for Hackathon Finalists */}
-          {session && isFinalist && teamCategory === "HACKATON" && (
+          {session && isFinalist && teamCategory === "HACKATON" && teamStatus === "PENDING" && (
              <Link href={"/teamRegistration/final"} className="hover:text-[#00C074] transition-colors">Final Registration</Link>
           )}
 
