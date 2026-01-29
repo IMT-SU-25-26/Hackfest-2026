@@ -26,6 +26,7 @@ const TeamTable: React.FC<TeamTableProps> = ({ teams, onViewProof, onViewDetails
             <th className="px-6 py-3 border-b border-[#05C174]">Status</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Finalist</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Actions</th>
+            <th className="px-6 py-3 border-b border-[#05C174]">Final RSVP</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-[#05C174]/10">

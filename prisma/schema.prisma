@@ -60,6 +60,8 @@ model Team {
   submission_figma_url       String?
   submission_gdrive_url      String?
 
+  surat_tugas_url String?
+
   submission_ppt_url        String?
   submission_github_url     String?
   submission_video_demo_url String?

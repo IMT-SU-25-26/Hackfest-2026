@@ -53,9 +53,20 @@ export async function updateTeamStatus(teamId: string, status: TeamStatus) {
 
 export async function updateTeamFinalistStatus(teamId: string, isFinalist: boolean) {
   try {
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+      select: { category: true }
+    });
+
+    const data: any = { isFinalist };
+
+    if (isFinalist && team?.category === "HACKATON") {
+        data.status = "PENDING";
+    }
+
     await prisma.team.update({
       where: { id: teamId },
-      data: { isFinalist },
+      data,
     });
     revalidatePath("/dashboard");
     return { success: true };

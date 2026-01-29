@@ -74,6 +74,11 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
           <button onClick={() => handleNavigation('/#timeline')} className="hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">Timeline</button>
           <button onClick={() => handleNavigation('/#regsFee')} className="hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">Fee</button>
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors">QNA</Link>
+          
+          {/* Final Registration for Hackathon Finalists */}
+          {session && isFinalist && teamCategory === "HACKATON" && (
+             <Link href={"/teamRegistration/final"} className="hover:text-[#00C074] transition-colors">Final Registration</Link>
+          )}
 
           {session ? (
             <>
@@ -142,6 +147,11 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
           <button onClick={() => handleNavigation('/#timeline')} className="hover:text-[#00C074] transition-colors py-2 text-left bg-none border-none p-0 cursor-pointer">Timeline</button>
           <button onClick={() => handleNavigation('/#regsFee')} className="hover:text-[#00C074] transition-colors py-2 text-left bg-none border-none p-0 cursor-pointer">Fee</button>
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors py-2" onClick={closeMenu}>QNA</Link>
+          
+          {session && isFinalist && teamCategory === "HACKATON" && (
+             <Link href={"/teamRegistration/final"} className="hover:text-[#00C074] transition-colors py-2" onClick={closeMenu}>Final Registration</Link>
+          )}
+          
           {session ? (
             <>
               {/* MOBILE SUBMISSION LINKS - Expanded for simplicity */}
