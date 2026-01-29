@@ -154,20 +154,22 @@ export default function HackathonPreliminaryForm({ teamId }: HackathonPreliminar
             {/* STAGE 2 */}
             {step === 2 && (
               <>
-                 {/* Google Drive Link */}
+                 {/* Google Drive Video Link (Direct File) */}
                  <FormInput
                     id="gdrive_url"
-                    label="Google Drive Link"
-                    placeholder="https://drive.google.com/..."
+                    label="Google Drive Video Link (Direct File)"
+                    placeholder="https://drive.google.com/file/d/..."
                     icon={LinkIcon}
                     rules={{ 
-                        required: "Google Drive link is required",
+                        required: "Google Drive video link is required",
                         pattern: {
-                            value: /^(https?:\/\/)?(www\.|drive\.)?google\.com\/.+/,
-                            message: "Please enter a valid Google Drive link"
+                            // Basic check: must contain "google.com" and "/file/d/"
+                            value: /google\.com\/file\/d\/[a-zA-Z0-9_-]+/,
+                            message: "Please provide a direct file link, not a folder link."
                         }
                     }}
                  />
+                 <p className="text-xs text-[#05B0C1] mt-[-1rem]">Make sure the link is accessible (anyone with the link can view).</p>
               </>
             )}
 
