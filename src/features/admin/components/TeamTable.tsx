@@ -22,6 +22,7 @@ const TeamTable: React.FC<TeamTableProps> = ({ teams, onViewProof, onViewDetails
           <tr>
             <th className="px-6 py-3 border-b border-[#05C174]">Team Name</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Contact Info</th>
+            <th className="px-6 py-3 border-b border-[#05C174]">Category</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Status</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Finalist</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Actions</th>

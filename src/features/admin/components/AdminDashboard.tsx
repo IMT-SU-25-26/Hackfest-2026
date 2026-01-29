@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { TeamStatus, Team, User } from "@/generated/prisma";
+import { TeamStatus, Team, User, TeamCategory } from "@/generated/prisma";
 import { Search } from "lucide-react";
 import { getTeams } from "../actions";
 import TeamTable from "./TeamTable";
@@ -17,6 +17,7 @@ export default function AdminDashboard() {
   const [teams, setTeams] = useState<TeamWithMembers[]>([]);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<TeamStatus | undefined>(undefined);
+  const [categoryFilter, setCategoryFilter] = useState<TeamCategory | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   const [proofUrl, setProofUrl] = useState<string | null>(null);
@@ -27,7 +28,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const result = await getTeams(debouncedSearch, statusFilter);
+      const result = await getTeams(debouncedSearch, statusFilter, categoryFilter);
       if (result.success && result.data) {
         setTeams(result.data as TeamWithMembers[]);
       }
@@ -35,7 +36,7 @@ export default function AdminDashboard() {
     };
 
     fetchData();
-  }, [debouncedSearch, statusFilter]);
+  }, [debouncedSearch, statusFilter, categoryFilter]);
 
   return (
     <div className="w-full space-y-6 text-white">
@@ -97,6 +98,39 @@ export default function AdminDashboard() {
                 }`}
             >
                 REJECTED
+            </button>
+        </div>
+         {/* Category Filter */}
+         <div className="flex gap-2 font-spacemono text-sm flex-wrap mt-2 md:mt-0">
+            <button
+                onClick={() => setCategoryFilter(undefined)}
+                className={`px-4 py-2 border transition-all ${
+                    categoryFilter === undefined
+                    ? "bg-[#05C174] text-[#090223] border-[#05C174]"
+                    : "bg-transparent text-[#05C174] border-[#05C174] hover:bg-[#05C174]/10"
+                }`}
+            >
+                ALL CATEGORIES
+            </button>
+            <button
+                onClick={() => setCategoryFilter("UIUX")}
+                className={`px-4 py-2 border transition-all ${
+                    categoryFilter === "UIUX"
+                    ? "bg-[#05C3DD] text-[#090223] border-[#05C3DD]"
+                    : "bg-transparent text-[#05C3DD] border-[#05C3DD] hover:bg-[#05C3DD]/10"
+                }`}
+            >
+                UI/UX
+            </button>
+            <button
+                onClick={() => setCategoryFilter("HACKATON")}
+                className={`px-4 py-2 border transition-all ${
+                    categoryFilter === "HACKATON"
+                    ? "bg-[#9D04C2] text-white border-[#9D04C2]"
+                    : "bg-transparent text-[#9D04C2] border-[#9D04C2] hover:bg-[#9D04C2]/10"
+                }`}
+            >
+                HACKATHON
             </button>
         </div>
       </div>

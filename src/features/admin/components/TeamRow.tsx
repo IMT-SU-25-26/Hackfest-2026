@@ -54,6 +54,17 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) =
       <td className="px-6 py-4 whitespace-nowrap">
         <span
           className={`px-2 py-1 rounded text-xs font-bold ${
+            team.category === "UIUX"
+              ? "bg-[#05C3DD]/20 text-[#05C3DD]"
+              : "bg-[#9D04C2]/20 text-[#9D04C2]"
+          }`}
+        >
+          {team.category}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span
+          className={`px-2 py-1 rounded text-xs font-bold ${
             status === "ACCEPTED"
               ? "bg-green-500/20 text-green-400"
               : status === "REJECTED"
@@ -106,25 +117,25 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) =
           >
             <FileText size={18} />
           </button>
-          {status === "PENDING" && (
-            <>
-              <button
-                onClick={() => handleStatusChange("ACCEPTED")}
-                disabled={loading}
-                className="p-1.5 rounded-full hover:bg-green-500/20 text-green-400 transition-colors disabled:opacity-50"
-                title="Accept Team"
-              >
-                <Check size={18} />
-              </button>
-              <button
-                onClick={() => handleStatusChange("REJECTED")}
-                disabled={loading}
-                className="p-1.5 rounded-full hover:bg-red-500/20 text-red-400 transition-colors disabled:opacity-50"
-                title="Reject Team"
-              >
-                <X size={18} />
-              </button>
-            </>
+          {status !== "ACCEPTED" && (
+            <button
+              onClick={() => handleStatusChange("ACCEPTED")}
+              disabled={loading}
+              className="p-1.5 rounded-full hover:bg-green-500/20 text-green-400 transition-colors disabled:opacity-50"
+              title="Accept Team"
+            >
+              <Check size={18} />
+            </button>
+          )}
+          {status !== "REJECTED" && (
+            <button
+              onClick={() => handleStatusChange("REJECTED")}
+              disabled={loading}
+              className="p-1.5 rounded-full hover:bg-red-500/20 text-red-400 transition-colors disabled:opacity-50"
+              title="Reject Team"
+            >
+              <X size={18} />
+            </button>
           )}
         </div>
       </td>

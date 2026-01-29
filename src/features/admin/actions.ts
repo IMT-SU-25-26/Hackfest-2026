@@ -1,10 +1,10 @@
 "use server";
 
 import prisma from "@/lib/config/prisma";
-import { TeamStatus } from "@/generated/prisma";
+import { TeamStatus, TeamCategory } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function getTeams(query: string = "", status?: TeamStatus) {
+export async function getTeams(query: string = "", status?: TeamStatus, category?: TeamCategory) {
   try {
     const where: any = {
       name: {
@@ -15,6 +15,10 @@ export async function getTeams(query: string = "", status?: TeamStatus) {
 
     if (status) {
       where.status = status;
+    }
+
+    if (category) {
+      where.category = category;
     }
 
     const teams = await prisma.team.findMany({
