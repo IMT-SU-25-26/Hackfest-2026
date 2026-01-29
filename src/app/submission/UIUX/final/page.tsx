@@ -22,7 +22,7 @@ export default async function UiUxFinalSubmissionPage() {
 
   if (!user.teamId || !user.team) {
     // User must be in a team to submit
-    redirect("/"); 
+    redirect("/?error=You are not in a team"); 
   }
 
   if (user.team.category !== "UIUX") {

@@ -5,8 +5,14 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 
-function NavBar() {
+interface NavBarProps {
+  teamStatus?: "PENDING" | "REJECTED" | "ACCEPTED";
+  teamCategory?: "UIUX" | "HACKATON";
+}
+
+function NavBar({ teamStatus, teamCategory }: NavBarProps) {
   const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -44,6 +50,11 @@ function NavBar() {
     }
   };
 
+  const getSubmissionPath = (segment: "preliminary" | "final") => {
+    const base = teamCategory === "HACKATON" ? "/submission/hackaton" : "/submission/UIUX";
+    return `${base}/${segment}`;
+  };
+
   return (
     <>
       <nav className="w-full fixed top-0 left-0 z-50 px-[5%] bg-[#1C0951] border-b-2 border-[#00C074] h-[7vh] flex justify-between gap-4 items-center">
@@ -65,6 +76,21 @@ function NavBar() {
 
           {session ? (
             <>
+               {/* SUBMISSION DROPDOWN - ONLY IF ACCEPTED */}
+               {teamStatus === "ACCEPTED" && (
+                <div className="relative group">
+                  <button className="flex items-center gap-1 hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">
+                    SUBMISSION <ChevronDown size={14} />
+                  </button>
+                  <div className="absolute top-full left-0 pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                    <div className="bg-[#1C0951] border border-[#00C074] flex flex-col items-start p-2 gap-2 shadow-lg">
+                      <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Preliminary</Link>
+                      <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Final</Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <Link 
                 href={"/profile"} 
                 className="hover:text-[#00C074] transition-colors"
@@ -115,6 +141,15 @@ function NavBar() {
           <Link href={"/qna"} className="hover:text-[#00C074] transition-colors py-2" onClick={closeMenu}>QNA</Link>
           {session ? (
             <>
+              {/* MOBILE SUBMISSION LINKS - Expanded for simplicity */}
+              {teamStatus === "ACCEPTED" && (
+                <>
+                  <div className="text-[#00C074] text-sm opacity-50 uppercase tracking-widest mt-2">Submission</div>
+                  <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Preliminary</Link>
+                  <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Final</Link>
+                </>
+              )}
+
               <Link 
                 href={"/profile"} 
                 className="hover:text-[#00C074] transition-colors py-2"
