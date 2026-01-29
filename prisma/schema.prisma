@@ -52,6 +52,7 @@ model Team {
   phone         String
   line_id       String
   payment_proof String?
+  status        TeamStatus   @default(PENDING)
 
   members   User[]
   createdAt DateTime @default(now())
@@ -61,6 +62,12 @@ model Team {
 enum TeamCategory {
   UIUX
   HACKATON
+}
+
+enum TeamStatus {
+  PENDING
+  REJECTED
+  ACCEPTED
 }
 
 enum Role {

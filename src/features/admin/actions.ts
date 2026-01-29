@@ -1,0 +1,48 @@
+"use server";
+
+import prisma from "@/lib/config/prisma";
+import { TeamStatus } from "@/generated/prisma";
+import { revalidatePath } from "next/cache";
+
+export async function getTeams(query: string = "", status?: TeamStatus) {
+  try {
+    const where: any = {
+      name: {
+        contains: query,
+        mode: "insensitive",
+      },
+    };
+
+    if (status) {
+      where.status = status;
+    }
+
+    const teams = await prisma.team.findMany({
+      where,
+      include: {
+        members: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return { success: true, data: teams };
+  } catch (error) {
+    console.error("Error fetching teams:", error);
+    return { success: false, error: "Failed to fetch teams" };
+  }
+}
+
+export async function updateTeamStatus(teamId: string, status: TeamStatus) {
+  try {
+    await prisma.team.update({
+      where: { id: teamId },
+      data: { status },
+    });
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating team status:", error);
+    return { success: false, error: "Failed to update team status" };
+  }
+}

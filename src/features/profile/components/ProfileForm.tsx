@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { User, Lock, Mail, Phone, MessageCircle, FileText, Calendar, Globe, Building2, BookOpen, UserCircle, Upload } from "lucide-react";
 import FormInput from "@/components/auth/FormInput";
@@ -8,16 +8,43 @@ import UploadButton from "@/components/UploadButton";
 import { updateProfile, changePassword } from "../actions";
 import { toast } from "react-toastify";
 import { UpdateProfileInput, ChangePasswordInput } from "../schema";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface ProfileFormProps {
   user: any; // We'll type this better if possible, mostly matches User model
+  error?: string;
 }
 
-export default function ProfileForm({ user }: ProfileFormProps) {
+export default function ProfileForm({ user, error }: ProfileFormProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isUpdating, setIsUpdating] = useState(false);
   const [isChangingPass, setIsChangingPass] = useState(false);
+
+  const toastShown = useRef(false);
+
+  useEffect(() => {
+    if (error === "incomplete_profile" && !toastShown.current) {
+      toastShown.current = true;
+      // Use setTimeout to ensure the toast container is ready/mounted
+      setTimeout(() => {
+        toast.warn("Please complete your profile to continue registration", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+
+        // Remove the error param from the URL so it doesn't persist on refresh
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.delete("error");
+        window.history.replaceState({}, "", newUrl.toString());
+      }, 100);
+    }
+  }, [error]);
   
   // Format Date for input
   const formattedDob = user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split("T")[0] : "";

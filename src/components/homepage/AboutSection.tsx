@@ -36,10 +36,10 @@ export default function AboutSection() {
               className="inline-block h-auto w-full md:hidden"
             />
             <div className="flex h-auto w-full flex-row gap-4 md:flex-col">
-              <ButtonImg imgUrl="/images/about/guidebook.svg">GUIDEBOOK</ButtonImg>
+              <ButtonImg imgUrl="/images/about/guidebook.svg" href="/guidebook">GUIDEBOOK</ButtonImg>
 
               {/* LINK 2: REGISTER */}
-              <ButtonImg imgUrl="/images/about/register.svg">Register</ButtonImg>
+              <ButtonImg imgUrl="/images/about/register.svg" href="/teamRegistration">Register</ButtonImg>
             </div>
           </div>
           <Image

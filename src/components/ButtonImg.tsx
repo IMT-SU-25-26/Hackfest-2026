@@ -4,13 +4,14 @@ import React from 'react'
 
 type ButtonImgProps = {
     imgUrl: string;
-    children: React.ReactNode;
+    href: string;
+    children?: React.ReactNode;
 }
 
-function ButtonImg({imgUrl, children}: ButtonImgProps) {
+function ButtonImg({imgUrl, href}: ButtonImgProps) {
   return (
     <Link
-        href="/register"
+        href={href}
         className="
             group 
             relative

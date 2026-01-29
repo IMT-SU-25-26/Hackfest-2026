@@ -247,7 +247,7 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
         className="block md:hidden mb-[2%] text-3xl sm:text-4xl text-[#05B0C1]"
         style={{ textShadow: "0 0 10px #05B0C1, 0 0 20px #05B0C1" }}
       >
-        CREATE TEAM
+        COMPETITION
       </div>
       <div className="hide-scrollbar flex w-10/12 aspect-600/600 md:aspect-600/267 mt-0 md:mt-[10%] items-start justify-center overflow-y-auto border-0 border-solid border-[#05C174] py-0 sm:py-0 ">
         <FormProvider {...methods}>
