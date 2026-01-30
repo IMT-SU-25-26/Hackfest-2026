@@ -3,6 +3,8 @@ import FaqSection from "@/components/faq/FaqSection";
 import HeroSection from "@/components/homepage/HeroSection";
 import RecapSection from "@/components/homepage/RecapSection";
 import TimelineSection from "@/components/homepage/TimelineSection";
+import PrizesSection from "@/components/homepage/PrizesSection";
+import CompetitionCategorySection from "@/components/homepage/CompetitionCategorySection";
 
 export default function Home() {
   return (
@@ -10,6 +12,8 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <RecapSection />
+      <PrizesSection />
+      <CompetitionCategorySection />
       <TimelineSection />
     </>
   );
