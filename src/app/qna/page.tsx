@@ -11,7 +11,7 @@ async function FaqPage() {
         <>
             <div className='min-h-screen w-dvw bg-[#090223]'>
                 <VideoSection />
-                <JudgeSection />
+                {/* <JudgeSection /> */}
                 <FaqSection discussion={discussion} />  
             </div>
         </>
