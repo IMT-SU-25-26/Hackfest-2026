@@ -1,8 +1,25 @@
 'use client'
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+// Data Configuration Section
+const TAB_DATA = {
+  preview: {
+    videoSrc: "https://s3.felitech.site/hackfest/recap.webm",
+    mobileBg: "/images/recap/backgroundContainerMobile.svg",
+    shortDescImg: "/images/recap/frameShortDesc.svg",
+  },
+  guidelines: {
+    videoSrc: "https://s3.felitech.site/hackfest/recap.webm", 
+    mobileBg: "/images/qna/frameShortDesc-mobile.svg",
+    shortDescImg: "/images/qna/frameShortDesc.svg",
+  }
+};
+
+type TabType = keyof typeof TAB_DATA;
 
 function RecapSection() {
+  const [activeTab, setActiveTab] = useState<TabType>('preview');
 
   // Auto Pause Video
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -35,8 +52,8 @@ function RecapSection() {
         <div className="mt-0 relative z-10">
           <div className="relative">
             <Image
-              src="/images/recap/backgroundContainerMobile.svg"
-              alt="Recap Background"
+              src={TAB_DATA[activeTab].mobileBg}
+              alt="Background Mobile"
               width={0}
               height={0}
               sizes="100dvw"
@@ -56,8 +73,13 @@ function RecapSection() {
             {/* Content on top of Image 2 */}
             <div className="absolute top-0 left-0 w-full z-20 px-[3%]">
               {/* Title */}
-              <div className='border-0 md:border-b-2 border-[#05C174] flex justify-center md:justify-between items-center text-center px-10 mt-[15%] md:mt-[4.5%] mb-[1%]'>
-                <div className='flex justify-center gap-3 items-center'>
+              <div className='border-0 md:border-b-2 border-[#05C174] pb-[1%] flex justify-center gap-1 md:gap-auto flex-col md:flex-row md:justify-between items-center text-center px-5 mt-[15%] md:mt-[4.5%] mb-[1%]'>
+                <div 
+                  className={`flex justify-center gap-5 items-center cursor-pointer p-1 transition-all duration-300 ${
+                    activeTab === 'preview' ? 'border-2 border-[#05C174] bg-[#05C174]/10' : ''
+                  }`}
+                  onClick={() => setActiveTab('preview')}
+                >
                   <Image
                     className='hidden md:block w-[13%]'
                     src="/images/recap/eye.svg"
@@ -65,17 +87,27 @@ function RecapSection() {
                     width={100}
                     height={100}
                   />
-                  <h1 className='text-[#05C174] text-[170%] sm:text-[290%] md:text-[130%] lg:text-[220%] font-family-audiowide'>
-                    Hackfest 2025 Preview
+                  <h1 className='text-[#05C174] text-[160%] sm:text-[290%] md:text-[130%] lg:text-[220%] font-family-audiowide'>
+                    2025 Preview
                   </h1>
                 </div>
-                <Image
-                  className='hidden md:block w-[6%]'
-                  src="/images/recap/battery.svg"
-                  alt="Battery Icon"
-                  width={100}
-                  height={100}
-                />
+                <div 
+                  className={`flex justify-end gap-6 items-center cursor-pointer py-1 px-3 transition-all duration-300 ${
+                    activeTab === 'guidelines' ? 'border-2 border-[#05C174] bg-[#05C174]/10' : ''
+                  }`}
+                  onClick={() => setActiveTab('guidelines')}
+                >
+                  <h1 className='text-[#05C174] text-[160%] sm:text-[290%] md:text-[130%] lg:text-[220%] font-family-audiowide'>
+                    Technical Guidelines
+                  </h1>
+                  <Image
+                    className='hidden md:block w-[10%]'
+                    src="/images/recap/battery.svg"
+                    alt="Battery Icon"
+                    width={100}
+                    height={100}
+                  />
+                </div>
               </div>
 
 
@@ -85,10 +117,10 @@ function RecapSection() {
 
                 {/* Left: Video */}
                 <video
+                  key={TAB_DATA[activeTab].videoSrc} // Add key to force re-render on src change
                   ref={videoRef}
                   className="text-white w-full md:w-[50%] transition-transform duration-300 cursor-pointer"
-                  // src="felitech.site/hackfest/recap.webm"
-                  src="https://s3.felitech.site/hackfest/recap.webm"
+                  src={TAB_DATA[activeTab].videoSrc}
                   onClick={() => {
                     if (videoRef.current) videoRef.current.muted = false
                   }}
@@ -102,8 +134,8 @@ function RecapSection() {
                 <div className="relative w-full md:w-[40%]">
                   {/* Background Image (Design Frame) */}
                   <Image
-                    src="/images/recap/frameShortDesc.svg"
-                    alt="Device Frame"
+                    src={TAB_DATA[activeTab].shortDescImg}
+                    alt="Short Description"
                     width={500}
                     height={500}
                     className="hidden md:block w-full h-auto"

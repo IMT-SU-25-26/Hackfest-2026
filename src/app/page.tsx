@@ -12,8 +12,11 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <RecapSection />
-      <PrizesSection />
       <CompetitionCategorySection />
+      <PrizesSection 
+        imgMobile="/images/about/prizes_mobile.svg"
+        imgDesktop="/images/about/prizes_desktop.svg"
+      />
       <TimelineSection />
     </>
   );

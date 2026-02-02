@@ -1,7 +1,19 @@
 import React from "react";
 import Image from "next/image";
 
-function TimelineSection() {
+interface TimelineSectionProps {
+  timelineImageDesktop?: string;
+  timelineImageMobile?: string;
+  feeImageDesktop?: string;
+  feeImageMobile?: string;
+}
+
+function TimelineSection({
+  timelineImageDesktop = "/images/timeline/timeline-desktop.svg",
+  timelineImageMobile = "/images/timeline/timeline-mobile.svg",
+  feeImageDesktop = "/images/timeline/fee-desktop.svg",
+  feeImageMobile = "/images/timeline/fee-mobile.svg",
+}: TimelineSectionProps) {
   return (
     <div
       id="timeline"
@@ -20,7 +32,7 @@ function TimelineSection() {
           {/* Desktop Timeline */}
           <div className="hidden md:block w-full">
             <Image
-              src="/images/timeline/timeline-desktop.svg"
+              src={timelineImageDesktop}
               alt="Timeline Desktop"
               width={1200}
               height={400}
@@ -33,7 +45,7 @@ function TimelineSection() {
           <div className="md:hidden w-full flex justify-center">
             <div className="w-full max-w-[280px]">
               <Image
-                src="/images/timeline/timeline-mobile.svg"
+                src={timelineImageMobile}
                 alt="Timeline Mobile"
                 width={280}
                 height={600}
@@ -67,7 +79,7 @@ function TimelineSection() {
 
             <div className="w-full max-w-4xl">
               <Image
-                src="/images/timeline/fee-desktop.svg"
+                src={feeImageDesktop}
                 alt="Fee Desktop"
                 width={900}
                 height={350}
@@ -98,7 +110,7 @@ function TimelineSection() {
 
             <div className="w-full max-w-[280px]">
               <Image
-                src="/images/timeline/fee-mobile.svg"
+                src={feeImageMobile}
                 alt="Fee Mobile"
                 width={280}
                 height={600}
