@@ -31,7 +31,7 @@ export default function RootLayout({
         <script src="https://upload-widget.cloudinary.com/latest/index.js" async></script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-[#0a0a1f]`}
       >
         <Providers>
             <NavBarWrapper />

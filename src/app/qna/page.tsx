@@ -1,4 +1,4 @@
-import FaqSection from "@/components/faq/FaqSection"
+import FaqSection from "@/components/faq/QnaSection"
 import JudgeSection from "@/components/faq/JudgeSection"
 import VideoSection from "@/components/faq/VideoSection"
 import { getAllDiscussions } from "@/lib/services/discussion"

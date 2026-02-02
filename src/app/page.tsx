@@ -6,12 +6,13 @@ import TimelineSection from "@/components/homepage/TimelineSection";
 import PrizesSection from "@/components/homepage/PrizesSection";
 import CompetitionCategorySection from "@/components/homepage/CompetitionCategorySection";
 import { useState } from "react";
+import JudgeSection from "@/components/faq/JudgeSection";
+import FaqSection from "@/components/homepage/FaqSection";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<'ui-ux' | 'hackathon'>('hackathon');
 
   // Image mappings
-  // Note: Using hackathon images as placeholders for ui-ux where specific ones aren't available yet
   const images = {
     hackathon: {
       prizes: {
@@ -27,16 +28,14 @@ export default function Home() {
     },
     'ui-ux': {
       prizes: {
-        // TODO: Update with actual UI/UX images when available
         mobile: "/images/home/uiux/mobile/prizes.svg", 
         desktop: "/images/home/uiux/prizes.svg",
       },
       timeline: {
-         // TODO: Update with actual UI/UX images when available
-        timelineDesktop: "/images/home/uiux/timeline.svg", // Placeholder
-        timelineMobile: "/images/home/uiux/timeline.svg", // Placeholder
-        feeDesktop: "/images/home/uiux/fee.svg", // Placeholder
-        feeMobile: "/images/home/uiux/fee.svg", // Placeholder
+        timelineDesktop: "/images/home/uiux/timeline.svg",
+        timelineMobile: "/images/home/uiux/timeline.svg",
+        feeDesktop: "/images/home/uiux/fee.svg",
+        feeMobile: "/images/home/uiux/fee.svg",
       }
     }
   };
@@ -62,6 +61,10 @@ export default function Home() {
         feeImageDesktop={currentImages.timeline.feeDesktop}
         feeImageMobile={currentImages.timeline.feeMobile}
       />
+
+      <JudgeSection />
+      <FaqSection />
+
     </>
   );
 }

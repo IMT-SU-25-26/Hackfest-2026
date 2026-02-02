@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import JudgeCard from "./JudgeCard"
-import FaqSection from "./FaqSection"
+import FaqSection from "./QnaSection"
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Judge {
@@ -31,25 +31,13 @@ const judges: Judge[] = [
         name: "Evan Tanuwijaya",
         title: "S. Kom., M.Kom."
     },
-    {
-        imgUrl: "/images/FAQ/judges/rudi.png",
-        classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
-        name: "Felix Richardo",
-        title: "S. Kom., M.Kom."
-    },
-    {
-        imgUrl: "/images/FAQ/judges/elizabeth.png",
-        classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
-        name: "Jermy Eklesia",
-        title: "S. Kom., M.Kom."
-    },
-    {
-        imgUrl: "/images/FAQ/judges/evan.png",
-        classImage: "scale-[1] translate-x-[0%]",
-        name: "Doctor Strange",
-        title: "S. Kom., M.Kom."
-    },
 ];
+
+const bgUrl = [
+    "/images/judges/judges-1.svg",
+    "/images/judges/judges-2.svg",
+    "/images/judges/judges-3.svg",
+]
 
 function JudgeSection() {
     const [currentPage, setCurrentPage] = useState(0);
@@ -71,8 +59,8 @@ function JudgeSection() {
 
     return (
         <>
-            <h2 className="text-[#05B0C1] font-family-audiowide text-center text-4xl md:text-[330%] glow-pulse">Introducing Our Judges</h2>
-            <div className="w-full mt-[2%] aspect-1440/547 bg-[url('/images/FAQ/bgJudge.svg')] bg-contain bg-no-repeat relative">
+            <h2 className="mt-[5%] text-[#05B0C1] font-family-audiowide text-center text-4xl md:text-[330%] glow-pulse">Introducing Our Judges</h2>
+            <div className="w-full mt-[2%] pb-[2%] aspect-1440/547 bg-[url('/images/FAQ/bgJudge.svg')] bg-cover bg-no-repeat relative bg-center">
                 
                 {/* Images of judges */}
                 <div className="w-full flex flex-col md:flex-row flex-wrap gap-4 justify-evenly items-center overflow-hidden">
@@ -83,6 +71,7 @@ function JudgeSection() {
                             name={judge.name}
                             title={judge.title}
                             key={index}
+                            bgUrl={bgUrl[index]}
                         />
                     ))}
                 </div>
