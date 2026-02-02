@@ -110,11 +110,9 @@ function RecapSection() {
                   />
 
                   {/* Text on top of the Image */}
-                  <div className="absolute inset-0 flex flex-col items-start gap-3 text-white font-family-spacemono text-[90%] sm:text-2xl md:text-[60%] xl:text-[95%] px-[5%] xl:px-[6%] pt-[23%] md:pt-[12%]">
-                    <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}</p>
-                    <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`} </p>
-                    <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}</p>
-                  </div>
+                  {/* <div className="absolute inset-0 flex flex-col items-start gap-3 text-white font-family-spacemono text-[90%] sm:text-2xl md:text-[60%] xl:text-[85%] px-[5%] xl:px-[6%] pt-[23%] md:pr-[15%] md:pt-[12%]">
+                    <p>{`> In these past 3 years, Hackfest has grown into a nationwide platform that empowers students to build impactful and innovative tech solutions. Organized by the Student Union Informatics Universitas Ciputra Surabaya, Hackfest: Build to Billion 2025 calls on university students across Indonesia to craft software with the potential to reach a billion rupiah in value. Over 20 hours of coding, teams will brainstorm, prototype, and refine their ideas into market-ready concepts. This year’s theme, Code for Humanity, invites participants to create solutions that uplift communities and bring meaningful change to everyday lives.`}</p>
+                  </div> */}
                 </div>
 
             </div>

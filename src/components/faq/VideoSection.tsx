@@ -101,7 +101,7 @@ function VideoSection() {
                             <div className="relative w-full md:w-[40%]">
                             {/* Background Image (Design Frame) */}
                             <Image
-                                src="/images/recap/frameShortDesc.svg"
+                                src="/images/qna/frameShortDesc.svg"
                                 alt="Device Frame"
                                 width={500}
                                 height={500}
@@ -109,15 +109,16 @@ function VideoSection() {
                             />
             
                             {/* Text on top of the Image */}
-                            <div className="absolute inset-0 flex flex-col items-start gap-3 text-white font-family-spacemono text-[90%] sm:text-2xl md:text-[60%] xl:text-[95%] px-[5%] xl:px-[6%] pt-[23%] md:pt-[12%]">
-                                <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}</p>
-                                <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`} </p>
-                                <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}</p>
+                            <div className="absolute inset-0 flex flex-col items-start gap-3 text-white font-family-spacemono text-[90%] sm:text-2xl md:text-[70%] xl:text-[95%] px-[8%] pr-[10%] xl:px-[6%] pt-[23%] md:pt-[12%]">
+                                <p>{`> This official technical introduction provides an overview of Hackfest 2026 : Code for Humanity mechanics. `}</p>
+                                <p>{`> Participants are advised to watch this video to understand the everything about Hackfest 2026.`} </p>
+                                {/* <p>{`> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}</p> */}
                             </div>
                             </div>
             
                         </div>
             
+
             
                         </div>
                     </div>
