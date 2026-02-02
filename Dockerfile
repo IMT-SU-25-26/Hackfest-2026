@@ -2,7 +2,6 @@
 FROM node:20-slim AS builder
 
 # 1. SETUP PNPM FIRST
-# We must set the path and enable corepack BEFORE running any pnpm command
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -14,12 +13,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-cert
 WORKDIR /app
 
 # 3. Copy Manifest Files
-# We must copy package.json BEFORE installing dependencies
 COPY package.json pnpm-lock.yaml* ./
 COPY prisma ./prisma
 
 # 4. Install Dependencies (With Cache)
-# This will now work because pnpm is enabled and package.json exists
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     pnpm config set store-dir /pnpm/store && \
     pnpm i --frozen-lockfile
