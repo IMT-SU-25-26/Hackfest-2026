@@ -57,13 +57,10 @@ export default function RegisterPage() {
         {visibleStep < 4 && (
           <div
             onClick={async ()=>{
-              // console.log("Next button clicked in RegisterPage");
               try {
                 const s = await formRegisRef.current?.nextStep?.();
-                // console.log("nextStep returned:", s);
                 if (s) setVisibleStep(s);
               } catch (e) {
-                // console.error("Error calling nextStep:", e);
               }
             }}
             className="

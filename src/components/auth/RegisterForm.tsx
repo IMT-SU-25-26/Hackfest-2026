@@ -11,6 +11,7 @@ import {
   Upload,
   Loader2,
   Mail,
+  Download,
 } from "lucide-react";
 import { registerUser } from "@/lib/services/user";
 import { toast } from "react-toastify";
@@ -216,9 +217,20 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
           {step === 3 && (
             <>
               {/* Upload Twibbon */}
-              <label className="mb-2 block text-lg text-[#05C174]">
-                Twibbon Image
-              </label>
+              <div className="flex justify-between items-center mb-2">
+                <label className="text-lg text-[#05C174]">
+                  Twibbon Image
+                </label>
+                <a 
+                  href="https://drive.google.com/drive/folders/1AbSdImrBafplMRgkteBEtIb4jvQgoQ7p?usp=drive_link" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-[#05B0C1] hover:text-[#05B0C1] transition-colors"
+                >
+                  <Download size={20} />
+                  <span className="text-sm text-[#05B0C1]">Template</span>
+                </a>
+              </div>
               <UploadButton 
                 options={{ folder: "hackfest26/twibbon/" }}
                 onSuccess={(url) => setTwibbonUrl(url)}
@@ -250,9 +262,22 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               </UploadButton>
               
               {/* Upload Poster */}
-              <label className="mb-2 block text-lg text-[#05C174]">
-                Poster Image
-              </label>
+              <div className="flex justify-between items-center mb-2">
+                <label className="text-lg text-[#05C174]">
+                  Poster Image
+                </label>
+                
+                {/* <a 
+                  href="/path/to/poster-template" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-[#05B0C1] hover:text-[#05B0C1] transition-colors"
+                >
+                  <Download size={20} />
+                  <span className="text-sm text-[#05B0C1]">Template</span>
+                </a> */}
+
+              </div>
               <UploadButton 
                 options={{ folder: "hackfest26/poster/" }}
                 onSuccess={(url) => setPosterUrl(url)}
