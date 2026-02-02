@@ -31,7 +31,13 @@ export async function createTeam(
 
     return {
       success: false,
-      error: errorsArray,
+    };
+  }
+
+  if (!validation.data.memberEmails || validation.data.memberEmails.length < 2) {
+    return {
+      success: false,
+      error: "Team must have at least 2 members",
     };
   }
 

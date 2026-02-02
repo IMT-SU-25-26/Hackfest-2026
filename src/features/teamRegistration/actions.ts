@@ -28,13 +28,6 @@ export async function submitFinalRegistration(teamId: string, data: { surat_tuga
       data: {
         surat_tugas_url: data.surat_tugas_url,
         payment_proof: data.payment_proof,
-        // Since this is re-registration for finalists, maybe reset status or keep accepted?
-        // User asked to upload payment proof again, implying a new fee. 
-        // Assuming we keep status as ACCEPTED or logic handled elsewhere.
-        // But usually payment requires verification.
-        // For now just update fields.
-        // Wait, if they pay again, status might need to go to PENDING if they need verification?
-        // Requirement doesn't say. Stick to updating fields.
       },
     });
     return { success: true };

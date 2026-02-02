@@ -137,8 +137,8 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
       case 2:
         // Validate members locally
         const validMembers = members.filter(m => m.email.trim() !== "");
-        if (validMembers.length === 0) {
-            toast.error("Please add at least one member");
+        if (validMembers.length < 2) {
+            toast.error("Please add at least two members");
             return null;
         }
         const allValid = validMembers.every(m => m.status === 'valid');
