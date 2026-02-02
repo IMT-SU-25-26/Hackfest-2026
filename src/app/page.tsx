@@ -21,7 +21,7 @@ export default function Home() {
       },
       timeline: {
         timelineDesktop: "/images/home/hackathon/timeline.svg",
-        timelineMobile: "/images/home/hackathon/timeline.svg",
+        timelineMobile: "/images/home/hackathon/mobile/timeline.svg",
         feeDesktop: "/images/home/hackathon/fee.svg",
         feeMobile: "/images/home/hackathon/fee.svg",
       }
@@ -33,7 +33,7 @@ export default function Home() {
       },
       timeline: {
         timelineDesktop: "/images/home/uiux/timeline.svg",
-        timelineMobile: "/images/home/uiux/timeline.svg",
+        timelineMobile: "/images/home/uiux/mobile/timeline.svg",
         feeDesktop: "/images/home/uiux/fee.svg",
         feeMobile: "/images/home/uiux/fee.svg",
       }
