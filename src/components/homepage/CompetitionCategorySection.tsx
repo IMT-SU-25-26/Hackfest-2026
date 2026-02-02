@@ -4,14 +4,14 @@ const CATEGORIES = [
   {
     title: 'UI/UX Design',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus cum possimus voluptatibus ad. Expedita voluptatum, reprehenderit est officia vitae itaque doloremque.',
+      'Craft intuitive digital experiences and redefine how users interact with technology. Showcase your creativity through user-centric design and seamless interfaces',
     image: '/images/home/uiux/logo.svg',
     slug:'ui-ux',
   },
   {
     title: 'Hackathon',
     description:
-      'Dolorum error beatae dolorem molestias voluptatem vero dolore excepturi explicabo quidem repellendus. Commodi dignissimos eligendi, fugit vero dicta voluptatibus!',
+      'Build innovative solutions and push the boundaries of technology. Collaborate, code, and solve real-world problems in this high-intensity development challenge',
     image: '/images/home/hackathon/logo.svg', 
     slug:'hackathon',
   },
