@@ -20,26 +20,37 @@ export default function AboutSection() {
             height={1300}
             className="inline-block h-auto w-full md:hidden"
           />
-          <div className="mt-5 flex w-full flex-col items-center gap-5 md:flex-row md:gap-10">
-            <Image
-              src="/images/about/description_panel.svg"
-              alt="About Hackfest"
-              width={2200}
-              height={1300}
-              className="hidden h-auto w-full md:inline-block"
-            />
-            <Image
-              src="/images/about/about_panel_mobile.svg"
-              alt="About Hackfest"
-              width={2200}
-              height={1300}
-              className="inline-block h-auto w-full md:hidden"
-            />
-            <div className="flex h-auto w-full flex-row gap-4 md:flex-col">
-              <ButtonImg imgUrl="/images/about/guidebook.svg" href="/guidebook">GUIDEBOOK</ButtonImg>
+
+          {/* About Hackfest */}
+          <div className="mt-5 flex w-full flex-col gap-5 md:gap-0 md:flex-row md:gap-5">
+            <div className="w-[100%]">
+              <Image
+                src="/images/about/description_panel.svg"
+                alt="About Hackfest"
+                width={2200}
+                height={1300}
+                className="hidden h-auto w-full md:inline-block"
+              />
+              <Image
+                src="/images/about/about_panel_mobile.svg"
+                alt="About Hackfest"
+                width={2200}
+                height={1300}
+                className="inline-block h-auto w-full md:hidden"
+              />
+            </div>
+            
+            <div className="md:aspect-[143/258] w-full gap-5 md:w-[19%] flex md:flex-col md:justify-between self-start">
+              <div className="w-full">
+                <ButtonImg imgUrl="/images/about/guidebook.svg" href="/guidebook">
+                  GUIDEBOOK
+                </ButtonImg>
+              </div>
 
               {/* LINK 2: REGISTER */}
-              <ButtonImg imgUrl="/images/about/register.svg" href="/teamRegistration">Register</ButtonImg>
+              <div className="w-full">
+                <ButtonImg className="" imgUrl="/images/about/register.svg" href="/teamRegistration">Register</ButtonImg>
+              </div>
             </div>
           </div>
           <Image

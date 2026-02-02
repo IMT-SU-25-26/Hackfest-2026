@@ -6,13 +6,14 @@ type ButtonImgProps = {
     imgUrl: string;
     href: string;
     children?: React.ReactNode;
+    className?: string;
 }
 
-function ButtonImg({imgUrl, href}: ButtonImgProps) {
+function ButtonImg({imgUrl, href, className = ""}: ButtonImgProps) {
   return (
     <Link
         href={href}
-        className="
+        className={`
             group 
             relative
             w-full
@@ -25,13 +26,15 @@ function ButtonImg({imgUrl, href}: ButtonImgProps) {
             duration-300
             hover:shadow-[0_0_25px_#20e3b2]
             bg-black/20
-        "
+            ${className}
+        `}
         >
             <Image
             src={imgUrl}
             alt="Register Icon"
-            width={120}
-            height={120}
+            width={0}
+            height={0}
+            sizes="100vw"
             className="h-full w-full object-contain group-hover:brightness-125 transition"
             />
     </Link>
