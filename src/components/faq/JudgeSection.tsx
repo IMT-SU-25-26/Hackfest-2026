@@ -34,9 +34,9 @@ const judges: Judge[] = [
 ];
 
 const bgUrl = [
-    "/images/judges/judges-1.svg",
-    "/images/judges/judges-2.svg",
-    "/images/judges/judges-3.svg",
+    "/images/judges/judges-1.webp",
+    "/images/judges/judges-2.webp",
+    "/images/judges/judges-3.webp",
 ]
 
 function JudgeSection() {

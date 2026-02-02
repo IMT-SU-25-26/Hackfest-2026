@@ -35,7 +35,7 @@ function TimelineSection({
               alt="Timeline Desktop"
               width={1200}
               height={400}
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain pointer-events-none select-none"
               priority
             />
           </div>
@@ -48,7 +48,7 @@ function TimelineSection({
                 alt="Timeline Mobile"
                 width={280}
                 height={600}
-                className="w-full h-auto object-contain"
+                className="w-full h-auto object-contain pointer-events-none select-none"
                 priority
               />
             </div>
@@ -82,7 +82,7 @@ function TimelineSection({
                 alt="Fee Desktop"
                 width={900}
                 height={350}
-                className="w-full h-[450px] object-contain"
+                className="w-full h-[450px] object-contain pointer-events-none select-none"
                 priority
               />
             </div>
@@ -113,7 +113,7 @@ function TimelineSection({
                 alt="Fee Mobile"
                 width={280}
                 height={600}
-                className="w-full h-auto object-contain"
+                className="w-full h-auto object-contain pointer-events-none select-none"
                 priority
               />
             </div>

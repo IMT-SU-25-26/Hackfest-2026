@@ -18,14 +18,14 @@ export default function PrizesSection({ imgMobile, imgDesktop }: PrizesSectionPr
                             alt="prize mobile"
                             width={2200}
                             height={1300}
-                            className="inline-block h-auto w-[80%] md:hidden"
+                            className="inline-block h-auto w-[80%] md:hidden pointer-events-none select-none"
                         />
                         <Image
                             src={imgDesktop}
                             alt="prize desktop"
                             width={2200}
                             height={1300}
-                            className="hidden h-auto w-full md:inline-block"
+                            className="hidden h-auto w-full md:inline-block pointer-events-none select-none"
                         />
                     </div>
                 </div>

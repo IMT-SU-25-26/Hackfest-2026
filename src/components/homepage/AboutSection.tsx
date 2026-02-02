@@ -42,7 +42,7 @@ export default function AboutSection() {
             
             <div className="md:aspect-[143/258] w-full gap-5 md:w-[19%] flex md:flex-col md:justify-between self-start">
               <div className="w-full">
-                <ButtonImg imgUrl="/images/about/guidebook.svg" href="/guidebook">
+                <ButtonImg imgUrl="/images/about/guidebook.svg" href="https://drive.google.com/drive/folders/1ZGeGSuwKv8gs9Avl9UQo7awktAE1N4-A?usp=sharing">
                   GUIDEBOOK
                 </ButtonImg>
               </div>

@@ -5,14 +5,14 @@ const CATEGORIES = [
     title: 'UI/UX Design',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus cum possimus voluptatibus ad. Expedita voluptatum, reprehenderit est officia vitae itaque doloremque.',
-    image: '/home/ui-ux.svg',
+    image: '/images/home/uiux/logo.svg',
     slug:'ui-ux',
   },
   {
     title: 'Hackathon',
     description:
       'Dolorum error beatae dolorem molestias voluptatem vero dolore excepturi explicabo quidem repellendus. Commodi dignissimos eligendi, fugit vero dicta voluptatibus!',
-    image: '/home/ui-ux.svg', 
+    image: '/images/home/hackathon/logo.svg', 
     slug:'hackathon',
   },
 ];
