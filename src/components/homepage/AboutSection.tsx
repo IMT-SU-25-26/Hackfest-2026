@@ -4,7 +4,7 @@ import ButtonImg from "../ButtonImg";
 export default function AboutSection() {
   return (
     <div className="bg-[#0a0a1f]">
-      <div className="m-auto flex w-[98%] flex-col justify-center gap-[3%] p-10 md:w-[79%] md:flex-row">
+      <div className="m-auto flex w-[98%] flex-col justify-center gap-[3%] p-10 md:w-full max-w-[1440px] md:flex-row">
         <div className="flex w-full flex-col gap-4">
           <Image
             src="images/about/about_title.svg"

@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 
 interface TimelineSectionProps {
@@ -83,7 +82,7 @@ function TimelineSection({
                 alt="Fee Desktop"
                 width={900}
                 height={350}
-                className="w-full h-auto object-contain"
+                className="w-full h-[450px] object-contain"
                 priority
               />
             </div>
