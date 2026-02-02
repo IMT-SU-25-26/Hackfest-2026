@@ -41,7 +41,7 @@ function VideoSection() {
                         width={0}
                         height={0}
                         sizes="100dvw"
-                        className="block md:hidden w-dvw h-auto drop-shadow-2xl"
+                        className="block md:hidden w-dvw h-auto drop-shadow-2xl pointer-events-none select-none"
                         unoptimized
                         />
                         <Image
@@ -50,7 +50,7 @@ function VideoSection() {
                         width={0}
                         height={0}
                         sizes="100dvw"
-                        className="hidden md:block w-dvw h-auto drop-shadow-2xl"
+                        className="hidden md:block w-dvw h-auto drop-shadow-2xl pointer-events-none select-none"
                         unoptimized
                         />
             
@@ -60,7 +60,7 @@ function VideoSection() {
                         <div className='border-0 md:border-b-2 pb-[1%] border-[#05C174] flex justify-center md:justify-between items-center text-center px-10 mt-[15%] md:mt-[4.5%] mb-[1%]'>
                             <div className='flex justify-center gap-3 items-center'>
                                 <Image
-                                    className='hidden md:block w-[12%]'
+                                    className='hidden md:block w-[12%] pointer-events-none select-none'
                                     src="/images/recap/eye.svg"
                                     alt="Eye Icon"
                                     width={100}
@@ -71,7 +71,7 @@ function VideoSection() {
                                 </h1>
                             </div>
                             <Image
-                            className='hidden md:block w-[6%]'
+                            className='hidden md:block w-[6%] pointer-events-none select-none'
                             src="/images/recap/battery.svg"
                             alt="Battery Icon"
                             width={100}
@@ -105,7 +105,7 @@ function VideoSection() {
                                 alt="Device Frame"
                                 width={500}
                                 height={500}
-                                className="hidden md:block w-full h-auto"
+                                className="hidden md:block w-full h-auto pointer-events-none select-none"
                             />
             
                             {/* Text on top of the Image */}

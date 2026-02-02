@@ -57,7 +57,7 @@ function RecapSection() {
               width={0}
               height={0}
               sizes="100dvw"
-              className="block md:hidden w-dvw h-auto drop-shadow-2xl"
+              className="block md:hidden w-dvw h-auto drop-shadow-2xl pointer-events-none select-none"
               unoptimized
             />
             <Image
@@ -66,7 +66,7 @@ function RecapSection() {
               width={0}
               height={0}
               sizes="100dvw"
-              className="hidden md:block w-dvw h-auto drop-shadow-2xl"
+              className="hidden md:block w-dvw h-auto drop-shadow-2xl pointer-events-none select-none"
               unoptimized
             />
 
@@ -81,7 +81,7 @@ function RecapSection() {
                   onClick={() => setActiveTab('preview')}
                 >
                   <Image
-                    className='hidden md:block w-[13%]'
+                    className='hidden md:block w-[13%] pointer-events-none select-none'
                     src="/images/recap/eye.svg"
                     alt="Eye Icon"
                     width={100}
@@ -101,7 +101,7 @@ function RecapSection() {
                     Technical Guidelines
                   </h1>
                   <Image
-                    className='hidden md:block w-[10%]'
+                    className='hidden md:block w-[10%] pointer-events-none select-none'
                     src="/images/recap/battery.svg"
                     alt="Battery Icon"
                     width={100}
@@ -138,7 +138,7 @@ function RecapSection() {
                     alt="Short Description"
                     width={500}
                     height={500}
-                    className="hidden md:block w-full h-auto"
+                    className="hidden md:block w-full h-auto pointer-events-none select-none"
                   />
 
                   {/* Text on top of the Image */}
