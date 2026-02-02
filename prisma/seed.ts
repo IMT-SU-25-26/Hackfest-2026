@@ -6,7 +6,7 @@ async function main() {
 
   const passwordAlpha = await bcrypt.hash("password12321", 10)
   const passwordBeta = await bcrypt.hash("password45654", 10)
-  const passwordAdmin = await bcrypt.hash("admin@h4ckf3st-IMT", 10)
+  const passwordAdmin = await bcrypt.hash("admin@hackfest", 10)
 
   const admin = await prisma.user.upsert({
     where: { email: "admin@hackfest.com" },
