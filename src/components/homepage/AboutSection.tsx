@@ -11,14 +11,14 @@ export default function AboutSection() {
             alt="About Hackfest"
             width={2200}
             height={1300}
-            className="hidden h-auto w-full md:inline-block"
+            className="hidden h-auto w-full md:inline-block pointer-events-none select-none"
           />
           <Image
             src="/images/about/title_mobile.svg"
             alt="About Hackfest"
             width={2200}
             height={1300}
-            className="inline-block h-auto w-full md:hidden"
+            className="inline-block h-auto w-full md:hidden pointer-events-none select-none"
           />
 
           {/* About Hackfest */}
@@ -29,14 +29,14 @@ export default function AboutSection() {
                 alt="About Hackfest"
                 width={2200}
                 height={1300}
-                className="hidden h-auto w-full md:inline-block"
+                className="hidden h-auto w-full md:inline-block pointer-events-none select-none"
               />
               <Image
                 src="/images/about/about_panel_mobile.svg"
                 alt="About Hackfest"
                 width={2200}
                 height={1300}
-                className="inline-block h-auto w-full md:hidden"
+                className="inline-block h-auto w-full md:hidden pointer-events-none select-none"
               />
             </div>
             
@@ -58,7 +58,7 @@ export default function AboutSection() {
             alt="About Hackfest"
             width={2200}
             height={1300}
-            className="inline-block h-auto w-full md:hidden"
+            className="inline-block h-auto w-full md:hidden pointer-events-none select-none"
           />
         </div>
       </div>

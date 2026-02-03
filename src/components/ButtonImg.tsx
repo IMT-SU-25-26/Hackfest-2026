@@ -35,7 +35,7 @@ function ButtonImg({imgUrl, href, className = ""}: ButtonImgProps) {
             width={0}
             height={0}
             sizes="100vw"
-            className="h-full w-full object-contain group-hover:brightness-125 transition"
+            className="h-full w-full object-contain group-hover:brightness-125 transition pointer-events-none select-none"
             />
     </Link>
   )
