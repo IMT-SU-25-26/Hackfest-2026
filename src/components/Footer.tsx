@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { MessageCircle } from "lucide-react";
 
 // Interface untuk sponsor data
 interface Sponsor {
@@ -12,7 +13,7 @@ interface Sponsor {
 }
 
 // Array sponsor - tambahkan sponsor di sini ketika sudah ada
-const sponsors: Sponsor[] = [
+var sponsors: Sponsor[] = [
   // ========================================
   // CARA MENAMBAHKAN SPONSOR:
   // ========================================
@@ -54,17 +55,8 @@ const sponsors: Sponsor[] = [
   { name: "Sponsor Kecil 8", logo: "images/FAQ/danger.svg", width: 40, height: 40 },
 ];
 
-// Social media links
-const socialLinks: any[] = [
-  { name: "Instagram", icon: "📷", url: "#" },
-  { name: "Twitter", icon: "🐦", url: "#" },
-  { name: "LinkedIn", icon: "💼", url: "#" },
-  { name: "YouTube", icon: "📺", url: "#" },
-  { name: "Facebook", icon: "📘", url: "#" },
-  { name: "TikTok", icon: "🎵", url: "#" },
-  { name: "Discord", icon: "💬", url: "#" },
-  { name: "GitHub", icon: "🐙", url: "#" },
-];
+sponsors = [];
+
 
 function Footer() {
   // Helper function untuk merender placeholder jika data sponsor belum ada
@@ -88,6 +80,7 @@ function Footer() {
             <h3 className="text-xl md:text-2xl font-bold mb-6 uppercase">
               Sponsored By
             </h3>
+            <p className="">Coming Soon.</p>
             
             {/* WRAPPER UTAMA:
                 max-w-md: Membatasi lebar total area sponsor agar kotak tidak terlalu besar.
@@ -148,33 +141,53 @@ function Footer() {
             </div>
           </div>
 
+
+
+
+
           {/* Right Section - For More Information */}
           <div className="flex flex-col items-start md:items-end justify-between">
             <div>
               <h3 className="text-xl md:text-2xl font-bold mb-6 uppercase text-left md:text-right">
                 For More Information :
               </h3>
-              {/* Social Media Icons Grid */}
-              <div className="grid grid-cols-4 gap-4 mb-6">
-                {socialLinks.length > 0 ? (
-                  socialLinks.map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-[#05B0C1] w-12 h-12 flex items-center justify-center text-2xl rounded hover:bg-[#50c384] transition-colors"
-                      title={social.name}
-                    >
-                      {social.icon}
-                    </a>
-                  ))
-                ) : (
-                  // Placeholder icons jika belum ada link
-                  [...Array(4)].map((_, i) => (
-                    <div key={i} className="bg-[#05B0C1] w-12 h-12 rounded opacity-50" />
-                  ))
-                )}
+                            
+              {/* WhatsApp Contact Person */}
+              <div className="flex items-start justify-start md:justify-end md:items-start gap-5 text-white">
+                <a 
+                  href="https://wa.me/6281222922268" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 hover:text-[#05B0C1] transition-colors"
+                >
+                  <div className="flex items-center justify-center bg-[#25D366] text-white w-10 h-10 rounded-full">
+                    <Image
+                      src="/images/footer/wa-logo.svg"
+                      alt="WhatsApp Logo"
+                      width={14}
+                      height={14}
+                      className="object-contain w-full p-2" 
+                    />
+                  </div>
+                  <span>Kayla</span>
+                </a>
+                <a 
+                  href="https://wa.me/6281225470615" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 hover:text-[#05B0C1] transition-colors"
+                >
+                  <div className="flex items-center justify-center bg-[#25D366] text-white w-10 h-10 rounded-full">
+                    <Image
+                      src="/images/footer/wa-logo.svg"
+                      alt="WhatsApp Logo"
+                      width={14}
+                      height={14}
+                      className="object-contain w-full p-2"
+                    />
+                  </div>
+                  <span>Shatrya</span>
+                </a>
               </div>
             </div>
           </div>
