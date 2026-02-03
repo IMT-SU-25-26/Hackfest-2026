@@ -11,8 +11,11 @@ import {
   Upload,
   Loader2,
   Mail,
+
   Download,
+  CircleHelp,
 } from "lucide-react";
+import InstructionModal from "../utils/InstructionModal";
 import { registerUser } from "@/lib/services/user";
 import { toast } from "react-toastify";
 import FormInput from "./FormInput";
@@ -45,6 +48,22 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
   const [step, setStep] = useState(1);
   const [twibbonUrl, setTwibbonUrl] = useState<string | null>(null);
   const [posterUrl, setPosterUrl] = useState<string | null>(null);
+
+  const [instructionModal, setInstructionModal] = useState<{
+    open: boolean;
+    type: "twibbon" | "poster" | null;
+  }>({
+    open: false,
+    type: null,
+  });
+
+  const handleOpenInstruction = (type: "twibbon" | "poster") => {
+    setInstructionModal({ open: true, type });
+  };
+
+  const handleCloseInstruction = () => {
+    setInstructionModal({ open: false, type: null });
+  };
 
   const password = useWatch({ control, name: "password" });
 
@@ -218,9 +237,18 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
             <>
               {/* Upload Twibbon */}
               <div className="flex justify-between items-center mb-2">
-                <label className="text-lg text-[#05C174]">
-                  Twibbon Image
-                </label>
+                <div className="flex items-center gap-2">
+                  <label className="text-lg text-[#05C174]">
+                    Twibbon Image
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenInstruction("twibbon")}
+                    className="text-[#05C174] hover:text-[#05B0C1] transition-colors"
+                  >
+                    <CircleHelp size={20} />
+                  </button>
+                </div>
                 <a 
                   href="https://drive.google.com/drive/folders/1AbSdImrBafplMRgkteBEtIb4jvQgoQ7p?usp=drive_link" 
                   target="_blank" 
@@ -263,19 +291,28 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
               
               {/* Upload Poster */}
               <div className="flex justify-between items-center mb-2">
-                <label className="text-lg text-[#05C174]">
-                  Poster Image
-                </label>
+                <div className="flex items-center gap-2">
+                  <label className="text-lg text-[#05C174]">
+                    Poster Image
+                  </label>
+                   <button
+                    type="button"
+                    onClick={() => handleOpenInstruction("poster")}
+                    className="text-[#05C174] hover:text-[#05B0C1] transition-colors"
+                  >
+                    <CircleHelp size={20} />
+                  </button>
+                </div>
                 
-                {/* <a 
-                  href="/path/to/poster-template" 
+                <a 
+                  href="https://drive.google.com/file/d/19EyDzSvxbU-CZL3Hy9hkXcwTsKopx_lR/view?usp=sharing" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-[#05B0C1] hover:text-[#05B0C1] transition-colors"
                 >
                   <Download size={20} />
-                  <span className="text-sm text-[#05B0C1]">Template</span>
-                </a> */}
+                  <span className="text-sm text-[#05B0C1]">Poster</span>
+                </a>
 
               </div>
               <UploadButton 
@@ -346,6 +383,30 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
         </form>
         </FormProvider>
       </div>
+
+      <InstructionModal
+        isOpen={instructionModal.open}
+        onClose={handleCloseInstruction}
+        title={instructionModal.type === "twibbon" ? "TWIBBON INSTRUCTIONS" : "POSTER INSTRUCTIONS"}
+        message={
+          instructionModal.type === "twibbon" ? (
+            <div className="space-y-4">
+              <p>Download the template and generate your twibbon image and post it to Instagram.</p>
+              <ul className="list-disc list-inside space-y-2 text-[#05B0C1/80]">
+                 <li>Use a clear photo where your face is visible.</li>
+                 <li>Upload a screenshot as proof</li>
+              </ul>
+            </div>
+          ) : (
+             <div className="space-y-4">
+              <p>Download and post the poster to Instagram Story.</p>
+              <ul className="list-disc list-inside space-y-2 text-[#05B0C1/80]">
+                 <li>Upload a screenshot as proof.</li>
+              </ul>
+            </div>
+          )
+        }
+      />
     </div>
   );
 }
