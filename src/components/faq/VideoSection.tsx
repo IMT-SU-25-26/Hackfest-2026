@@ -83,7 +83,17 @@ function VideoSection() {
                         <div className="flex flex-wrap justify-center items-start gap-8">
             
                             {/* Left: Video */}
-                            <video
+
+                            <iframe 
+                              className="text-white w-full md:w-[50%] transition-transform duration-300 cursor-pointer aspect-video" 
+                              src="https://www.youtube.com/embed/eqEX-Q_0z5o" 
+                              title="Hackfest 2025" 
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                              referrerPolicy="strict-origin-when-cross-origin" 
+                              allowFullScreen
+                            ></iframe>
+
+                            {/* <video
                             ref={videoRef}
                             className="text-white w-full md:w-[50%] transition-transform duration-300 cursor-pointer"
                             // src="felitech.site/hackfest/recap.webm"
@@ -95,7 +105,7 @@ function VideoSection() {
                             loop
                             muted
                             playsInline
-                            />
+                            /> */}
             
                             {/* Right: Short Description Box */}
                             <div className="relative w-full md:w-[40%]">
