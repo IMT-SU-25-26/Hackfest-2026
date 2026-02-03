@@ -5,12 +5,12 @@ import { useEffect, useRef, useState } from 'react'
 // Data Configuration Section
 const TAB_DATA = {
   preview: {
-    videoSrc: "https://s3.felitech.site/hackfest/recap.webm",
+    videoSrc: "https://www.youtube.com/embed/sZC51ZaLeaw", // YouTube Embed Link
     mobileBg: "/images/recap/backgroundContainerMobile.svg",
     shortDescImg: "/images/recap/frameShortDesc.svg",
   },
   guidelines: {
-    videoSrc: "https://s3.felitech.site/hackfest/recap.webm", 
+    videoSrc: "https://www.youtube.com/embed/eqEX-Q_0z5o", // Placeholder: Use same or different link if needed
     mobileBg: "/images/qna/frameShortDesc-mobile.svg",
     shortDescImg: "/images/qna/frameShortDesc.svg",
   }
@@ -116,7 +116,17 @@ function RecapSection() {
               <div className="flex flex-wrap justify-center items-start gap-8">
 
                 {/* Left: Video */}
-                <video
+                <iframe 
+                  key={TAB_DATA[activeTab].videoSrc}
+                  className="text-white w-full md:w-[50%] transition-transform duration-300 cursor-pointer aspect-video" 
+                  src={TAB_DATA[activeTab].videoSrc} 
+                  title="Hackfest 2025" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin" 
+                  allowFullScreen
+                ></iframe>
+
+                {/* <video
                   key={TAB_DATA[activeTab].videoSrc} // Add key to force re-render on src change
                   ref={videoRef}
                   className="text-white w-full md:w-[50%] transition-transform duration-300 cursor-pointer"
@@ -128,7 +138,7 @@ function RecapSection() {
                   loop
                   muted
                   playsInline
-                />
+                /> */}
 
                 {/* Right: Short Description Box */}
                 <div className="relative w-full md:w-[40%]">
