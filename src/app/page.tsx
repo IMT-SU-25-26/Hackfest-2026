@@ -24,6 +24,8 @@ export default function Home() {
         timelineMobile: "/images/home/hackathon/mobile/timeline.svg",
         feeDesktop: "/images/home/hackathon/fee.svg",
         feeMobile: "/images/home/hackathon/fee.svg",
+        finalFeeDesktop: "/images/home/hackathon/finalFee.svg",
+        finalFeeMobile: "/images/home/hackathon/finalFee.svg",
       }
     },
     'ui-ux': {
@@ -36,6 +38,8 @@ export default function Home() {
         timelineMobile: "/images/home/uiux/mobile/timeline.svg",
         feeDesktop: "/images/home/uiux/fee.svg",
         feeMobile: "/images/home/uiux/fee.svg",
+        finalFeeDesktop: "/images/home/uiux/finalFee.svg",
+        finalFeeMobile: "/images/home/uiux/finalFee.svg",
       }
     }
   };
@@ -60,6 +64,8 @@ export default function Home() {
         timelineImageMobile={currentImages.timeline.timelineMobile}
         feeImageDesktop={currentImages.timeline.feeDesktop}
         feeImageMobile={currentImages.timeline.feeMobile}
+        finalFeeImageDesktop={currentImages.timeline.finalFeeDesktop}
+        finalFeeImageMobile={currentImages.timeline.finalFeeMobile}
       />
 
       <JudgeSection />

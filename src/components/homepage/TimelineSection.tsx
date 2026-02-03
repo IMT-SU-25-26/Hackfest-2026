@@ -5,6 +5,8 @@ interface TimelineSectionProps {
   timelineImageMobile?: string;
   feeImageDesktop?: string;
   feeImageMobile?: string;
+  finalFeeImageDesktop?: string;
+  finalFeeImageMobile?: string;
 }
 
 function TimelineSection({
@@ -12,6 +14,8 @@ function TimelineSection({
   timelineImageMobile = "/images/timeline/timeline-mobile.svg",
   feeImageDesktop = "/images/timeline/fee-desktop.svg",
   feeImageMobile = "/images/timeline/fee-mobile.svg",
+  finalFeeImageDesktop = "/images/timeline/fee-desktop.svg",
+  finalFeeImageMobile = "/images/timeline/fee-mobile.svg",
 }: TimelineSectionProps) {
   return (
     <div
@@ -111,6 +115,73 @@ function TimelineSection({
               <Image
                 src={feeImageMobile}
                 alt="Fee Mobile"
+                width={280}
+                height={600}
+                className="w-full h-auto object-contain pointer-events-none select-none"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      {/* Final Fee Section */}
+      <div className="w-full relative pt-[0%]" id="regsFee">
+        {/* Desktop Background */}
+        <div
+          className="hidden md:block w-full min-h-[600px] relative"
+          style={{
+            backgroundImage: "url('/images/timeline/background-final-fee.svg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* Overlay untuk memastikan readability */}
+          {/* <div className="absolute inset-0 bg-[#0a0a1f]/0"></div> */}
+
+          <div className="relative py-10 px-8 flex flex-col items-center">
+            <h1 className="text-5xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-10 tracking-wider">
+              FINAL FEE
+            </h1>
+
+            <div className="w-full max-w-4xl">
+              <Image
+                src={finalFeeImageDesktop}
+                alt="Final Fee Desktop"
+                width={900}
+                height={350}
+                className="w-full h-[450px] object-contain pointer-events-none select-none"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Background */}
+        <div
+          className="block md:hidden w-full min-h-[500px] relative"
+          style={{
+            backgroundImage: "url('/images/timeline/background-final-fee.svg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* Overlay untuk memastikan readability */}
+          <div className="absolute inset-0 bg-[#0a0a1f]/40"></div>
+
+          <div className="relative py-8 px-4 flex flex-col items-center">
+            <h1 className="text-3xl font-bold font-family-audiowide text-center text-[#00ffcc] mb-8 tracking-wider">
+              FINAL FEE
+            </h1>
+
+            <div className="w-full max-w-[280px]">
+              <Image
+                src={finalFeeImageMobile}
+                alt="Final Fee Mobile"
                 width={280}
                 height={600}
                 className="w-full h-auto object-contain pointer-events-none select-none"
