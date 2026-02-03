@@ -12,3 +12,4 @@ UI Rules
 Logic Rules
 1. put server-action, components, schema, or types in the folder features/[feature_name]
 2. remove unused import
+3. use pnpm over npm
