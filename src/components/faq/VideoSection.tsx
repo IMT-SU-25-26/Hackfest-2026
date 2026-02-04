@@ -60,16 +60,16 @@ function VideoSection() {
                         <div className='border-0 md:border-b-2 pb-[1%] border-[#05C174] flex justify-center md:justify-between items-center text-center px-10 mt-[15%] md:mt-[4.5%] mb-[1%]'>
                             <div className='flex justify-center gap-3 items-center'>
                                 <Image
-                                    className='hidden md:block w-[12%] pointer-events-none select-none'
+                                    className='hidden md:block w-[80%] pointer-events-none select-none'
                                     src="/images/recap/eye.svg"
                                     alt="Eye Icon"
                                     width={100}
                                     height={100}
                                 />
-                                <h1 className='text-[#05C174] text-[170%] sm:text-[290%] md:text-[130%] lg:text-[200%] font-family-audiowide'>
-                                    Hackfest 2026 Technical Meeting
-                                </h1>
                             </div>
+                            <h1 className='text-[#05C174] text-[170%] sm:text-[290%] md:text-[130%] lg:text-[200%] xl:text-[250%] font-family-audiowide'>
+                                Hackfest 2026 Technical Guidelines
+                            </h1>
                             <Image
                             className='hidden md:block w-[6%] pointer-events-none select-none'
                             src="/images/recap/battery.svg"
