@@ -124,13 +124,14 @@ function FinalTeamRegisterForm({ teamId, teamName }: FinalTeamRegisterFormProps,
             <div className="w-full space-y-4">
                 <div className="mb-6 text-[#05B0C1] font-family-spacemono border border-[#05C174] p-4 rounded bg-black/50 overflow-hidden">
                     <p className="mb-2 font-bold text-[#05C174]">Final Registration Payment</p>
+                    
                     <div className="bg-[#05C174]/10 p-3 rounded mb-4">
                          <p className="text-sm">Bank: <span className="font-bold text-[#05C174]">Blu by BCA</span></p>
                         <p className="text-sm">No. Rekening: <span className="font-bold text-[#05C174] select-all">005714837012</span></p>
                         <p className="text-sm">Atas Nama: <span className="font-bold text-[#05C174]">Priscilia King Chandra</span></p>
-                        <p className="text-sm mt-2">Amount: <span className="font-bold text-[#05C174]">Rp 150.001</span></p>
+                        <p className="text-sm mt-2">Amount: <span className="font-bold text-[#05C174]">Rp 300.001</span></p>
                     </div>
-                    
+                                      
                     <p className="text-sm mb-2">Transfer Description:</p>
                     <p className="text-lg font-bold bg-[#05C174]/20 p-2 text-center select-all break-all">
                         {teamName} - Hackathon Final

@@ -396,12 +396,18 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
             <>
                <div className="mb-6 text-[#05B0C1] font-family-spacemono border border-[#05C174] p-4 rounded bg-black/50">
                   <p className="mb-2 font-bold text-[#05C174]">Payment Instructions</p>
-                  <p className="text-sm mb-1">Please transfer the registration fee to:</p>
+                  <p className="text-sm mb-1">Please transfer the registration fee using one of the following payment methods:</p>
                   <div className="bg-[#05C174]/10 p-3 rounded mb-4">
                       <p className="text-sm">Bank: <span className="font-bold text-[#05C174]">Blu by BCA</span></p>
                       <p className="text-sm">No. Rekening: <span className="font-bold text-[#05C174] select-all">005714837012</span></p>
                       <p className="text-sm">Atas Nama: <span className="font-bold text-[#05C174]">Priscilia King Chandra</span></p>
                       <p className="text-sm mt-2">Amount: <span className="font-bold text-[#05C174]">Rp 150.001</span></p>
+                  </div>
+                  <div className="bg-[#05C174]/10 p-3 rounded my-4">
+                      <p className="text-sm">Paypal: </p>
+                      <p className="text-sm">Email: <span className="font-bold text-[#05C174] select-all">prisciliakingchandra@gmail.com</span></p>
+                      <p className="text-sm">Account name : <span className="font-bold text-[#05C174]">Priscilia King Chandra</span></p>
+                      <p className="text-sm mt-2">Amount: <span className="font-bold text-[#05C174]">10 USD</span></p>
                   </div>
                   
                   <p className="text-sm mb-2">Transfer Description:</p>
