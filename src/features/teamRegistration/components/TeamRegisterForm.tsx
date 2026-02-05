@@ -412,7 +412,7 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
                   
                   <p className="text-sm mb-2">Transfer Description:</p>
                   <p className="text-lg font-bold bg-[#05C174]/20 p-2 text-center select-all">
-                     {teamName || "[Team Name]"} - {category}
+                     {teamName || "[Team Name]"}-{category}-[Institution name]
                   </p>
                </div>
 

@@ -134,7 +134,7 @@ function FinalTeamRegisterForm({ teamId, teamName }: FinalTeamRegisterFormProps,
                                       
                     <p className="text-sm mb-2">Transfer Description:</p>
                     <p className="text-lg font-bold bg-[#05C174]/20 p-2 text-center select-all break-all">
-                        {teamName} - Hackathon Final
+                        {teamName}-Hackathon Final-[Institution name]
                     </p>
                     <p className="text-[10px] text-gray-400 mt-2">*Please ensure the description matches your team name.</p>
                 </div>
