@@ -83,21 +83,19 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
           {session ? (
             <>
                {/* SUBMISSION DROPDOWN - ONLY IF ACCEPTED */}
-               {teamStatus === "ACCEPTED" && (
-                <div className="relative group">
-                  <button className="flex items-center gap-1 hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">
-                    SUBMISSION <ChevronDown size={14} />
-                  </button>
-                  <div className="absolute top-full left-0 pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                    <div className="bg-[#1C0951] border border-[#00C074] flex flex-col items-start p-2 gap-2 shadow-lg">
-                      <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Preliminary</Link>
-                      {isFinalist && (
-                        <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Final</Link>
-                      )}
-                    </div>
+              <div className="relative group">
+                <button className="flex items-center gap-1 hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">
+                  SUBMISSION <ChevronDown size={14} />
+                </button>
+                <div className="absolute top-full left-0 pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                  <div className="bg-[#1C0951] border border-[#00C074] flex flex-col items-start p-2 gap-2 shadow-lg">
+                    <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Preliminary</Link>
+                    {isFinalist && (
+                      <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Final</Link>
+                    )}
                   </div>
                 </div>
-              )}
+              </div>
 
               <Link 
                 href={"/profile"} 
