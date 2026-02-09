@@ -50,9 +50,26 @@ const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({ team, onClose }) =>
 
           <div>
             <p className="text-[#05C174] text-sm uppercase mb-1">Members</p>
-            <ul className="list-disc list-inside mb-4 space-y-1">
+            <ul className="list-none mb-4 space-y-4">
               {team.members.map((member) => (
-                <li key={member.id}>{member.name}</li>
+                <li key={member.id} className="flex flex-col gap-2 border-b border-[#05C174]/20 pb-2 last:border-0">
+                  <span>{member.name}</span>
+                  {member.id_card && (
+                    <a 
+                      href={member.id_card} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="relative w-full h-32 block border border-[#05C174]/30 hover:border-[#05C174] transition-colors"
+                    >
+                      <Image
+                        src={member.id_card}
+                        alt={`ID Card ${member.name}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </a>
+                  )}
+                </li>
               ))}
             </ul>
 
