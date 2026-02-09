@@ -153,14 +153,10 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
           {session ? (
             <>
               {/* MOBILE SUBMISSION LINKS - Expanded for simplicity */}
-              {teamStatus === "ACCEPTED" && (
-                <>
-                  <div className="text-[#00C074] text-sm opacity-50 uppercase tracking-widest mt-2">Submission</div>
-                  <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Preliminary</Link>
-                  {isFinalist && (
-                    <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Final</Link>
-                  )}
-                </>
+              <div className="text-[#00C074] text-sm opacity-50 uppercase tracking-widest mt-2">Submission</div>
+              <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Preliminary</Link>
+              {isFinalist && (
+                <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Final</Link>
               )}
 
               <Link 
