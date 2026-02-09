@@ -250,7 +250,7 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
                   </button>
                 </div>
                 <a 
-                  href="https://drive.google.com/drive/folders/1AbSdImrBafplMRgkteBEtIb4jvQgoQ7p?usp=drive_link" 
+                  href="https://drive.google.com/file/d/16_lraCOoa6tIdaLrK2g5UUNYNEb4DJWB/view?usp=share_link" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-[#05B0C1] hover:text-[#05B0C1] transition-colors"
