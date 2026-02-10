@@ -392,10 +392,45 @@ export function RegisterFormComponent(_props: unknown, ref: React.ForwardedRef<R
           instructionModal.type === "twibbon" ? (
             <div className="space-y-4">
               <p>Download the template and generate your twibbon image and post it to Instagram.</p>
-              <ul className="list-disc list-inside space-y-2 text-[#05B0C1/80]">
+              <ul className="list-disc list-inside space-y-2 text-[#05B0C1/80] mb-4">
                  <li>Use a clear photo where your face is visible.</li>
                  <li>Upload a screenshot as proof</li>
               </ul>
+              <div className="mt-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <p className="font-bold text-[#05C174] font-family-audiowide">Twibbon Caption:</p>
+                    <span className="text-xs text-[#05B0C1]/70 italic">(Click to copy)</span>
+                  </div>
+                  <div 
+                    onClick={() => {
+                        const text = `Building ideas beyond code and screens.
+
+I’m [Participant Name], of [Team Name] from [University Name], competing in the [Hackathon / UI/UX Design] categories at Hackfest 2026: Code for Humanity.
+
+This journey is about turning creativity into solutions that matter, and designing technology with real impact for people and communities.
+
+Code with purpose. Design for humanity.
+
+See you at Hackfest 2026 🚀
+#Hackfest2026 #CodeForHumanity`;
+                        navigator.clipboard.writeText(text);
+                        toast.success("Caption copied to clipboard!");
+                    }}
+                    className="bg-[#050B14] p-4 rounded text-sm text-[#05B0C1] whitespace-pre-wrap select-all font-family-spacemono border border-[#05C174]/30 cursor-pointer hover:bg-[#05C174]/10 transition-colors active:scale-[0.99]"
+                    title="Click to copy caption"
+                  >
+Building ideas beyond code and screens.
+
+I’m [Participant Name], of [Team Name] from [University Name], competing in the [Hackathon / UI/UX Design] categories at Hackfest 2026: Code for Humanity.
+
+This journey is about turning creativity into solutions that matter, and designing technology with real impact for people and communities.
+
+Code with purpose. Design for humanity.
+
+See you at Hackfest 2026 🚀
+#Hackfest2026 #CodeForHumanity
+                  </div>
+              </div>
             </div>
           ) : (
              <div className="space-y-4">
