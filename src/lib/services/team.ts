@@ -42,6 +42,19 @@ export async function createTeam(
   }
 
   try {
+    const existingTeam = await prisma.team.findUnique({
+      where: {
+        name: validation.data.name,
+      },
+    });
+
+    if (existingTeam) {
+      return {
+        success: false,
+        error: "Team name already taken",
+      };
+    }
+
     const { memberEmails, ...teamData } = validation.data;
 
     const team = await prisma.team.create({
