@@ -42,9 +42,12 @@ export async function createTeam(
   }
 
   try {
-    const existingTeam = await prisma.team.findUnique({
+    const existingTeam = await prisma.team.findFirst({
       where: {
-        name: validation.data.name,
+        name: {
+          equals: validation.data.name,
+          mode: 'insensitive',
+        },
       },
     });
 
