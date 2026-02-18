@@ -76,6 +76,7 @@ export async function updateTeamFinalistStatus(teamId: string, isFinalist: boole
   }
 }
 
+
 export async function deleteTeam(teamId: string) {
   try {
     await prisma.team.delete({
@@ -86,5 +87,42 @@ export async function deleteTeam(teamId: string) {
   } catch (error) {
     console.error("Error deleting team:", error);
     return { success: false, error: "Failed to delete team" };
+  }
+}
+
+export async function getUsers(query: string = "") {
+  try {
+    const users = await prisma.user.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { email: { contains: query, mode: "insensitive" } },
+          { phone_number: { contains: query, mode: "insensitive" } },
+          { institution: { contains: query, mode: "insensitive" } },
+          { studentId: { contains: query, mode: "insensitive" } },
+        ],
+        role: "USER" // Only fetch regular users, not admins
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+    return { success: true, data: users };
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return { success: false, error: "Failed to fetch users" };
+  }
+}
+
+export async function deleteUser(userId: string) {
+  try {
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+    revalidatePath("/dashboard/user");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return { success: false, error: "Failed to delete user" };
   }
 }

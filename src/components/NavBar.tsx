@@ -103,13 +103,19 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
               >
                 Profile
               </Link>
+
               {session.user?.role === 'ADMIN' && (
-                <Link 
-                  href={"/dashboard"} 
-                  className="hover:text-[#00C074] transition-colors"
-                >
-                  Dashboard
-                </Link>
+                <div className="relative group">
+                    <button className="flex items-center gap-1 hover:text-[#00C074] transition-colors cursor-pointer bg-none border-none p-0">
+                      DASHBOARD <ChevronDown size={14} />
+                    </button>
+                    <div className="absolute top-full left-0 pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                      <div className="bg-[#1C0951] border border-[#00C074] flex flex-col items-start p-2 gap-2 shadow-lg">
+                        <Link href={"/dashboard"} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Teams</Link>
+                        <Link href={"/dashboard/user"} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Users</Link>
+                      </div>
+                    </div>
+                </div>
               )}
               <button 
                 onClick={handleLogout}
@@ -167,13 +173,23 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
                 Profile
               </Link>
               {session.user?.role === 'ADMIN' && (
-                <Link 
-                  href={"/dashboard"} 
-                  className="hover:text-[#00C074] transition-colors py-2"
-                  onClick={closeMenu}
-                >
-                  Dashboard
-                </Link>
+                <>
+                  <div className="text-[#00C074] text-sm opacity-50 uppercase tracking-widest mt-2">Dashboard</div>
+                  <Link 
+                    href={"/dashboard"} 
+                    className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30"
+                    onClick={closeMenu}
+                  >
+                    Admin
+                  </Link>
+                  <Link 
+                    href={"/dashboard/user"} 
+                    className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30"
+                    onClick={closeMenu}
+                  >
+                    User
+                  </Link>
+                </>
               )}
               <button 
                 onClick={handleLogout}
