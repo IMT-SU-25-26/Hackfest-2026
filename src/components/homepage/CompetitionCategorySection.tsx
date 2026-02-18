@@ -11,7 +11,7 @@ const CATEGORIES = [
   {
     title: 'Hackathon',
     description:
-      'Build innovative solutions and push the boundaries of technology. Collaborate, code, and solve real-world problems in this high-intensity development challenge',
+      'Build innovative solutions and push the boundaries of technology. Collaborate, code, and solve real-world problems in this high-intensity development challenge.',
     image: '/images/home/hackathon/logo.svg', 
     slug:'hackathon',
   },
