@@ -8,10 +8,11 @@ interface UserTableProps {
   users: User[];
   onViewPoster: (element: { url: string; title: string }) => void;
   onViewTwibbon: (element: { url: string; title: string }) => void;
+  onEdit: (user: User) => void;
   onDelete: () => void;
 }
 
-const UserTable: React.FC<UserTableProps> = ({ users, onViewPoster, onViewTwibbon, onDelete }) => {
+const UserTable: React.FC<UserTableProps> = ({ users, onViewPoster, onViewTwibbon, onEdit, onDelete }) => {
   return (
     <div className="overflow-x-auto w-full">
       <table className="min-w-full text-left">
@@ -34,6 +35,7 @@ const UserTable: React.FC<UserTableProps> = ({ users, onViewPoster, onViewTwibbo
                 user={user}
                 onViewPoster={onViewPoster}
                 onViewTwibbon={onViewTwibbon}
+                onEdit={onEdit}
                 onDelete={onDelete}
               />
             ))

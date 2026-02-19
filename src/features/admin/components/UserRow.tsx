@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { User } from "@/generated/prisma";
-import { Eye, Trash2 } from "lucide-react";
+import { Eye, Trash2, Pencil } from "lucide-react";
 import { toast } from "react-toastify";
 import { deleteUser } from "../actions";
 
@@ -10,10 +10,11 @@ interface UserRowProps {
   user: User;
   onViewPoster: (element: { url: string; title: string }) => void;
   onViewTwibbon: (element: { url: string; title: string }) => void;
+  onEdit: (user: User) => void;
   onDelete: () => void;
 }
 
-const UserRow: React.FC<UserRowProps> = ({ user, onViewPoster, onViewTwibbon, onDelete }) => {
+const UserRow: React.FC<UserRowProps> = ({ user, onViewPoster, onViewTwibbon, onEdit, onDelete }) => {
   const [loading, setLoading] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
@@ -49,6 +50,13 @@ const UserRow: React.FC<UserRowProps> = ({ user, onViewPoster, onViewTwibbon, on
       <td className="px-6 py-4 whitespace-nowrap text-gray-300">{user.gender || "-"}</td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center gap-2">
+            <button
+                onClick={() => onEdit(user)}
+                className="p-1.5 rounded-full hover:bg-[#05C174]/20 text-[#05C174] transition-colors"
+                title="Edit User"
+            >
+                <Pencil size={18} />
+            </button>
             {user.poster_url && (
                  <button
                  onClick={() => onViewPoster({ url: user.poster_url!, title: "Poster Preview" })}

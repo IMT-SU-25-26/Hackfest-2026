@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { getUsers } from "../actions";
 import UserTable from "./UserTable";
 import ImagePreviewModal from "./ImagePreviewModal";
+import EditUserModal from "./EditUserModal";
 import { useDebounce } from "@/features/admin/hooks/useDebounce";
 
 export default function UserDashboard() {
@@ -15,6 +16,7 @@ export default function UserDashboard() {
 
   // For Preview Modal
   const [previewImage, setPreviewImage] = useState<{ url: string; title: string } | null>(null);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
 
   const debouncedSearch = useDebounce(search, 500);
 
@@ -63,6 +65,7 @@ export default function UserDashboard() {
             users={users} 
             onViewPoster={setPreviewImage}
             onViewTwibbon={setPreviewImage}
+            onEdit={setEditingUser}
             onDelete={fetchData}
         />
       </div>
@@ -73,6 +76,17 @@ export default function UserDashboard() {
             imageUrl={previewImage.url} 
             title={previewImage.title}
             onClose={() => setPreviewImage(null)} 
+        />
+      )}
+      
+      {editingUser && (
+        <EditUserModal 
+            user={editingUser} 
+            onClose={() => setEditingUser(null)} 
+            onSuccess={() => {
+                fetchData();
+                setEditingUser(null);
+            }} 
         />
       )}
     </div>

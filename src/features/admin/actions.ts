@@ -126,3 +126,18 @@ export async function deleteUser(userId: string) {
     return { success: false, error: "Failed to delete user" };
   }
 }
+
+export async function updateUser(userId: string, data: { name: string; email: string; phone_number: string }) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data,
+    });
+    revalidatePath("/dashboard/user");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return { success: false, error: "Failed to update user" };
+  }
+}
+
