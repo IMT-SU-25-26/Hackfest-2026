@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
-import { X } from "lucide-react";
+import React, { useState } from "react";
+import { X, Trash2 } from "lucide-react";
 import { Team, User } from "@/generated/prisma";
 import Image from "next/image";
+import { removeMemberFromTeam } from "../actions";
+import { toast } from "react-toastify";
 
 interface TeamWithMembers extends Team {
   members: User[];
@@ -12,9 +14,30 @@ interface TeamWithMembers extends Team {
 interface TeamDetailsModalProps {
   team: TeamWithMembers;
   onClose: () => void;
+  onUpdate?: () => void;
 }
 
-const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({ team, onClose }) => {
+const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({ team, onClose, onUpdate }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleRemoveMember = async (userId: string, userName: string) => {
+    if (loading) return;
+    if (!confirm(`Are you sure you want to remove ${userName} from this team?`)) return;
+
+    setLoading(true);
+    const result = await removeMemberFromTeam(userId);
+    setLoading(false);
+
+    if (result.success) {
+      toast.success(`Removed ${userName} from team`);
+      if (onUpdate) {
+        onUpdate();
+        onClose();
+      }
+    } else {
+      toast.error(result.error || "Failed to remove member");
+    }
+  };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="bg-[#090223] border border-[#05C174] p-8 max-w-2xl w-full relative shadow-[0_0_20px_rgba(5,193,116,0.3)] max-h-[90vh] overflow-y-auto">
@@ -53,7 +76,17 @@ const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({ team, onClose }) =>
             <ul className="list-none mb-4 space-y-4">
               {team.members.map((member) => (
                 <li key={member.id} className="flex flex-col gap-2 border-b border-[#05C174]/20 pb-2 last:border-0">
-                  <span>{member.name}</span>
+                  <div className="flex justify-between items-center">
+                    <span>{member.name}</span>
+                    <button
+                        onClick={() => handleRemoveMember(member.id, member.name)}
+                        disabled={loading}
+                        className="text-red-500 hover:text-red-400 p-1 rounded hover:bg-red-500/10 transition-colors"
+                        title="Remove Member"
+                    >
+                        <Trash2 size={16} />
+                    </button>
+                  </div>
                   {member.id_card && (
                     <a 
                       href={member.id_card} 

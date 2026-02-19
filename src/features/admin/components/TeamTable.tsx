@@ -12,9 +12,10 @@ interface TeamTableProps {
   teams: TeamWithMembers[];
   onViewProof: (url: string) => void;
   onViewDetails: (team: TeamWithMembers) => void;
+  onAddMember: (team: TeamWithMembers) => void;
 }
 
-const TeamTable: React.FC<TeamTableProps> = ({ teams, onViewProof, onViewDetails }) => {
+const TeamTable: React.FC<TeamTableProps> = ({ teams, onViewProof, onViewDetails, onAddMember }) => {
   return (
     <div className="overflow-x-auto w-full">
       <table className="min-w-full text-left">
@@ -37,6 +38,7 @@ const TeamTable: React.FC<TeamTableProps> = ({ teams, onViewProof, onViewDetails
                 team={team}
                 onViewProof={onViewProof}
                 onViewDetails={onViewDetails}
+                onAddMember={onAddMember}
               />
             ))
           ) : (

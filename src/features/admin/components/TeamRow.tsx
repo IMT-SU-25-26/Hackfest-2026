@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Team, User, TeamStatus } from "@/generated/prisma";
-import { Eye, FileText, Check, X, Trash2 } from "lucide-react";
+import { Eye, FileText, Check, X, Trash2, UserPlus } from "lucide-react";
 import { toast } from "react-toastify";
 import { updateTeamStatus, updateTeamFinalistStatus, deleteTeam } from "../actions";
 
@@ -14,9 +14,10 @@ interface TeamRowProps {
   team: TeamWithMembers;
   onViewProof: (url: string) => void;
   onViewDetails: (team: TeamWithMembers) => void;
+  onAddMember: (team: TeamWithMembers) => void;
 }
 
-const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) => {
+const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails, onAddMember }) => {
   const [status, setStatus] = useState<TeamStatus>(team.status);
   const [isFinalist, setIsFinalist] = useState(team.isFinalist);
   const [loading, setLoading] = useState(false);
@@ -119,6 +120,13 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails }) =
             title="Show Payment Proof"
           >
             <Eye size={18} />
+          </button>
+          <button
+            onClick={() => onAddMember(team)}
+            className="p-1.5 rounded-full hover:bg-purple-500/20 text-purple-400 transition-colors"
+            title="Add Member"
+          >
+            <UserPlus size={18} />
           </button>
           <button
             onClick={() => onViewDetails(team)}

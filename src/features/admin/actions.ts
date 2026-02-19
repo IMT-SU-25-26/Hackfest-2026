@@ -141,3 +141,46 @@ export async function updateUser(userId: string, data: { name: string; email: st
   }
 }
 
+export async function addMemberToTeam(teamId: string, email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return { success: false, error: "User not found" };
+    }
+
+    if (user.teamId) {
+      return { success: false, error: "User is already in a team" };
+    }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { teamId },
+    });
+
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Error adding member to team:", error);
+    return { success: false, error: "Failed to add member to team" };
+  }
+}
+
+export async function removeMemberFromTeam(userId: string) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { teamId: null },
+    });
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Error removing member from team:", error);
+    return { success: false, error: "Failed to remove member from team" };
+  }
+}
+
+
+

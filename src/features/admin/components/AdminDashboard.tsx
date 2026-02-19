@@ -7,6 +7,7 @@ import { getTeams } from "../actions";
 import TeamTable from "./TeamTable";
 import PaymentProofModal from "./PaymentProofModal";
 import TeamDetailsModal from "./TeamDetailsModal";
+import AddMemberModal from "./AddMemberModal";
 import { useDebounce } from "@/features/admin/hooks/useDebounce"; // Will create this or use standard timeout
 
 interface TeamWithMembers extends Team {
@@ -22,21 +23,22 @@ export default function AdminDashboard() {
 
   const [proofUrl, setProofUrl] = useState<string | null>(null);
   const [selectedTeam, setSelectedTeam] = useState<TeamWithMembers | null>(null);
+  const [addingMemberToTeam, setAddingMemberToTeam] = useState<TeamWithMembers | null>(null);
 
   const debouncedSearch = useDebounce(search, 500);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const result = await getTeams(debouncedSearch, statusFilter, categoryFilter);
-      if (result.success && result.data) {
-        setTeams(result.data as TeamWithMembers[]);
-      }
-      setLoading(false);
-    };
-
-    fetchData();
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    const result = await getTeams(debouncedSearch, statusFilter, categoryFilter);
+    if (result.success && result.data) {
+      setTeams(result.data as TeamWithMembers[]);
+    }
+    setLoading(false);
   }, [debouncedSearch, statusFilter, categoryFilter]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div className="w-full space-y-6 text-white">
@@ -146,6 +148,7 @@ export default function AdminDashboard() {
             teams={teams} 
             onViewProof={setProofUrl}
             onViewDetails={setSelectedTeam}
+            onAddMember={setAddingMemberToTeam}
         />
       </div>
 
@@ -161,6 +164,26 @@ export default function AdminDashboard() {
         <TeamDetailsModal 
             team={selectedTeam} 
             onClose={() => setSelectedTeam(null)} 
+            onUpdate={fetchData}
+        />
+      )}
+      
+      {addingMemberToTeam && (
+        <AddMemberModal 
+            teamId={addingMemberToTeam.id}
+            onClose={() => setAddingMemberToTeam(null)}
+            onSuccess={() => {
+                // Refresh data
+                const fetchData = async () => {
+                    setLoading(true);
+                    const result = await getTeams(debouncedSearch, statusFilter, categoryFilter);
+                    if (result.success && result.data) {
+                        setTeams(result.data as TeamWithMembers[]);
+                    }
+                    setLoading(false);
+                };
+                fetchData();
+            }}
         />
       )}
     </div>
