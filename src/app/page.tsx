@@ -12,8 +12,8 @@ import FaqSection from "@/components/homepage/FaqSection";
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<'ui-ux' | 'hackathon'>('hackathon');
 
-  // Image mappings
-  const images = {
+  // Content mappings
+  const categoryData = {
     hackathon: {
       prizes: {
         mobile: "/images/home/hackathon/mobile/prizes.svg",
@@ -26,6 +26,60 @@ export default function Home() {
         feeMobile: "/images/home/hackathon/fee.svg",
         finalFeeDesktop: "/images/home/hackathon/finalFee.svg",
         finalFeeMobile: "/images/home/hackathon/finalFee.svg",
+      },
+      judges: {
+        bgUrls: [
+            "/images/judges/judges-1.webp",
+            "/images/judges/judges-2.webp",
+            "/images/judges/judges-3.webp",
+        ],
+        list: [
+            {
+                imgUrl: "/images/FAQ/judges/rudi.png",
+                classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
+                name: "Rudi Limantoro",
+                title: "S. Kom., M.Kom."
+            },
+            {
+                imgUrl: "/images/FAQ/judges/elizabeth.png",
+                classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
+                name: "Elizabeth Nathania Witanto",
+                title: "S. Kom., M.Kom."
+            },
+            {
+                imgUrl: "/images/FAQ/judges/evan.png",
+                classImage: "scale-[1] translate-x-[0%]",
+                name: "Evan Tanuwijaya",
+                title: "S. Kom., M.Kom."
+            },
+        ]
+      },
+      judgesFinal: {
+        bgUrls: [
+            "/images/judges/judges-unknown.svg",
+            "/images/judges/judges-unknown.svg",
+            "/images/judges/judges-unknown.svg",
+        ],
+        list: [
+            {
+                imgUrl: "/images/FAQ/judges/rudi.png",
+                classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
+                name: "Rudi Limantoro",
+                title: "S. Kom., M.Kom."
+            },
+            {
+                imgUrl: "/images/FAQ/judges/elizabeth.png",
+                classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
+                name: "Elizabeth Nathania Witanto",
+                title: "S. Kom., M.Kom."
+            },
+            {
+                imgUrl: "/images/FAQ/judges/evan.png",
+                classImage: "scale-[1] translate-x-[0%]",
+                name: "Evan Tanuwijaya",
+                title: "S. Kom., M.Kom."
+            },
+        ]
       }
     },
     'ui-ux': {
@@ -40,11 +94,65 @@ export default function Home() {
         feeMobile: "/images/home/uiux/fee.svg",
         finalFeeDesktop: "/images/home/uiux/finalFee.svg",
         finalFeeMobile: "/images/home/uiux/finalFee.svg",
+      },
+      judges: {
+        bgUrls: [
+            "/images/judges/judges-1.webp",
+            "/images/judges/judges-2.webp",
+            "/images/judges/judges-3.webp",
+        ],
+        list: [
+            {
+                imgUrl: "/images/FAQ/judges/rudi.png",
+                classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
+                name: "Rudi Limantoro",
+                title: "S. Kom., M.Kom."
+            },
+            {
+                imgUrl: "/images/FAQ/judges/elizabeth.png",
+                classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
+                name: "Elizabeth Nathania Witanto",
+                title: "S. Kom., M.Kom."
+            },
+            {
+                imgUrl: "/images/FAQ/judges/evan.png",
+                classImage: "scale-[1] translate-x-[0%]",
+                name: "Evan Tanuwijaya",
+                title: "S. Kom., M.Kom."
+            },
+        ]
+      },
+      judgesFinal: {
+        bgUrls: [
+            "/images/judges/judges-unknown.svg",
+            "/images/judges/judges-unknown.svg",
+            "/images/judges/judges-unknown.svg",
+        ],
+        list: [
+            {
+                imgUrl: "/images/FAQ/judges/rudi.png",
+                classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
+                name: "Rudi Limantoro",
+                title: "S. Kom., M.Kom."
+            },
+            {
+                imgUrl: "/images/FAQ/judges/elizabeth.png",
+                classImage: "scale-[1.5] translate-x-[-5%] translate-y-[20%]",
+                name: "Elizabeth Nathania Witanto",
+                title: "S. Kom., M.Kom."
+            },
+            {
+                imgUrl: "/images/FAQ/judges/evan.png",
+                classImage: "scale-[1] translate-x-[0%]",
+                name: "Evan Tanuwijaya",
+                title: "S. Kom., M.Kom."
+            },
+        ]
       }
     }
   };
 
-  const currentImages = images[activeCategory];
+  const currentData = categoryData[activeCategory];
 
   return (
     <>
@@ -56,19 +164,28 @@ export default function Home() {
         onCategorySelect={setActiveCategory} 
       />
       <PrizesSection 
-        imgMobile={currentImages.prizes.mobile}
-        imgDesktop={currentImages.prizes.desktop}
+        imgMobile={currentData.prizes.mobile}
+        imgDesktop={currentData.prizes.desktop}
       />
       <TimelineSection 
-        timelineImageDesktop={currentImages.timeline.timelineDesktop}
-        timelineImageMobile={currentImages.timeline.timelineMobile}
-        feeImageDesktop={currentImages.timeline.feeDesktop}
-        feeImageMobile={currentImages.timeline.feeMobile}
-        finalFeeImageDesktop={currentImages.timeline.finalFeeDesktop}
-        finalFeeImageMobile={currentImages.timeline.finalFeeMobile}
+        timelineImageDesktop={currentData.timeline.timelineDesktop}
+        timelineImageMobile={currentData.timeline.timelineMobile}
+        feeImageDesktop={currentData.timeline.feeDesktop}
+        feeImageMobile={currentData.timeline.feeMobile}
+        finalFeeImageDesktop={currentData.timeline.finalFeeDesktop}
+        finalFeeImageMobile={currentData.timeline.finalFeeMobile}
       />
 
-      <JudgeSection />
+      <JudgeSection 
+        title="Meet Our Preliminary Hackathon Judges"
+        judges={currentData.judges.list}
+        bgUrls={currentData.judges.bgUrls}
+      />
+      <JudgeSection 
+        title="Meet Our Final Hackathon Judges"
+        judges={currentData.judgesFinal.list}
+        bgUrls={currentData.judgesFinal.bgUrls}
+      />
       <FaqSection />
 
     </>
