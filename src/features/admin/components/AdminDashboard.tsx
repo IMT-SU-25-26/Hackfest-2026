@@ -137,6 +137,11 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      {/* Team Count */}
+      <div className="flex justify-end font-spacemono text-[#05C174]">
+        <span>Showing {teams.length} team(s)</span>
+      </div>
+
       {/* Table Content */}
       <div className="border border-[#05C174] bg-[#090223]/50 backdrop-blur-sm min-h-[400px] relative">
         {loading && (
