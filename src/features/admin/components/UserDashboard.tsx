@@ -7,6 +7,7 @@ import { getUsers } from "../actions";
 import UserTable from "./UserTable";
 import ImagePreviewModal from "./ImagePreviewModal";
 import EditUserModal from "./EditUserModal";
+import UpdatePasswordModal from "./UpdatePasswordModal";
 import { useDebounce } from "@/features/admin/hooks/useDebounce";
 
 export default function UserDashboard() {
@@ -17,6 +18,7 @@ export default function UserDashboard() {
   // For Preview Modal
   const [previewImage, setPreviewImage] = useState<{ url: string; title: string } | null>(null);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [passwordUpdateUser, setPasswordUpdateUser] = useState<User | null>(null);
 
   const debouncedSearch = useDebounce(search, 500);
 
@@ -66,6 +68,7 @@ export default function UserDashboard() {
             onViewPoster={setPreviewImage}
             onViewTwibbon={setPreviewImage}
             onEdit={setEditingUser}
+            onUpdatePassword={setPasswordUpdateUser}
             onDelete={fetchData}
         />
       </div>
@@ -86,6 +89,16 @@ export default function UserDashboard() {
             onSuccess={() => {
                 fetchData();
                 setEditingUser(null);
+            }} 
+        />
+      )}
+
+      {passwordUpdateUser && (
+        <UpdatePasswordModal 
+            user={passwordUpdateUser} 
+            onClose={() => setPasswordUpdateUser(null)} 
+            onSuccess={() => {
+                setPasswordUpdateUser(null);
             }} 
         />
       )}

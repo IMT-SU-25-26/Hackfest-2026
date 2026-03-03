@@ -3,6 +3,9 @@
 import prisma from "@/lib/config/prisma";
 import { TeamStatus, TeamCategory } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/config/auth";
+import bcrypt from "bcrypt";
 
 export async function getTeams(query: string = "", status?: TeamStatus, category?: TeamCategory) {
   try {
@@ -179,6 +182,27 @@ export async function removeMemberFromTeam(userId: string) {
   } catch (error) {
     console.error("Error removing member from team:", error);
     return { success: false, error: "Failed to remove member from team" };
+  }
+}
+
+export async function updateUserPassword(userId: string, newPassword: string) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user || (session.user.role !== "ADMIN" && (session.user.role as string) !== "SUPER")) {
+      return { success: false, error: "Unauthorized operation" };
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    revalidatePath("/dashboard/user");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating user password:", error);
+    return { success: false, error: "Failed to update user password" };
   }
 }
 

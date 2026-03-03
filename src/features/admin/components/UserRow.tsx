@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { User } from "@/generated/prisma";
-import { Eye, Trash2, Pencil } from "lucide-react";
+import { Eye, Trash2, Pencil, Key } from "lucide-react";
 import { toast } from "react-toastify";
 import { deleteUser } from "../actions";
 
@@ -11,10 +11,11 @@ interface UserRowProps {
   onViewPoster: (element: { url: string; title: string }) => void;
   onViewTwibbon: (element: { url: string; title: string }) => void;
   onEdit: (user: User) => void;
+  onUpdatePassword: (user: User) => void;
   onDelete: () => void;
 }
 
-const UserRow: React.FC<UserRowProps> = ({ user, onViewPoster, onViewTwibbon, onEdit, onDelete }) => {
+const UserRow: React.FC<UserRowProps> = ({ user, onViewPoster, onViewTwibbon, onEdit, onUpdatePassword, onDelete }) => {
   const [loading, setLoading] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
@@ -56,6 +57,13 @@ const UserRow: React.FC<UserRowProps> = ({ user, onViewPoster, onViewTwibbon, on
                 title="Edit User"
             >
                 <Pencil size={18} />
+            </button>
+            <button
+                onClick={() => onUpdatePassword(user)}
+                className="p-1.5 rounded-full hover:bg-[#05B0C1]/20 text-[#05B0C1] transition-colors"
+                title="Update Password"
+            >
+                <Key size={18} />
             </button>
             {user.poster_url && (
                  <button
