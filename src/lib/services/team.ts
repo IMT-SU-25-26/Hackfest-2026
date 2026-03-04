@@ -6,6 +6,8 @@ import { ActionResult } from "@/types/action";
 import { revalidatePath } from "next/cache";
 import { handlePrismaError } from "../utils/handlePrismaError";
 
+export const MAX_TEAM_CAPACITY = 40;
+
 export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({
     include: { members: true },
@@ -55,6 +57,19 @@ export async function createTeam(
       return {
         success: false,
         error: "Team name already taken",
+      };
+    }
+
+    const teamCount = await prisma.team.count({
+      where: {
+        category: validation.data.category
+      }
+    });
+
+    if (teamCount >= MAX_TEAM_CAPACITY) {
+      return {
+        success: false,
+        error: `${validation.data.category === "UIUX" ? "UI/UX" : "Hackathon"} category has reached its maximum capacity of ${MAX_TEAM_CAPACITY} teams.`,
       };
     }
 
@@ -209,5 +224,16 @@ export async function removeMemberFromTeam(
       success: false,
       error: handlePrismaError(error),
     };
+  }
+}
+
+export async function getTeamCountByCategory(category: "HACKATON" | "UIUX"): Promise<number> {
+  try {
+    return await prisma.team.count({
+      where: { category },
+    });
+  } catch (error) {
+    console.error("Error getting team count by category:", error);
+    return 0;
   }
 }
