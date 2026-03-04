@@ -6,7 +6,7 @@ import { ActionResult } from "@/types/action";
 import { revalidatePath } from "next/cache";
 import { handlePrismaError } from "../utils/handlePrismaError";
 
-export const MAX_TEAM_CAPACITY = 40;
+const MAX_TEAM_CAPACITY = 40;
 
 export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({
@@ -227,13 +227,14 @@ export async function removeMemberFromTeam(
   }
 }
 
-export async function getTeamCountByCategory(category: "HACKATON" | "UIUX"): Promise<number> {
+export async function isTeamFullByCategory(category: "HACKATON" | "UIUX"): Promise<boolean> {
   try {
-    return await prisma.team.count({
+    const count = await prisma.team.count({
       where: { category },
     });
+    return count >= MAX_TEAM_CAPACITY;
   } catch (error) {
-    console.error("Error getting team count by category:", error);
-    return 0;
+    console.error("Error checking team capacity:", error);
+    return true; // Default to full on error to prevent over-registration
   }
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { TeamRegisterForm, TeamRegisterFormHandle } from "@/features/teamRegistration/components/TeamRegisterForm";
 import { useRef, useState, useEffect } from "react";
 import { TeamCategory } from "@/generated/prisma";
-import { getTeamCountByCategory, MAX_TEAM_CAPACITY } from "@/lib/services/team";
+import { isTeamFullByCategory } from "@/lib/services/team";
 import { toast } from "react-toastify";
 
 export default function TeamRegistrationFlow() {
@@ -71,9 +71,9 @@ export default function TeamRegistrationFlow() {
               onClick={async ()=>{
                 try {
                   if (visibleStep === 1) {
-                    const count = await getTeamCountByCategory(category as any);
-                    if (count >= MAX_TEAM_CAPACITY) {
-                      toast.error(`${category === "UIUX" ? "UI/UX" : "Hackathon"} category has reached its maximum capacity of ${MAX_TEAM_CAPACITY} teams.`);
+                    const isFull = await isTeamFullByCategory(category as any);
+                    if (isFull) {
+                      toast.error(`${category === "UIUX" ? "UI/UX" : "Hackathon"} category has reached its maximum capacity limit.`);
                       return;
                     }
                   }
