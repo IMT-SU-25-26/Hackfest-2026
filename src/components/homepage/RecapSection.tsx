@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 // Data Configuration Section
 const TAB_DATA = {
   preview: {
-    videoSrc: "https://www.youtube.com/embed/sZC51ZaLeaw", // YouTube Embed Link
+    videoSrc: "https://www.youtube.com/embed/CCxAJPfyxDw", // YouTube Embed Link
     mobileBg: "/images/recap/backgroundContainerMobile.svg",
     shortDescImg: "/images/recap/frameShortDesc.svg",
   },
