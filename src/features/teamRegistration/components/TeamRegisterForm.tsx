@@ -12,7 +12,8 @@ import {
   X,
   Trophy,
   Mail,
-  ChevronDown
+  ChevronDown,
+  AlertTriangle
 } from "lucide-react";
 import { toast } from "react-toastify";
 import FormInput from "@/components/auth/FormInput";
@@ -35,6 +36,7 @@ type FormData = {
 type MemberState = {
   email: string;
   status: 'idle' | 'checking' | 'valid' | 'invalid';
+  idCardFilled?: boolean;
 };
 
 
@@ -95,9 +97,14 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
                 
                 const result = await checkUserEmail(member.email);
                 
+                if (result.exists && !result.idCardFilled) {
+                    toast.warning("All member profile data must be filled, you can update the profile data in the profile page");
+                }
+
                 setMembers(prev => {
                     const next = [...prev];
                     next[index].status = result.exists ? 'valid' : 'invalid';
+                    next[index].idCardFilled = result.idCardFilled;
                     return next;
                 });
             }, 500); // 500ms debounce
@@ -144,6 +151,12 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
         const allValid = validMembers.every(m => m.status === 'valid');
         if (!allValid) {
             toast.error("Please ensure all member emails are valid and registered");
+            return null;
+        }
+        
+        const allIdCardFilled = validMembers.every(m => m.idCardFilled);
+        if (!allIdCardFilled) {
+            toast.error("Please ensure all members have filled their profile data");
             return null;
         }
         // Proceed
@@ -339,7 +352,14 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
                       {/* Status Icon */}
                       <div className="absolute right-[5%] flex items-center mt-2 md:mt-6">
                          {member.status === 'checking' && <Loader2 className="animate-spin text-yellow-500" size={20}/>}
-                         {member.status === 'valid' && <Check className="text-green-500" size={20}/>}
+                         {member.status === 'valid' && member.idCardFilled && <Check className="text-green-500" size={20}/>}
+                         {member.status === 'valid' && !member.idCardFilled && (
+                             <AlertTriangle 
+                                 className="text-yellow-500 cursor-pointer hover:drop-shadow-[0_0_8px_#EAB308]" 
+                                 size={20}
+                                 onClick={() => toast.warning("All member profile data must be filled, you can update the profile data in the profile page")}
+                             />
+                         )}
                          {member.status === 'invalid' && <X className="text-red-500" size={20}/>}
                       </div>
                    </div>
