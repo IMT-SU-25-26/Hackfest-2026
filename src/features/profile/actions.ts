@@ -16,6 +16,13 @@ export async function getProfile() {
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
+    include: {
+      team: {
+        include: {
+          members: true
+        }
+      }
+    }
   });
 
   if (!user) {
@@ -23,8 +30,18 @@ export async function getProfile() {
   }
 
   // Return safe user object (exclude password)
-  const { password, ...safeUser } = user;
-  return safeUser;
+  const { password, team, ...safeUser } = user;
+  
+  let safeTeam = null;
+  if (team) {
+    const safeMembers = team.members.map(member => {
+      const { password, ...safeMember } = member;
+      return safeMember;
+    });
+    safeTeam = { ...team, members: safeMembers };
+  }
+
+  return { ...safeUser, team: safeTeam };
 }
 
 export async function updateProfile(data: UpdateProfileInput) {

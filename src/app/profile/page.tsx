@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/config/auth";
 import { redirect } from "next/navigation";
 import { getProfile } from "@/features/profile/actions";
 import ProfileForm from "@/features/profile/components/ProfileForm";
+import TeamInfo from "@/features/profile/components/TeamInfo";
 
 export default async function ProfilePage({
   searchParams,
@@ -31,6 +32,7 @@ export default async function ProfilePage({
   return (
     <div className="w-full min-h-screen bg-cover bg-no-repeat bg-center bg-[url('/images/login/Background.svg')] bg-[#090223]">
       <div className="pt-24 pb-12 px-4 min-h-screen flex flex-col items-center">
+         <TeamInfo team={user.team} />
          <ProfileForm user={user} error={error} />
       </div>
     </div>
