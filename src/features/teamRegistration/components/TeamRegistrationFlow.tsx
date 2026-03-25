@@ -17,12 +17,6 @@ export default function TeamRegistrationFlow() {
     if (s) setTimeout(() => setVisibleStep(s), 0);
   }, []);
 
-  useEffect(() => {
-    // sync initial step
-    const s = formRef.current?.getStep?.();
-    if (s) setTimeout(() => setVisibleStep(s), 0);
-  }, []);
-
   const isLastStep = (category === "HACKATON" && visibleStep === 3) || (category === "UIUX" && visibleStep === 4);
 
   return (

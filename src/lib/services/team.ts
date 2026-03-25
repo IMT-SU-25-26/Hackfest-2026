@@ -5,6 +5,9 @@ import prisma from "../config/prisma";
 import { ActionResult } from "@/types/action";
 import { revalidatePath } from "next/cache";
 import { handlePrismaError } from "../utils/handlePrismaError";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/config/auth";
+
 
 const MAX_TEAM_CAPACITY = 40;
 
@@ -36,6 +39,17 @@ export async function createTeam(
     };
   }
 
+  // check if current logged email is not in memberEmails, then add the logged email to memberEmails
+  const session = await getServerSession(authOptions);
+  const loggedEmail = session?.user?.email;
+
+  if (loggedEmail) {
+    if (!validation.data.memberEmails) {
+      validation.data.memberEmails = [loggedEmail];
+    } else if (!validation.data.memberEmails.includes(loggedEmail)) {
+      validation.data.memberEmails = [loggedEmail, ...validation.data.memberEmails];
+    }
+  }
   if (!validation.data.memberEmails || validation.data.memberEmails.length < 2) {
     return {
       success: false,
