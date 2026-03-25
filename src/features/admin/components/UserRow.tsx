@@ -41,6 +41,7 @@ const UserRow: React.FC<UserRowProps> = ({ user, onViewPoster, onViewTwibbon, on
   return (
     <tr className="hover:bg-white/5 transition-colors border-b border-[#05C174]/20 font-spacemono text-sm">
       <td className="px-6 py-4 whitespace-nowrap text-white">{user.name}</td>
+      <td className="px-6 py-4 whitespace-nowrap text-[#05B0C1]">{(user as any).team?.name || "-"}</td>
       <td className="px-6 py-4 whitespace-nowrap text-gray-300">{user.email}</td>
       <td className="px-6 py-4 whitespace-nowrap text-gray-300">
         <div>{user.phone_number}</div>

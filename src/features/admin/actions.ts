@@ -106,6 +106,11 @@ export async function getUsers(query: string = "") {
         ],
         role: "USER" // Only fetch regular users, not admins
       },
+      include: {
+        team: {
+          select: { name: true }
+        }
+      },
       orderBy: {
         name: "asc",
       },

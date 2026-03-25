@@ -20,6 +20,7 @@ const UserTable: React.FC<UserTableProps> = ({ users, onViewPoster, onViewTwibbo
         <thead className="bg-[#05C174]/10 text-[#05C174] font-audiowide uppercase text-xs tracking-wider">
           <tr>
             <th className="px-6 py-3 border-b border-[#05C174]">Name</th>
+            <th className="px-6 py-3 border-b border-[#05C174]">Team Name</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Email</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Phone</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Institution</th>
@@ -43,7 +44,7 @@ const UserTable: React.FC<UserTableProps> = ({ users, onViewPoster, onViewTwibbo
             ))
           ) : (
             <tr>
-              <td colSpan={7} className="px-6 py-4 text-center text-gray-400 font-spacemono">
+              <td colSpan={8} className="px-6 py-4 text-center text-gray-400 font-spacemono">
                 No users found.
               </td>
             </tr>
