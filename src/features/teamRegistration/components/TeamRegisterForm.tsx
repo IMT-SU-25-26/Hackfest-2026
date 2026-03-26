@@ -124,7 +124,9 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
   };
 
   const addMember = () => {
-    setMembers([...members, { email: "", status: 'idle' }]);
+    if (members.length < 4) {
+      setMembers([...members, { email: "", status: 'idle' }]);
+    }
   };
 
   const removeMember = (index: number) => {
@@ -375,13 +377,15 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
                  </div>
                ))}
 
-               <button
-                 type="button"
-                 onClick={addMember}
-                 className="mt-2 font-family-spacemono md:text-xl w-full aspect-6/1 bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center text-black font-bold hover:drop-shadow-[0_0_8px_#05C174]"
-               >
-                 Add Member
-               </button>
+               {members.length < 4 && (
+                 <button
+                   type="button"
+                   onClick={addMember}
+                   className="mt-2 font-family-spacemono md:text-xl w-full aspect-6/1 bg-[url('/images/utils/bigButtonBG.svg')] bg-contain bg-no-repeat bg-center text-black font-bold hover:drop-shadow-[0_0_8px_#05C174]"
+                 >
+                   Add Member
+                 </button>
+               )}
             </div>
           )}
 

@@ -50,10 +50,17 @@ export async function createTeam(
       validation.data.memberEmails = [loggedEmail, ...validation.data.memberEmails];
     }
   }
+
+  // if member < 2 or member > 5 , return false
   if (!validation.data.memberEmails || validation.data.memberEmails.length < 2) {
     return {
       success: false,
       error: "Team must have at least 2 members",
+    };
+  }else if (validation.data.memberEmails.length > 5) {
+    return {
+      success: false,
+      error: "Team must have at most 5 members",
     };
   }
 
