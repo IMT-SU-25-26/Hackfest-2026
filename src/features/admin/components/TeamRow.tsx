@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Team, User, TeamStatus } from "@/generated/prisma";
-import { Eye, FileText, Check, X, Trash2, UserPlus } from "lucide-react";
+import { Eye, FileText, Check, X, Trash2, UserPlus, RotateCcw } from "lucide-react";
 import { toast } from "react-toastify";
 import { updateTeamStatus, updateTeamFinalistStatus, deleteTeam } from "../actions";
 
@@ -153,6 +153,16 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails, onA
               title="Reject Team"
             >
               <X size={18} />
+            </button>
+          )}
+          {status !== "PENDING" && (
+            <button
+              onClick={() => handleStatusChange("PENDING")}
+              disabled={loading}
+              className="p-1.5 rounded-full hover:bg-yellow-500/20 text-yellow-400 transition-colors disabled:opacity-50"
+              title="Set to Pending"
+            >
+              <RotateCcw size={18} />
             </button>
           )}
           <button
