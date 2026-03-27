@@ -83,7 +83,8 @@ export async function createTeam(
 
     const teamCount = await prisma.team.count({
       where: {
-        category: validation.data.category
+        category: validation.data.category,
+        status: { not: "REJECTED" }
       }
     });
 
@@ -251,7 +252,10 @@ export async function removeMemberFromTeam(
 export async function isTeamFullByCategory(category: "HACKATON" | "UIUX"): Promise<boolean> {
   try {
     const count = await prisma.team.count({
-      where: { category },
+      where: { 
+        category,
+        status: { not: "REJECTED" }
+      },
     });
     return count >= MAX_TEAM_CAPACITY;
   } catch (error) {
