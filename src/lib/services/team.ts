@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/config/auth";
 
 
-const MAX_TEAM_CAPACITY = 40;
+const MAX_TEAM_CAPACITY = 45;
 
 export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({
