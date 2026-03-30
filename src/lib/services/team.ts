@@ -263,3 +263,17 @@ export async function isTeamFullByCategory(category: "HACKATON" | "UIUX"): Promi
     return true; // Default to full on error to prevent over-registration
   }
 }
+export async function getRemainingSlots(category: "HACKATON" | "UIUX"): Promise<number> {
+  try {
+    const count = await prisma.team.count({
+      where: { 
+        category,
+        status: { not: "REJECTED" }
+      },
+    });
+    return Math.max(0, MAX_TEAM_CAPACITY - count);
+  } catch (error) {
+    console.error("Error getting remaining slots:", error);
+    return 0; // Default to 0 on error
+  }
+}

@@ -18,11 +18,15 @@ import {
 import { toast } from "react-toastify";
 import FormInput from "@/components/auth/FormInput";
 import UploadButton from "@/components/UploadButton";
-import { createTeam } from "@/lib/services/team";
+import { createTeam, getRemainingSlots } from "@/lib/services/team";
 import { checkUserEmail } from "../actions";
 import { toastError } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
 import { TeamCategory } from "@/generated/prisma"; // Adjust import if needed
+
+
+const MAX_TEAM_CAPACITY = 40;
+
 
 type FormData = {
   teamName: string;
@@ -69,6 +73,7 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
   
   // Member email state
   const [members, setMembers] = useState<MemberState[]>([{ email: "", status: 'idle' }]);
+  const [remainingSlots, setRemainingSlots] = useState<number | null>(null);
 
   const category = useWatch({ control, name: "category" });
   const teamName = useWatch({ control, name: "teamName" });
@@ -77,6 +82,17 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
     if (onCategoryChange && category) {
         onCategoryChange(category);
     }
+    
+    // Fetch remaining slots when category changes
+    const fetchSlots = async () => {
+        try {
+            const slots = await getRemainingSlots(category);
+            setRemainingSlots(slots);
+        } catch (error) {
+            console.error("Failed to fetch slots:", error);
+        }
+    };
+    fetchSlots();
   }, [category, onCategoryChange]);
 
   // ... rest of component
@@ -322,7 +338,20 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
                           </div>
                       )}
                   </div>
+                  {remainingSlots !== null && (
+                    <div className="mt-2 text-xs sm:text-sm text-[#05C174] font-family-spacemono flex items-center gap-2">
+                       <div className={`w-2 h-2 rounded-full animate-pulse ${
+                         remainingSlots === 0 
+                           ? 'bg-red-500' 
+                           : remainingSlots < 5 
+                             ? 'bg-yellow-500' 
+                             : 'bg-[#05C174]'
+                       }`}></div>
+                      <span>Available Slots: <span className="font-bold">{remainingSlots}</span> / {MAX_TEAM_CAPACITY}</span>
+                    </div>
+                  )}
               </div>
+
             </>
           )}
 
