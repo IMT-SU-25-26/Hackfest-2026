@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Team, User, TeamStatus } from "@/generated/prisma";
-import { Eye, FileText, Check, X, Trash2, UserPlus, RotateCcw } from "lucide-react";
+import { Eye, FileText, Check, X, Trash2, UserPlus, RotateCcw, AlertTriangle } from "lucide-react";
 import { toast } from "react-toastify";
 import { updateTeamStatus, updateTeamFinalistStatus, deleteTeam } from "../actions";
 
@@ -22,6 +22,7 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails, onA
   const [isFinalist, setIsFinalist] = useState(team.isFinalist);
   const [loading, setLoading] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+  const isProfileIncomplete = team.members.some(member => !member.id_card);
 
   const handleStatusChange = async (newStatus: TeamStatus) => {
     if (loading) return;
@@ -67,7 +68,18 @@ const TeamRow: React.FC<TeamRowProps> = ({ team, onViewProof, onViewDetails, onA
 
   return (
     <tr className="hover:bg-white/5 transition-colors border-b border-[#05C174]/20 font-spacemono text-sm">
-      <td className="px-6 py-4 whitespace-nowrap text-white">{team.name}</td>
+      <td className="px-6 py-4 whitespace-nowrap text-white">
+        <div className="flex items-center gap-2">
+          {team.name}
+          {isProfileIncomplete && (
+            <AlertTriangle 
+              className="text-yellow-500 cursor-pointer hover:drop-shadow-[0_0_8px_#EAB308]" 
+              size={18}
+              onClick={() => toast.warning("One or more members have not completed their profile data (ID Card missing).")}
+            />
+          )}
+        </div>
+      </td>
       <td className="px-6 py-4 whitespace-nowrap text-gray-300">
         <div>{team.phone}</div>
         <div className="text-xs text-gray-500">{team.line_id}</div>
