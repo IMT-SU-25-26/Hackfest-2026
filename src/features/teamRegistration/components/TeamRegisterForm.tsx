@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation";
 import { TeamCategory } from "@/generated/prisma"; // Adjust import if needed
 
 
-const MAX_TEAM_CAPACITY = 45;
+const MAX_TEAM_CAPACITY = 50;
 
 
 type FormData = {
