@@ -113,6 +113,8 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
                       <div className="bg-[#1C0951] border border-[#00C074] flex flex-col items-start p-2 gap-2 shadow-lg">
                         <Link href={"/dashboard"} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Teams</Link>
                         <Link href={"/dashboard/user"} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Users</Link>
+                        <Link href={"/dashboard/submission/preliminary"} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Preliminary</Link>
+                        <Link href={"/dashboard/submission/final"} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Final</Link>
                       </div>
                     </div>
                 </div>
