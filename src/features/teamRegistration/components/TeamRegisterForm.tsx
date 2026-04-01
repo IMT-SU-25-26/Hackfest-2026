@@ -25,7 +25,12 @@ import { useRouter } from "next/navigation";
 import { TeamCategory } from "@/generated/prisma"; // Adjust import if needed
 
 
-const MAX_TEAM_CAPACITY = 50;
+// const MAX_TEAM_CAPACITY_HACKATHON = 50;
+// const MAX_TEAM_CAPACITY_UIUX = 40;
+
+// const getCapacityByCategory = (category: string) => 
+//   category === "UIUX" ? MAX_TEAM_CAPACITY_UIUX : MAX_TEAM_CAPACITY_HACKATHON;
+
 
 
 type FormData = {
@@ -74,6 +79,7 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
   // Member email state
   const [members, setMembers] = useState<MemberState[]>([{ email: "", status: 'idle' }]);
   const [remainingSlots, setRemainingSlots] = useState<number | null>(null);
+  const [maximumSlots, setMaximumSlots] = useState<number | null>(null);
 
   const category = useWatch({ control, name: "category" });
   const teamName = useWatch({ control, name: "teamName" });
@@ -87,7 +93,8 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
     const fetchSlots = async () => {
         try {
             const slots = await getRemainingSlots(category);
-            setRemainingSlots(slots);
+            setRemainingSlots(slots.remainingSlots);
+            setMaximumSlots(slots.maximumSlots);
         } catch (error) {
             console.error("Failed to fetch slots:", error);
         }
@@ -347,7 +354,7 @@ export function TeamRegisterFormComponent({ onCategoryChange }: TeamRegisterForm
                              ? 'bg-yellow-500' 
                              : 'bg-[#05C174]'
                        }`}></div>
-                      <span>Available Slots: <span className="font-bold">{remainingSlots}</span> / {MAX_TEAM_CAPACITY}</span>
+                      <span>Available Slots: <span className="font-bold">{remainingSlots}</span> / {maximumSlots}</span>
                     </div>
                   )}
               </div>

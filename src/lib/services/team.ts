@@ -9,7 +9,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/config/auth";
 
 
-const MAX_TEAM_CAPACITY = 50;
+const MAX_TEAM_CAPACITY_HACKATHON = 50;
+const MAX_TEAM_CAPACITY_UIUX = 40;
+
+const getCapacityByCategory = (category: string) => 
+  category === "UIUX" ? MAX_TEAM_CAPACITY_UIUX : MAX_TEAM_CAPACITY_HACKATHON;
+
 
 export async function getAllTeams(): Promise<TeamResult[]> {
   return await prisma.team.findMany({
@@ -88,10 +93,11 @@ export async function createTeam(
       }
     });
 
-    if (teamCount >= MAX_TEAM_CAPACITY) {
+    const maxCapacity = getCapacityByCategory(validation.data.category);
+    if (teamCount >= maxCapacity) {
       return {
         success: false,
-        error: `${validation.data.category === "UIUX" ? "UI/UX" : "Hackathon"} category has reached its maximum capacity of ${MAX_TEAM_CAPACITY} teams.`,
+        error: `${validation.data.category === "UIUX" ? "UI/UX" : "Hackathon"} category has reached its maximum capacity of ${maxCapacity} teams.`,
       };
     }
 
@@ -257,13 +263,14 @@ export async function isTeamFullByCategory(category: "HACKATON" | "UIUX"): Promi
         status: { not: "REJECTED" }
       },
     });
-    return count >= MAX_TEAM_CAPACITY;
+    const maxCapacity = getCapacityByCategory(category);
+    return count >= maxCapacity;
   } catch (error) {
     console.error("Error checking team capacity:", error);
     return true; // Default to full on error to prevent over-registration
   }
 }
-export async function getRemainingSlots(category: "HACKATON" | "UIUX"): Promise<number> {
+export async function getRemainingSlots(category: "HACKATON" | "UIUX"): Promise<{remainingSlots: number, maximumSlots: number}> {
   try {
     const count = await prisma.team.count({
       where: { 
@@ -271,9 +278,10 @@ export async function getRemainingSlots(category: "HACKATON" | "UIUX"): Promise<
         status: { not: "REJECTED" }
       },
     });
-    return Math.max(0, MAX_TEAM_CAPACITY - count);
+    const maxCapacity = getCapacityByCategory(category);
+    return {remainingSlots: Math.max(0, maxCapacity - count), maximumSlots: maxCapacity};
   } catch (error) {
     console.error("Error getting remaining slots:", error);
-    return 0; // Default to 0 on error
+    return {remainingSlots: 0, maximumSlots: 0}; // Default to 0 on error
   }
 }
