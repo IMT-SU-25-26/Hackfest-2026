@@ -3,6 +3,18 @@
 import prisma from "@/lib/config/prisma";
 import { revalidatePath } from "next/cache";
 
+const PRELIMINARY_DEADLINE = new Date("2026-04-01T23:59:00+07:00");
+const FINAL_DEADLINE = new Date("2026-04-19T23:59:00+07:00");
+
+const deadlineMessage = [
+  "The clock has run out. The gates are barred, and our opportunity has officially vanished.",
+  "A fatal delay. The deadline has claimed our submission, and the window is sealed shut.",
+  "Missed by a breath. The silence of the closed deadline is absolute.",
+  "Hard timeout. The submission window has expired, and there is no path back.",
+  "The gavel has fallen. We are too late, and the door is locked."
+]
+
+
 export type SubmissionData = {
   originality_url?: string;
   proposal_url?: string;
@@ -18,6 +30,12 @@ export type FinalSubmissionData = {
 };
 
 export async function submitPreliminary(teamId: string, data: SubmissionData) {
+  const now = new Date();
+  if (now > PRELIMINARY_DEADLINE) {
+    const randomMessage = deadlineMessage[Math.floor(Math.random() * deadlineMessage.length)];
+    return { success: false, error: randomMessage };
+  }
+
   try {
     if (!teamId) {
       return { success: false, error: "Team ID is required" };
@@ -64,6 +82,12 @@ export async function submitPreliminary(teamId: string, data: SubmissionData) {
 }
 
 export async function submitFinal(teamId: string, data: FinalSubmissionData) {
+  const now = new Date();
+  if (now > FINAL_DEADLINE) {
+    const randomMessage = deadlineMessage[Math.floor(Math.random() * deadlineMessage.length)];
+    return { success: false, error: randomMessage };
+  }
+
   try {
     if (!teamId) {
       return { success: false, error: "Team ID is required" };
