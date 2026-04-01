@@ -23,6 +23,19 @@ export async function submitPreliminary(teamId: string, data: SubmissionData) {
       return { success: false, error: "Team ID is required" };
     }
 
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+      select: { status: true }
+    });
+
+    if (!team) {
+      return { success: false, error: "Team not found" };
+    }
+
+    if (team.status !== "ACCEPTED") {
+      return { success: false, error: "Your team has not been accepted yet. Please wait for admin approval." };
+    }
+
     const updateData: any = {};
     if (data.originality_url) updateData.submission_originality_url = data.originality_url;
     if (data.proposal_url) updateData.submission_proposal_url = data.proposal_url;
@@ -54,6 +67,19 @@ export async function submitFinal(teamId: string, data: FinalSubmissionData) {
   try {
     if (!teamId) {
       return { success: false, error: "Team ID is required" };
+    }
+
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+      select: { status: true }
+    });
+
+    if (!team) {
+      return { success: false, error: "Team not found" };
+    }
+
+    if (team.status !== "ACCEPTED") {
+      return { success: false, error: "Your team has not been accepted yet. Please wait for admin approval." };
     }
 
     const updateData: any = {};
