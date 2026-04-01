@@ -20,6 +20,7 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
   const [teams, setTeams] = useState<TeamWithMembers[]>([]);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<TeamCategory | undefined>(undefined);
+  const [submissionStatusFilter, setSubmissionStatusFilter] = useState<"ALL" | "SUBMITTED" | "NOT_SUBMITTED">("ALL");
   const [loading, setLoading] = useState(true);
 
   const [editingTeam, setEditingTeam] = useState<TeamWithMembers | null>(null);
@@ -28,10 +29,6 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    // For submissions, we probably only care about teams that aren't rejected,
-    // or we just fetch everything and let the admin see all. Using ACCEPTED implies they passed payment.
-    // For now we don't filter by status unless specified, but usually final means ACCEPTED.
-    // Let's just fetch all like the main dashboard to give admins full control.
     const result = await getTeams(debouncedSearch, undefined, categoryFilter);
     if (result.success && result.data) {
       setTeams(result.data as TeamWithMembers[]);
@@ -42,6 +39,27 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const filteredTeams = teams.filter((team) => {
+    if (submissionStatusFilter === "ALL") return true;
+
+    const hasPreliminary = !!(
+      team.submission_originality_url ||
+      team.submission_lean_canvas_url ||
+      (team.category === "HACKATON" && team.submission_gdrive_url) ||
+      (team.category === "UIUX" && (team.submission_proposal_url || team.submission_figma_url))
+    );
+
+    const hasFinal = !!(
+      team.submission_ppt_url ||
+      team.submission_video_demo_url ||
+      team.submission_github_url
+    );
+
+    const hasSubmission = type === "preliminary" ? hasPreliminary : hasFinal;
+
+    return submissionStatusFilter === "SUBMITTED" ? hasSubmission : !hasSubmission;
+  });
 
   return (
     <div className="w-full space-y-6 text-white">
@@ -97,9 +115,43 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
         </div>
       </div>
 
+      {/* Submission Status Filter */}
+      <div className="flex gap-2 font-spacemono text-sm flex-wrap">
+          <button
+              onClick={() => setSubmissionStatusFilter("ALL")}
+              className={`px-4 py-2 border transition-all ${
+                  submissionStatusFilter === "ALL"
+                  ? "bg-[#05C174] text-[#090223] border-[#05C174]"
+                  : "bg-transparent text-[#05C174] border-[#05C174] hover:bg-[#05C174]/10"
+              }`}
+          >
+              ALL SUBMISSIONS
+          </button>
+          <button
+              onClick={() => setSubmissionStatusFilter("SUBMITTED")}
+              className={`px-4 py-2 border transition-all ${
+                  submissionStatusFilter === "SUBMITTED"
+                  ? "bg-green-500 text-[#090223] border-green-500"
+                  : "bg-transparent text-green-500 border-green-500 hover:bg-green-500/10"
+              }`}
+          >
+              SUBMITTED
+          </button>
+          <button
+              onClick={() => setSubmissionStatusFilter("NOT_SUBMITTED")}
+              className={`px-4 py-2 border transition-all ${
+                  submissionStatusFilter === "NOT_SUBMITTED"
+                  ? "bg-red-500 text-[#090223] border-red-500"
+                  : "bg-transparent text-red-500 border-red-500 hover:bg-red-500/10"
+              }`}
+          >
+              NOT SUBMITTED
+          </button>
+      </div>
+
       {/* Team Count */}
       <div className="flex justify-end font-spacemono text-[#05C174]">
-        <span>Showing {teams.length} team(s)</span>
+        <span>Showing {filteredTeams.length} team(s)</span>
       </div>
 
       {/* Table Content */}
@@ -110,7 +162,7 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
             </div>
         )}
         <SubmissionTable 
-            teams={teams}
+            teams={filteredTeams}
             type={type}
             onEdit={setEditingTeam}
         />
