@@ -10,7 +10,7 @@ import { authOptions } from "@/lib/config/auth";
 
 
 const MAX_TEAM_CAPACITY_HACKATHON = 50;
-const MAX_TEAM_CAPACITY_UIUX = 41;
+const MAX_TEAM_CAPACITY_UIUX = 45;
 
 const getCapacityByCategory = (category: string) => 
   category === "UIUX" ? MAX_TEAM_CAPACITY_UIUX : MAX_TEAM_CAPACITY_HACKATHON;
