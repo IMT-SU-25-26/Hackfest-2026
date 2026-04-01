@@ -24,15 +24,6 @@ import { toastError } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
 import { TeamCategory } from "@/generated/prisma"; // Adjust import if needed
 
-
-// const MAX_TEAM_CAPACITY_HACKATHON = 50;
-// const MAX_TEAM_CAPACITY_UIUX = 40;
-
-// const getCapacityByCategory = (category: string) => 
-//   category === "UIUX" ? MAX_TEAM_CAPACITY_UIUX : MAX_TEAM_CAPACITY_HACKATHON;
-
-
-
 type FormData = {
   teamName: string;
   category: TeamCategory;
