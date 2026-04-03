@@ -210,6 +210,11 @@ export async function updateUserPassword(userId: string, newPassword: string) {
     return { success: false, error: "Failed to update user password" };
   }
 }
-
-
-
+export async function getServerTime() {
+  try {
+    return { success: true, data: new Date().toISOString() };
+  } catch (error) {
+    console.error("Error fetching server time:", error);
+    return { success: false, error: "Failed to fetch server time" };
+  }
+}

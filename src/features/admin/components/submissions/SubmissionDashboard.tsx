@@ -7,6 +7,7 @@ import { getTeams } from "../../actions";
 import SubmissionTable from "./SubmissionTable";
 import SubmissionModal from "./SubmissionModal";
 import { useDebounce } from "@/features/admin/hooks/useDebounce";
+import DashboardClocks from "./DashboardClocks";
 
 interface TeamWithMembers extends Team {
   members: User[];
@@ -63,6 +64,8 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
 
   return (
     <div className="w-full space-y-6 text-white">
+      <DashboardClocks />
+
       {/* Header & Filters */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         
