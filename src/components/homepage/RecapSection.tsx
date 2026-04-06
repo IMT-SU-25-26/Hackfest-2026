@@ -1,16 +1,16 @@
 'use client'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 // Data Configuration Section
 const TAB_DATA = {
   preview: {
-    videoSrc: "https://www.youtube.com/embed/CCxAJPfyxDw", // YouTube Embed Link
+    videoSrc: "https://www.youtube.com/embed/CCxAJPfyxDw",
     mobileBg: "/images/recap/backgroundContainerMobile.svg",
     shortDescImg: "/images/recap/frameShortDesc.svg",
   },
   guidelines: {
-    videoSrc: "https://www.youtube.com/embed/eqEX-Q_0z5o", // Placeholder: Use same or different link if needed
+    videoSrc: "https://www.youtube.com/embed/4ofOelyPqz8", 
     mobileBg: "/images/qna/frameShortDesc-mobile.svg",
     shortDescImg: "/images/qna/frameShortDesc.svg",
   }
@@ -19,7 +19,7 @@ const TAB_DATA = {
 type TabType = keyof typeof TAB_DATA;
 
 function RecapSection() {
-  const [activeTab, setActiveTab] = useState<TabType>('preview');
+  const activeTab: TabType = 'guidelines';
 
   // Auto Pause Video
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -73,32 +73,12 @@ function RecapSection() {
             {/* Content on top of Image 2 */}
             <div className="absolute top-0 left-0 w-full z-20 px-[3%]">
               {/* Title */}
-              <div className='border-0 md:border-b-2 border-[#05C174] pb-[1%] flex justify-center gap-1 md:gap-auto flex-col md:flex-row md:justify-between items-center text-center px-5 mt-[15%] md:mt-[4.5%] mb-[1%]'>
+              <div className='border-0 md:border-b-2 border-[#05C174] pb-[1%] flex justify-center items-center text-center px-5 mt-[15%] md:mt-[4.5%] mb-[1%]'>
                 <div 
-                  className={`flex justify-center gap-5 items-center cursor-pointer p-1 transition-all duration-300 ${
-                    activeTab === 'preview' ? 'border-2 border-[#05C174] bg-[#05C174]/10' : ''
-                  }`}
-                  onClick={() => setActiveTab('preview')}
-                >
-                  <Image
-                    className='hidden md:block w-[13%] pointer-events-none select-none'
-                    src="/images/recap/eye.svg"
-                    alt="Eye Icon"
-                    width={100}
-                    height={100}
-                  />
-                  <h1 className='text-[#05C174] text-[160%] sm:text-[290%] md:text-[130%] lg:text-[220%] font-family-audiowide'>
-                    2025 Preview
-                  </h1>
-                </div>
-                <div 
-                  className={`flex justify-end gap-6 items-center cursor-pointer py-1 px-3 transition-all duration-300 ${
-                    activeTab === 'guidelines' ? 'border-2 border-[#05C174] bg-[#05C174]/10' : ''
-                  }`}
-                  onClick={() => setActiveTab('guidelines')}
+                  className="flex justify-center gap-6 items-center py-1 px-3"
                 >
                   <h1 className='text-[#05C174] text-[160%] sm:text-[290%] md:text-[130%] lg:text-[220%] font-family-audiowide'>
-                    Technical Guidelines
+                    Finals Technical Guidelines
                   </h1>
                   <Image
                     className='hidden md:block w-[10%] pointer-events-none select-none'

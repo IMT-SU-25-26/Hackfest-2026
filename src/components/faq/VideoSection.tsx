@@ -68,7 +68,7 @@ function VideoSection() {
                                 />
                             </div>
                             <h1 className='text-[#05C174] text-[170%] sm:text-[290%] md:text-[130%] lg:text-[200%] xl:text-[250%] font-family-audiowide'>
-                                Hackfest 2026 Technical Guidelines
+                                Hackfest 2026 Finals Technical Guidelines
                             </h1>
                             <Image
                             className='hidden md:block w-[6%] pointer-events-none select-none'
