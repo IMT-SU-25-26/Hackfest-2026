@@ -86,7 +86,7 @@ function VideoSection() {
 
                             <iframe 
                               className="text-white w-full md:w-[50%] transition-transform duration-300 cursor-pointer aspect-video" 
-                              src="https://www.youtube.com/embed/eqEX-Q_0z5o" 
+                              src="https://www.youtube.com/embed/4ofOelyPqz8" 
                               title="Hackfest 2025" 
                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                               referrerPolicy="strict-origin-when-cross-origin" 

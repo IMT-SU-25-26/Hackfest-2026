@@ -19,7 +19,7 @@ export default function DashboardClocks() {
         }
 
         // Fetch Synced Time (Public API) - Using TimeAPI.io for reliability
-        const syncedRes = await fetch("https://timeapi.io/api/Time/current/zone?timeZone=UTC");
+        const syncedRes = await fetch("https://timeapi.io/api/Time/current/zone?timeZone=Asia/Jakarta");
         if (syncedRes.ok) {
             const syncedData = await syncedRes.json();
             if (syncedData && syncedData.dateTime) {
@@ -82,7 +82,7 @@ export default function DashboardClocks() {
           <Globe size={24} />
         </div>
         <div>
-          <div className="text-[10px] text-[#05B0C1] uppercase tracking-widest font-family-audiowide">Synced Realtime (UTC)</div>
+          <div className="text-[10px] text-[#05B0C1] uppercase tracking-widest font-family-audiowide">Synced Realtime (Asia/Jakarta)</div>
           <div className="text-xl font-family-audiowide text-[#05C174]">
             {loading ? "SYNCING..." : formatTime(syncedTime)}
           </div>
