@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 type UiUxFinalSubmissionData = {
   ppt_url: string;
   video_demo_url: string;
+  translated_figma_url: string;
 };
 
 interface UiUxFinalFormProps {
@@ -36,6 +37,7 @@ export default function UiUxFinalForm({ teamId }: UiUxFinalFormProps) {
       const res = await submitFinal(teamId, {
           ppt_url: data.ppt_url,
           video_demo_url: data.video_demo_url,
+          translated_figma_url: data.translated_figma_url,
       });
 
       if (res.success) {
@@ -113,6 +115,23 @@ export default function UiUxFinalForm({ teamId }: UiUxFinalFormProps) {
                     }}
                  />
                  <p className="text-xs text-[#05B0C1]">Make sure the link is accessible (anyone with the link can view).</p>
+             </div>
+
+             {/* Translated Figma Link */}
+             <div className="w-full">
+                 <FormInput
+                    id="translated_figma_url"
+                    label="Translated Figma Link"
+                    placeholder="https://www.figma.com/..."
+                    icon={LinkIcon}
+                    rules={{ 
+                        required: "Translated Figma link is required",
+                        pattern: {
+                            value: /^(https?:\/\/)?(www\.)?figma\.com\/.+/,
+                            message: "Please enter a valid Figma link"
+                        }
+                    }}
+                 />
              </div>
 
           </form>

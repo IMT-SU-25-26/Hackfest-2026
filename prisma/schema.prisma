@@ -62,9 +62,11 @@ model Team {
 
   surat_tugas_url String?
 
-  submission_ppt_url        String?
-  submission_github_url     String?
-  submission_video_demo_url String?
+  submission_ppt_url              String?
+  submission_github_url           String?
+  submission_video_demo_url       String?
+  // uiux doang
+  submission_translated_figma_url String?
 
   isFinalist Boolean @default(false)
 

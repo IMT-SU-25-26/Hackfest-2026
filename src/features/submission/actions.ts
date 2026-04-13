@@ -27,6 +27,7 @@ export type FinalSubmissionData = {
   ppt_url?: string;
   github_url?: string;
   video_demo_url?: string;
+  translated_figma_url?: string;
 };
 
 export async function submitPreliminary(teamId: string, data: SubmissionData) {
@@ -110,6 +111,7 @@ export async function submitFinal(teamId: string, data: FinalSubmissionData) {
     if (data.ppt_url) updateData.submission_ppt_url = data.ppt_url;
     if (data.github_url) updateData.submission_github_url = data.github_url;
     if (data.video_demo_url) updateData.submission_video_demo_url = data.video_demo_url;
+    if (data.translated_figma_url) updateData.submission_translated_figma_url = data.translated_figma_url;
 
     if (Object.keys(updateData).length === 0) {
         return { success: false, error: "No data provided for update" };
