@@ -1,6 +1,10 @@
 'use client';
 
-import { Users, Info, AlertTriangle, Check } from "lucide-react";
+import { Users, Info, AlertTriangle, Check, FileText } from "lucide-react";
+
+// --- SCORE SHEET LINKS ---
+const UIUX_SCORE_SHEET = "https://drive.google.com/file/d/1ta605oRY7Spp95f9jfRd04b-Gh66w4pc/view?usp=drive_link"; 
+const HACKATHON_SCORE_SHEET = ""; 
 
 interface Member {
   id: string;
@@ -38,6 +42,14 @@ export default function TeamInfo({ team }: TeamInfoProps) {
 
   const hasIncompleteProfiles = team.members.some(member => !member.id_card);
 
+  // Determine which score sheet to use based on the team's category
+  let activeScoreSheet = "";
+  if (team.category.toUpperCase().includes("UIUX") || team.category.toUpperCase().includes("UI/UX")) {
+    activeScoreSheet = UIUX_SCORE_SHEET;
+  } else if (team.category.toUpperCase().includes("HACKATHON")) {
+    activeScoreSheet = HACKATHON_SCORE_SHEET;
+  }
+
   return (
     <div className="w-full max-w-4xl mx-auto mb-8 bg-[#090223]/50 border border-[#05C174] p-6 md:p-10 backdrop-blur-sm">
       <h2 className="text-2xl md:text-3xl text-[#05B0C1] font-family-audiowide mb-6 text-center" style={{ textShadow: "0 0 10px #05B0C1" }}>
@@ -50,6 +62,27 @@ export default function TeamInfo({ team }: TeamInfoProps) {
           <div>
              <p className="font-bold mb-1">Warning: Incomplete Profile Data</p>
              <p>Make sure all users have completed their profile data.</p>
+          </div>
+        </div>
+      )}
+
+      {/* New Score Sheet Information Box */}
+      {activeScoreSheet !== "" && (
+        <div className="mb-6 flex items-start p-4 border border-[#05B0C1] bg-[#05B0C1]/10 text-[#05B0C1] font-family-spacemono">
+          <FileText className="mr-3 mt-1 flex-shrink-0" size={24} />
+          <div>
+             <p className="font-bold mb-1">Score Sheet Available</p>
+             <p>
+               Review your team's score sheet to see your mistakes and evaluation feedback here:{" "}
+               <a 
+                 href={activeScoreSheet} 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="underline font-bold hover:text-[#05C174] transition-colors break-all"
+               >
+                 View Score Sheet
+               </a>
+             </p>
           </div>
         </div>
       )}
