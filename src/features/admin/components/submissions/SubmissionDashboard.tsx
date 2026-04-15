@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { TeamCategory, TeamStatus, Team, User } from "@/generated/prisma";
+import { TeamCategory, Team, User } from "@/generated/prisma";
 import { Search } from "lucide-react";
 import { getTeams } from "../../actions";
 import SubmissionTable from "./SubmissionTable";
@@ -42,6 +42,8 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
   }, [fetchData]);
 
   const filteredTeams = teams.filter((team) => {
+    if (type === "final" && !team.isFinalist) return false;
+
     if (submissionStatusFilter === "ALL") return true;
 
     const hasPreliminary = !!(
