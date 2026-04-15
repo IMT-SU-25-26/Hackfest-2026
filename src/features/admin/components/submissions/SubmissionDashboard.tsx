@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { TeamCategory, Team, User } from "@/generated/prisma";
-import { Search } from "lucide-react";
+import { Search, Download } from "lucide-react";
 import { getTeams } from "../../actions";
 import SubmissionTable from "./SubmissionTable";
 import SubmissionModal from "./SubmissionModal";
 import { useDebounce } from "@/features/admin/hooks/useDebounce";
+import * as XLSX from "xlsx";
 import DashboardClocks from "./DashboardClocks";
 
 interface TeamWithMembers extends Team {
@@ -63,6 +64,41 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
 
     return submissionStatusFilter === "SUBMITTED" ? hasSubmission : !hasSubmission;
   });
+
+  const handleExportToExcel = () => {
+    const dataToExport = filteredTeams.map((team) => {
+      const baseData: any = {
+        "Team Name": team.name,
+        "Category": team.category === "UIUX" ? "UI/UX" : "HACKATHON",
+        "Phone": team.phone || "",
+        "Line ID": team.line_id || "",
+      };
+
+      if (type === "preliminary") {
+        baseData["Originality URL"] = team.submission_originality_url || "";
+        baseData["Lean Canvas URL"] = team.submission_lean_canvas_url || "";
+        if (team.category === "HACKATON") {
+          baseData["Video GDrive URL"] = team.submission_gdrive_url || "";
+        } else {
+          baseData["Proposal URL"] = team.submission_proposal_url || "";
+          baseData["Figma URL"] = team.submission_figma_url || "";
+        }
+      } else {
+        baseData["PPT URL"] = team.submission_ppt_url || "";
+        baseData["Video Demo URL"] = team.submission_video_demo_url || "";
+        baseData["Github URL"] = team.submission_github_url || "";
+      }
+
+      return baseData;
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Submissions");
+    
+    const filename = `Submissions_${type}_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(workbook, filename);
+  };
 
   return (
     <div className="w-full space-y-6 text-white">
@@ -154,8 +190,15 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
           </button>
       </div>
 
-      {/* Team Count */}
-      <div className="flex justify-end font-spacemono text-[#05C174]">
+      {/* Team Count & Export */}
+      <div className="flex justify-between items-center font-spacemono text-[#05C174]">
+        <button
+            onClick={handleExportToExcel}
+            className="flex items-center gap-2 px-4 py-2 border border-[#05C174] hover:bg-[#05C174]/10 transition-all text-sm uppercase group"
+        >
+            <Download size={16} className="group-hover:translate-y-0.5 transition-transform" />
+            Export to Excel
+        </button>
         <span>Showing {filteredTeams.length} team(s)</span>
       </div>
 
