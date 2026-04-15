@@ -19,6 +19,7 @@ export default function AdminDashboard() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<TeamStatus | undefined>(undefined);
   const [categoryFilter, setCategoryFilter] = useState<TeamCategory | undefined>(undefined);
+  const [isFinalistFilter, setIsFinalistFilter] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
   const [proofUrl, setProofUrl] = useState<string | null>(null);
@@ -29,12 +30,12 @@ export default function AdminDashboard() {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const result = await getTeams(debouncedSearch, statusFilter, categoryFilter);
+    const result = await getTeams(debouncedSearch, statusFilter, categoryFilter, isFinalistFilter || undefined);
     if (result.success && result.data) {
       setTeams(result.data as TeamWithMembers[]);
     }
     setLoading(false);
-  }, [debouncedSearch, statusFilter, categoryFilter]);
+  }, [debouncedSearch, statusFilter, categoryFilter, isFinalistFilter]);
 
   useEffect(() => {
     fetchData();
@@ -133,6 +134,18 @@ export default function AdminDashboard() {
                 }`}
             >
                 HACKATHON
+            </button>
+
+             {/* Finalist Toggle */}
+             <button
+                onClick={() => setIsFinalistFilter(!isFinalistFilter)}
+                className={`px-4 py-2 border transition-all ${
+                    isFinalistFilter
+                    ? "bg-[#05C174] text-[#090223] border-[#05C174]"
+                    : "bg-transparent text-[#05C174] border-[#05C174] hover:bg-[#05C174]/10"
+                }`}
+            >
+                FINALIST ONLY
             </button>
         </div>
       </div>

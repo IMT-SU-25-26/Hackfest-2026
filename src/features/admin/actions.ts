@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/config/auth";
 import bcrypt from "bcrypt";
 
-export async function getTeams(query: string = "", status?: TeamStatus, category?: TeamCategory) {
+export async function getTeams(query: string = "", status?: TeamStatus, category?: TeamCategory, isFinalist?: boolean) {
   try {
     const where: any = {
       name: {
@@ -22,6 +22,10 @@ export async function getTeams(query: string = "", status?: TeamStatus, category
 
     if (category) {
       where.category = category;
+    }
+
+    if (isFinalist !== undefined) {
+      where.isFinalist = isFinalist;
     }
 
     const teams = await prisma.team.findMany({
