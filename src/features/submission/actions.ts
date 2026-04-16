@@ -128,7 +128,7 @@ export async function submitFinal(teamId: string, data: FinalSubmissionData) {
     return { success: true, data: updatedTeam };
   } catch (error) {
     console.error("Error submitting final:", error);
-    return { success: false, error: `Failed to submit final data. ${error}` };
+    return { success: false, error: `Failed to submit final data.` };
   }
 }
 
