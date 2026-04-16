@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/config/auth";
 
 
-const MAX_TEAM_CAPACITY_HACKATHON = 50;
+const MAX_TEAM_CAPACITY_HACKATHON = 51;
 const MAX_TEAM_CAPACITY_UIUX = 46;
 
 const getCapacityByCategory = (category: string) => 
