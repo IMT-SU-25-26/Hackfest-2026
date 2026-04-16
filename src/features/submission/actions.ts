@@ -131,3 +131,12 @@ export async function submitFinal(teamId: string, data: FinalSubmissionData) {
     return { success: false, error: "Failed to submit final data" };
   }
 }
+
+export async function getServerTime() {
+  try {
+    return { success: true, data: new Date().toISOString() };
+  } catch (error) {
+    console.error("Error fetching server time:", error);
+    return { success: false, error: "Failed to fetch server time" };
+  }
+}

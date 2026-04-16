@@ -44,7 +44,7 @@ export default async function UiUxFinalSubmissionPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
+    <div className="flex justify-center min-h-screen bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
       <UiUxFinalSubmissionFlow teamId={user.team.id} />
     </div>
   );

@@ -139,7 +139,7 @@ export default function UiUxFinalForm({ teamId }: UiUxFinalFormProps) {
       </div>
 
        {/* Navigation Buttons */}
-       <div className={`absolute bottom-[5%] md:-bottom-[20%] w-full flex justify-center gap-[5%] md:gap-0 px-[9%] md:px-[15%] z-20`}>
+       <div className={`absolute -bottom-[15%] md:-bottom-[20%] w-full flex justify-center gap-[5%] md:gap-0 px-[9%] md:px-[15%] z-20`}>
              <button
                disabled={isSubmitting}
                onClick={handleSubmit(onSubmit)}
