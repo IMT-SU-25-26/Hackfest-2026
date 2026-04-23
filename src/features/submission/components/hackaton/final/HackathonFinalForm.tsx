@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 // Define form data structure
 type FinalSubmissionFormData = {
   ppt_url: string;
-  github_url: string;
   video_demo_url: string;
 };
 
@@ -30,15 +29,19 @@ export default function HackathonFinalForm({ teamId }: HackathonFinalFormProps) 
 
   // Watch fields for validation/display
   const pptUrl = watch("ppt_url");
-  const githubUrl = watch("github_url");
   const videoDemoUrl = watch("video_demo_url");
 
   const onSubmit = async (data: FinalSubmissionFormData) => {
+
+    if (!pptUrl) {
+        toast.error("Please upload the PPT");
+        return;
+    }
+
     setIsSubmitting(true);
     try {
       const res = await submitFinal(teamId, {
           ppt_url: data.ppt_url,
-          github_url: data.github_url,
           video_demo_url: data.video_demo_url
       });
 
@@ -53,28 +56,6 @@ export default function HackathonFinalForm({ teamId }: HackathonFinalFormProps) 
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleNext = () => {
-    if (step === 1) {
-      if (!pptUrl) {
-        toast.error("Please upload the PPT");
-        return;
-      }
-      if (!githubUrl) { // Basic check, rely on FormInput rules for pattern if needed but simpler here
-          // We can also let the trigger validation handle it if we want strict blocking
-      }
-      // Trigger validation for github_url
-      methods.trigger("github_url").then((isValid) => {
-          if (pptUrl && isValid) {
-               setStep(2);
-          }
-      });
-    }
-  };
-
-  const handlePrev = () => {
-    setStep(1);
   };
 
   return (
@@ -122,26 +103,7 @@ export default function HackathonFinalForm({ teamId }: HackathonFinalFormProps) 
                     {pptUrl && <p className="text-xs text-[#05B0C1] mt-1 truncate">File: {pptUrl.split('/').pop()}</p>}
                  </div>
 
-                 {/* Github Link */}
-                 <FormInput
-                    id="github_url"
-                    label="Github Repository Link"
-                    placeholder="https://github.com/..."
-                    icon={LinkIcon}
-                    rules={{ 
-                        required: "Github link is required",
-                        pattern: {
-                            value: /^(https?:\/\/)?(www\.)?github\.com\/.+/,
-                            message: "Please enter a valid Github link"
-                        }
-                    }}
-                 />
-              </>
-            )}
-
-            {/* STAGE 2 */}
-            {step === 2 && (
-              <>
+                 <>
                  {/* Video Demo Link (Direct File) */}
                  <FormInput
                     id="video_demo_url"
@@ -160,6 +122,9 @@ export default function HackathonFinalForm({ teamId }: HackathonFinalFormProps) 
                  />
                  <p className="text-xs text-[#05B0C1] mt-[-1rem]">Make sure the link is accessible (anyone with the link can view).</p>
               </>
+
+
+              </>
             )}
 
           </form>
@@ -168,37 +133,8 @@ export default function HackathonFinalForm({ teamId }: HackathonFinalFormProps) 
 
        {/* Navigation Buttons */}
        <div className={`absolute bottom-[5%] md:-bottom-[20%] w-full flex ${step === 1 ? 'justify-center' : 'justify-between'} gap-[5%] md:gap-0 px-[9%] md:px-[15%] z-20`}>
-          {step > 1 && (
-             <div
-               onClick={handlePrev}
-               className="
-                   bg-[url('/images/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
-                   flex justify-center items-center
-                   transition-all duration-300
-                   hover:drop-shadow-[0_0_15px_#05B0C1]
-                   cursor-pointer
-               "
-             >
-               <p className='font-family-audiowide text-sm sm:text-lg lg:text-2xl text-[#090223]'>previous</p>
-             </div>
-          )}
 
           {step === 1 && (
-             <div
-               onClick={handleNext}
-               className="
-                   bg-[url('/images/utils/buttonBG.svg')] w-[50%] md:w-[40%] bg-no-repeat bg-contain aspect-361/100
-                   flex justify-center items-center
-                   transition-all duration-300
-                   hover:drop-shadow-[0_0_15px_#05B0C1]
-                   cursor-pointer
-               "
-             >
-               <p className='font-family-audiowide text-sm sm:text-lg lg:text-2xl text-[#090223]'>next</p>
-             </div>
-          )}
-
-          {step === 2 && (
              <button
                disabled={isSubmitting}
                onClick={handleSubmit(onSubmit)}

@@ -91,7 +91,10 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
                   <div className="bg-[#1C0951] border border-[#00C074] flex flex-col items-start p-2 gap-2 shadow-lg">
                     <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Preliminary</Link>
                     {isFinalist && (
-                      <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Final</Link>
+                      <>
+                        <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Final</Link>
+                        <Link href={`${getSubmissionPath('final')}/github`} className="hover:text-[#00C074] w-full text-left transition-colors text-sm">Github</Link>
+                      </>
                     )}
                   </div>
                 </div>
@@ -164,7 +167,10 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
               <div className="text-[#00C074] text-sm opacity-50 uppercase tracking-widest mt-2">Submission</div>
               <Link href={getSubmissionPath('preliminary')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Preliminary</Link>
               {isFinalist && (
-                <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Final</Link>
+                <>
+                  <Link href={getSubmissionPath('final')} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Final</Link>
+                  <Link href={`${getSubmissionPath('final')}/github`} className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30" onClick={closeMenu}>Github</Link>
+                </>
               )}
 
               <Link 
@@ -190,6 +196,20 @@ function NavBar({ teamStatus, teamCategory, isFinalist }: NavBarProps) {
                     onClick={closeMenu}
                   >
                     User
+                  </Link>
+                  <Link 
+                    href={"/dashboard/submission/preliminary"} 
+                    className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30"
+                    onClick={closeMenu}
+                  >
+                    Preliminary
+                  </Link>
+                  <Link 
+                    href={"/dashboard/submission/final"} 
+                    className="hover:text-[#00C074] transition-colors py-1 pl-4 border-l border-[#00C074]/30"
+                    onClick={closeMenu}
+                  >
+                    Final
                   </Link>
                 </>
               )}

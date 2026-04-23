@@ -2,7 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/config/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/config/prisma";
-import HackathonFinalSubmissionFlow from "@/features/submission/components/hackaton/final/HackathonFinalSubmissionFlow";
+import HackathonGithubSubmissionFlow from "@/features/submission/components/hackaton/final/HackathonGithubSubmissionFlow";
+
 
 export default async function HackathonFinalSubmissionPage() {
   const session = await getServerSession(authOptions);
@@ -35,24 +36,16 @@ export default async function HackathonFinalSubmissionPage() {
      redirect("/?error=You are not a finalist");
   }
 
-  // Check if not yet submit github url
-  if(
-    !user.team.submission_github_url
-  ){
-    redirect("/submission/hackaton/final/github/?error=You have to submit the github url first")
-  }
-
   // Check if already submitted
   if (
-    user.team.submission_ppt_url &&
-    user.team.submission_video_demo_url
+    user.team.submission_github_url
   ) {
-    redirect("/?error=You already submit the submisison");
+    redirect("/?error=You already submit the github url");
   }
 
   return (
     <div className="min-h-screen w-full bg-[#090223] bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('/images/login/Background.svg')" }}>
-      <HackathonFinalSubmissionFlow teamId={user.team.id} />
+      <HackathonGithubSubmissionFlow teamId={user.team.id} />
     </div>
   );
 }
