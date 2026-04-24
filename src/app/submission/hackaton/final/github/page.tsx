@@ -31,6 +31,11 @@ export default async function HackathonFinalSubmissionPage() {
      redirect("/?error=You are not in the Hackathon category competition");
   }
 
+  // If the user have not been submit the github username
+  if( !user.github_username){
+    redirect("/profile?error=incomplete_profile");
+  }
+
   if (!user.team.isFinalist) {
      // Not finalist
      redirect("/?error=You are not a finalist");
