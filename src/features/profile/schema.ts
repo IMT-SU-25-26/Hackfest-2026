@@ -6,6 +6,7 @@ export const updateProfileSchema = z.object({
   major: z.string().min(1, "Major is required"),
   institution: z.string().min(1, "Institution is required"),
   country: z.string().min(1, "Country is required"),
+  github_username: z.string().min(1, "Github Username is required"),
   dateOfBirth: z.date().min(1, "Date of birth is required"),
   gender: z.string().min(1, "Gender is required"),
   phone_number: z.string().min(1, "WhatsApp number is required"),

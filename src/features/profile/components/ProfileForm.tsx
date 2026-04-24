@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { User, Lock, Mail, Phone, MessageCircle, FileText, Calendar, Globe, Building2, BookOpen, UserCircle, Upload } from "lucide-react";
+import { User, Lock, Mail, Phone, MessageCircle, FileText, Calendar, Globe, Building2, BookOpen, UserCircle, Upload, Github } from "lucide-react";
 import FormInput from "@/components/auth/FormInput";
 import UploadButton from "@/components/UploadButton";
 import { updateProfile, changePassword } from "../actions";
@@ -56,6 +56,7 @@ export default function ProfileForm({ user, error }: ProfileFormProps) {
       major: user.major || "",
       institution: user.institution || "", // Mapped from renaming if needed, assuming action handles normalization
       country: user.country || "",
+      github_username: user.github_username || "",
       dateOfBirth: formattedDob,
       gender: user.gender || "Male",
       phone_number: user.phone_number || "",
@@ -128,6 +129,7 @@ export default function ProfileForm({ user, error }: ProfileFormProps) {
                  <FormInput id="major" label="Major / Study Program" placeholder="Computer Science" icon={BookOpen} rules={{ required: "Major is required" }} />
                  <FormInput id="institution" label="Institution" placeholder="University Name" icon={Building2} rules={{ required: "Institution is required" }} />
                  <FormInput id="country" label="Country" placeholder="Indonesia" icon={Globe} rules={{ required: "Country is required" }} />
+                 <FormInput id="github_username" label="Github Username" placeholder="github_user" icon={Github} rules={{ required: "Github Username is required" }} />
                </div>
 
                {/* Right Column */}

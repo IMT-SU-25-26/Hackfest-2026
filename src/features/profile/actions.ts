@@ -65,6 +65,7 @@ export async function updateProfile(data: UpdateProfileInput) {
         major: data.major,
         institution: data.institution,
         country: data.country,
+        github_username: data.github_username,
         dateOfBirth: data.dateOfBirth,
         gender: data.gender,
         phone_number: data.phone_number,
