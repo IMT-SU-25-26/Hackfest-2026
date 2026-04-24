@@ -47,7 +47,14 @@ export default function SubmissionTable({ teams, type, onEdit }: SubmissionTable
               <tr key={team.id} className="hover:bg-[#05C174]/5 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="font-spacemono font-bold text-[#05B0C1]">{team.name}</div>
-                  <div className="text-xs text-gray-400 mt-1 max-w-[200px] truncate">{team.id}</div>
+                  <div className="mt-1 flex flex-col gap-1">
+                    {team.members?.filter(m => m.github_username).map(member => (
+                      <div key={member.id} className="text-xs text-gray-400 flex items-center gap-1">
+                        <Github size={12} className="text-[#05C174]" />
+                        <span className="truncate max-w-[200px]">{member.github_username}</span>
+                      </div>
+                    ))}
+                  </div>
                 </td>
                 
                 <td className="px-6 py-4 whitespace-nowrap">
