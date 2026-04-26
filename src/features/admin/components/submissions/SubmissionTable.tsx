@@ -38,6 +38,7 @@ export default function SubmissionTable({ teams, type, onEdit }: SubmissionTable
             <th className="px-6 py-3 border-b border-[#05C174]">Contact Info</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Category</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Submissions</th>
+            <th className="px-6 py-3 border-b border-[#05C174]">Updated At</th>
             <th className="px-6 py-3 border-b border-[#05C174]">Action</th>
           </tr>
         </thead>
@@ -108,6 +109,12 @@ export default function SubmissionTable({ teams, type, onEdit }: SubmissionTable
                       }
                       return null;
                     })()}
+                  </div>
+                </td>
+                
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-300 font-spacemono">
+                    {team.updatedAt ? new Date(team.updatedAt).toLocaleString() : '-'}
                   </div>
                 </td>
 
