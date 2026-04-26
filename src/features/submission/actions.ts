@@ -4,7 +4,7 @@ import prisma from "@/lib/config/prisma";
 import { revalidatePath } from "next/cache";
 
 const PRELIMINARY_DEADLINE = new Date("2026-04-01T23:59:00+07:00");
-const FINAL_DEADLINE = new Date("2026-04-26T08:12:00+07:00");
+const FINAL_DEADLINE = new Date("2026-04-26T08:30:00+07:00");
 
 const deadlineMessage = [
   "The clock has run out. The gates are barred, and our opportunity has officially vanished.",
