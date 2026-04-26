@@ -72,6 +72,7 @@ export default function SubmissionDashboard({ type }: SubmissionDashboardProps) 
         "Category": team.category === "UIUX" ? "UI/UX" : "HACKATHON",
         "Phone": team.phone || "",
         "Line ID": team.line_id || "",
+        "Updated At": team.updatedAt ? new Date(team.updatedAt).toLocaleString() : "-",
       };
 
       if (type === "preliminary") {
