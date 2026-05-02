@@ -36,28 +36,55 @@ export default function UserDashboard() {
     fetchData();
   }, [debouncedSearch]);
 
+  const mapUserForExport = (user: any) => ({
+    "Name": user.name || "",
+    "Team Name": user.team?.name || "-",
+    "Email": user.email || "",
+    "Phone": user.phone_number || "",
+    "Institution": user.institution || "-",
+    "Date of Birth": user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "-",
+    "Student ID": user.studentId || "-",
+    "Gender": user.gender || "-",
+    "Major": user.major || "-",
+    "Line ID": user.line_id || "",
+    "Category Team": user.team?.category === "UIUX" ? "UI/UX" : user.team?.category === "HACKATON" ? "HACKATHON" : "-",
+  });
+
   const handleExportToExcel = () => {
-    const dataToExport = users.map((user: any) => {
-      return {
-        "Name": user.name || "",
-        "Team Name": user.team?.name || "-",
-        "Email": user.email || "",
-        "Phone": user.phone_number || "",
-        "Institution": user.institution || "-",
-        "Date of Birth": user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "-",
-        "Student ID": user.studentId || "-",
-        "Gender": user.gender || "-",
-        "Major": user.major || "-",
-        "Line ID": user.line_id || "",
-        "Category Team": user.team?.category === "UIUX" ? "UI/UX" : user.team?.category === "HACKATON" ? "HACKATHON" : "-",
-      };
-    });
+    const dataToExport = users.map(mapUserForExport);
 
     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
     
     const filename = `Users_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(workbook, filename);
+  };
+
+  const handleExportCompleteToExcel = () => {
+    const completeUsers = users.filter((user: any) => {
+      return (
+        user.name &&
+        user.team?.name &&
+        user.email &&
+        user.phone_number &&
+        user.institution &&
+        user.dateOfBirth &&
+        user.studentId &&
+        user.gender &&
+        user.major &&
+        user.line_id &&
+        user.team?.category
+      );
+    });
+
+    const dataToExport = completeUsers.map(mapUserForExport);
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Complete_Users");
+    
+    const filename = `Complete_Users_${new Date().toISOString().split('T')[0]}.xlsx`;
     XLSX.writeFile(workbook, filename);
   };
 
@@ -83,13 +110,22 @@ export default function UserDashboard() {
 
       {/* User Count & Export */}
       <div className="flex justify-between items-center font-spacemono text-[#05C174]">
-        <button
-            onClick={handleExportToExcel}
-            className="flex items-center gap-2 px-4 py-2 border border-[#05C174] hover:bg-[#05C174]/10 transition-all text-sm uppercase group"
-        >
-            <Download size={16} className="group-hover:translate-y-0.5 transition-transform" />
-            Export to Excel
-        </button>
+        <div className="flex flex-wrap gap-4">
+            <button
+                onClick={handleExportToExcel}
+                className="flex items-center gap-2 px-4 py-2 border border-[#05C174] hover:bg-[#05C174]/10 transition-all text-sm uppercase group"
+            >
+                <Download size={16} className="group-hover:translate-y-0.5 transition-transform" />
+                Export All
+            </button>
+            <button
+                onClick={handleExportCompleteToExcel}
+                className="flex items-center gap-2 px-4 py-2 border border-[#05C174] hover:bg-[#05C174]/10 transition-all text-sm uppercase group"
+            >
+                <Download size={16} className="group-hover:translate-y-0.5 transition-transform" />
+                Export Complete Data
+            </button>
+        </div>
         <span>Showing {users.length} user(s)</span>
       </div>
 
