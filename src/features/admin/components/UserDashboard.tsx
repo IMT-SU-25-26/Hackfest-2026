@@ -64,6 +64,7 @@ export default function UserDashboard() {
   const handleExportCompleteToExcel = () => {
     const completeUsers = users.filter((user: any) => {
       return (
+        user.team?.status === "ACCEPTED" &&
         user.name &&
         user.team?.name &&
         user.email &&
