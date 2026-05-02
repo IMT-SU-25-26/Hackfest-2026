@@ -112,7 +112,7 @@ export async function getUsers(query: string = "") {
       },
       include: {
         team: {
-          select: { name: true }
+          select: { name: true, category: true }
         }
       },
       orderBy: {

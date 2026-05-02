@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { User } from "@/generated/prisma";
-import { Search } from "lucide-react";
+import { Search, Download } from "lucide-react";
+import * as XLSX from "xlsx";
 import { getUsers } from "../actions";
 import UserTable from "./UserTable";
 import ImagePreviewModal from "./ImagePreviewModal";
@@ -35,6 +36,30 @@ export default function UserDashboard() {
     fetchData();
   }, [debouncedSearch]);
 
+  const handleExportToExcel = () => {
+    const dataToExport = users.map((user: any) => {
+      return {
+        "Name": user.name || "",
+        "Team Name": user.team?.name || "-",
+        "Email": user.email || "",
+        "Phone": user.phone_number || "",
+        "Institution": user.institution || "-",
+        "Date of Birth": user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "-",
+        "Student ID": user.studentId || "-",
+        "Gender": user.gender || "-",
+        "Major": user.major || "-",
+        "Line ID": user.line_id || "",
+        "Category Team": user.team?.category === "UIUX" ? "UI/UX" : user.team?.category === "HACKATON" ? "HACKATHON" : "-",
+      };
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
+    
+    const filename = `Users_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(workbook, filename);
+  };
 
   return (
     <div className="w-full space-y-6 text-white">
@@ -54,6 +79,18 @@ export default function UserDashboard() {
                 onChange={(e) => setSearch(e.target.value)}
             />
         </div>
+      </div>
+
+      {/* User Count & Export */}
+      <div className="flex justify-between items-center font-spacemono text-[#05C174]">
+        <button
+            onClick={handleExportToExcel}
+            className="flex items-center gap-2 px-4 py-2 border border-[#05C174] hover:bg-[#05C174]/10 transition-all text-sm uppercase group"
+        >
+            <Download size={16} className="group-hover:translate-y-0.5 transition-transform" />
+            Export to Excel
+        </button>
+        <span>Showing {users.length} user(s)</span>
       </div>
 
       {/* Table Content */}
